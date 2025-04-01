@@ -9,11 +9,18 @@
 /* Encabezado */
 .header {
     background: #0c3897;
+    position: fixed;
     color: white;
-    padding: 15px;
+    padding: 18px;
+    left: 0px;
+    right: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.header h1{
+    margin-left: 500px;
 }
 
 /* Botón de cerrar sesión */
@@ -33,43 +40,69 @@
 /* Contenedor principal */
 .container {
     display: flex;
-    height: 100vh;
+    flex: 1;
 }
 
-/* Menú lateral */
+/* Sidebar/Menú lateral */
 .sidebar {
     width: 250px;
-    background: #053aaa;
+    left: 0px;
+    background-color: #0c3897;
     color: white;
     padding: 20px;
+    position:fixed;
+    top: 0px;
+    height: calc(103vh );
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 .sidebar ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.sidebar li {
-    padding: 15px;
-    cursor: pointer;
+.sidebar ul li {
+    margin-bottom: 10px;
+    padding: 6px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 12px 15px;
     border-radius: 5px;
+    transition: background 0.3s;
 }
 
-.sidebar li:hover {
-    background: #004080;
+.sidebar ul li a:hover {
+    background-color: #0055a5;
 }
 
 /* Contenido principal */
 .content {
     flex: 1;
-    padding: 20px;
+    padding: 25px;
     background: #f5f5f5;
+    margin-left: 110px;
+    margin-right: -2;
 }
 
 /* Secciones (ocultas por defecto) */
 .section {
     display: none;
     background: white;
-    padding: 20px;
+    padding: 55px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -225,19 +258,18 @@
 
 /* Estilos para centrar la imagen del logo */
 .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    bottom: 50px; /* Mantiene el logo en la parte inferior */
+    left: 65%; 
+    transform: translateX(-47%); /* Centra el logo horizontalmente */
     width: 100%;
-    margin-bottom: 20px;
+    text-align: center;
 }
 
 .logo img {
-    width: 160px; /* Ajusta el tamaño según lo necesites */
+    width: 150px; /* Ajusta el tamaño según lo necesites */
     height: auto;
     display: block;
-    flex-direction: column;
-    align-items: center;
 }
 
 
@@ -283,4 +315,128 @@ input, select {
 .website {
     text-align: center;
     margin-top: 5px;
+}
+#contenido-perfil {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Asegurar que los estilos de Bootstrap no conflicten */
+#contenido-perfil .form-control {
+    width: 100%;
+}
+
+#contenido-perfil .row {
+    margin-bottom: 15px;
+}
+
+
+
+/* mi pefil seccion*/
+.container { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+.section-title{ 
+    background: #6c757d;
+    color: white; padding: 
+    10px; border-radius: 5px;
+    margin-top: 20px; 
+}
+.profile-pic {
+    width: 130px;
+    height: 165px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+* Contenedor principal del formulario */
+#miperfil {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Contenedor del formulario */
+#formulario {
+    width: 100%;
+    max-width: 1200px; /* Ajusta este valor según necesites */
+}
+
+/* Estructura de columnas */
+.form-columns {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-column {
+    flex: 1;
+    min-width: 300px; /* Ancho mínimo para cada columna */
+}
+
+/* Estilos para los grupos de campos */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+/* Estilos para secciones */
+.section-title {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+/* Radio buttons en línea */
+.radio-group {
+    display: flex;
+    gap: 15px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Botón de enviar */
+.btn-submit {
+    display: block;
+    margin: 30px auto 0;
+    padding: 10px 25px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsive: Apilar columnas en móviles */
+@media (max-width: 768px) {
+    .form-columns {
+        flex-direction: column;
+    }
+    
+    .form-column {
+        min-width: 100%;
+    }
 }

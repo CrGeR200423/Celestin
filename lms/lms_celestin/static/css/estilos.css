@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color:  hsla(0, 0%, 100%, 0.651);
+    background-color: white;
 }
 /*------------------------------------------------------------------------------*/
 
@@ -41,10 +41,14 @@ body {
 }
 
 
+
 /* Contenedor principal */
 .menu-container {
     background-color: #dad9d9;
     padding: 12px;
+    display: flex;
+    justify-content: center;
+    position: relative; 
 }
 
 /* Menú principal */
@@ -53,9 +57,11 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
-    left: 370px;
     position: relative;
     align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
 }
 
 .main-menu > li {
@@ -66,7 +72,7 @@ body {
 
 .main-menu > li:last-child {
     border-right: none;
-    margin-left: auto; /* Empuja el botón de login a la derecha */
+    margin-left: 0; /* Empuja el botón de login a la derecha */
 }
 
 .main-menu a {
@@ -141,7 +147,7 @@ body {
     background-color: #053aaa;
     color: white;
     padding: 10px 15px;
-    top: 123px; /* Ajusta este valor según necesites */
+    top: 3px; /* Ajusta este valor según necesites */
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
@@ -267,7 +273,6 @@ nav ul li a:hover::after {
     position: relative;
     text-align: center;
     color: white;
-   
 }
 
 /* Ajuste del carrusel dentro del banner */
@@ -397,13 +402,13 @@ nav ul li a:hover::after {
 
 
 
-/* 🔹 Sección Principal */
+/*  Sección Principal */
 .seccion-principal {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 900px;
-    padding: 0px 180px 0px 150px; /* Arriba, derecha, abajo, izquierda */
+    max-width: 1000px;
+    padding: 0px 180px 120px 150px; /* Arriba, derecha, abajo, izquierda */
 }
 
 /* 🔹 Estilo del Título */
@@ -502,13 +507,12 @@ nav ul li a:hover::after {
 }
 
 .video-derecha {
-    width: 390px; /* Ajusta el tamaño del video */
+    width: 400px; /* Ajusta el tamaño del video */
     border-radius: 10px; /* Bordes redondeados opcionales */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-
     position: relative;
-    left: 420px;
-    top: -220px;
+    left: -300px;
+    top: 35px;
 }
 
 /* Segunda seccion*/
@@ -558,6 +562,7 @@ p {
     margin-top: 40px;
 }
 
+
 .contador {
     text-align: center;
 }
@@ -606,9 +611,9 @@ footer {
 }
 
 .footer-logo img {
-    max-width: 250px; /* Ajusta el tamaño del logo */
+    max-width:130px; /* Ajusta el tamaño del logo */
     position: relative;
-    top: 50px;
+    margin-top: 90px;
 
 }
 
@@ -761,6 +766,7 @@ footer {
     flex-direction: column; /* Apila los elementos verticalmente */
     align-items: center; /* Centra los elementos */
     text-align: center; /* Asegura que el texto y los íconos estén alineados */
+    margin-top: 18px;
 }
 
 .footer-socials h4 {
@@ -778,6 +784,7 @@ footer {
 
 .footer-socials ul li {
     display: inline-block;
+    margin-top: 60px;
 }
 
 .social-icon {
@@ -971,6 +978,17 @@ footer {
 .footer-columnas a:hover {
     color: #d7da12;
     text-decoration: underline;
+}
+
+
+
+
+@media (max-width: 576px) {
+    .main-menu {
+        position: relative;
+        left: 0px;
+
+}
 }
 /*---------------------------------------------*/
 
