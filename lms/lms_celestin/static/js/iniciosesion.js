@@ -24,7 +24,7 @@ document.getElementById("login-form").addEventListener("submit", function(event)
         if (userType === "administrador") {
             window.location.href = "/administrador/";
         } else if (userType === "estudiante") {
-            window.location.href = "/inicio_estudiante/"; // Asegúrate de que coincida con la URL de urls.py
+            window.location.href = "/estudiante/"; // Asegúrate de que coincida con la URL de urls.py
         }
     }
 });
