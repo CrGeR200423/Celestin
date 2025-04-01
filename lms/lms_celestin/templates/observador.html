@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observador del Estudiante</title>
+    <link rel="stylesheet" href="observador.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="./img/logo_colegio_sf.png" alt="Logo" class="logo">
+            <div class="text">
+                <h1>Observador del Estudiante</h1>
+                <h2>Grado Cuarto 2024</h2>
+                <h3>Colegio Celestin Freinet</h3>
+            </div>
+        </div>
+
+        <form>
+            <label for="nombre">Nombre del Estudiante:</label>
+            <input type="text" id="nombre" name="nombre">
+
+            <label for="documento">No Documento:</label>
+            <input type="text" id="documento" name="documento">
+
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+
+            <h3>Registro de Observaciones</h3>
+            <table>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Desempeño Académico</th>
+                    <th>Desempeño Comportamental</th>
+                    <th>Estrategias de Seguimiento</th>
+                    <th>Firma Estudiante/Acudiente</th>
+                    <th>Firma Profesor</th>
+                </tr>
+                <tr>
+                    <td><input type="date"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td><input type="date"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                </tr>
+            </table>
+
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+</body>
+</html>

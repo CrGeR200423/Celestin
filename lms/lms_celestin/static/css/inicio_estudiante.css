@@ -1,0 +1,286 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Encabezado */
+.header {
+    background: #0c3897;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botón de cerrar sesión */
+.logout-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.logout-btn:hover {
+    background: darkred;
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Menú lateral */
+.sidebar {
+    width: 250px;
+    background: #053aaa;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sidebar li:hover {
+    background: #004080;
+}
+
+/* Contenido principal */
+.content {
+    flex: 1;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+/* Secciones (ocultas por defecto) */
+.section {
+    display: none;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección activa */
+.section.active {
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* Estilos para la tabla de calificaciones */
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.grades-table th, .grades-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.grades-table th {
+    background: #004080;
+    color: white;
+}
+
+.grade {
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Colores dinámicos para las calificaciones */
+.grade.good {
+    background: #4CAF50; /* Verde */
+    color: white;
+}
+
+.grade.regular {
+    background: #FFC107; /* Amarillo */
+    color: black;
+}
+
+.grade.bad {
+    background: #F44336; /* Rojo */
+    color: white;
+}
+/* Estilos para la tabla del observador */
+.observer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.observer-table th, .observer-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    background: white;
+}
+
+.observer-table th {
+    background: #004080;
+    color: white;
+}
+
+.observer-table td {
+    color: black;
+}
+
+/* Deshabilitar edición */
+.observer-table input {
+    border: none;
+    background: none;
+    text-align: center;
+    width: 100%;
+    pointer-events: none; /* Evita que el usuario edite */
+    font-weight: bold;
+    color: black;
+}
+/* Estilos para la tabla de asignaturas */
+.subjects-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.subjects-table th, .subjects-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    background: white;
+}
+
+.subjects-table th {
+    background: #004080;
+    color: white;
+}
+
+.subjects-table td {
+    color: black;
+}
+
+/* Deshabilitar edición */
+.subjects-table input {
+    border: none;
+    background: none;
+    text-align: center;
+    width: 100%;
+    pointer-events: none; /* Evita que el usuario edite */
+    font-weight: bold;
+    color: black;
+}
+/* Estilos para el perfil */
+.profile-container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-container label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-container input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: white;
+    font-size: 16px;
+    text-align: center;
+    pointer-events: none; /* Bloquear edición */
+    font-weight: bold;
+}
+
+
+/* Estilos para centrar la imagen del logo */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 160px; /* Ajusta el tamaño según lo necesites */
+    height: auto;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: calc(100% - 12px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.links {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.slogan {
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.website {
+    text-align: center;
+    margin-top: 5px;
+}

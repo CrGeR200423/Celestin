@@ -1,0 +1,348 @@
+/* Reset de márgenes para body y html */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Header ajustado */
+.navbar {
+    width: 100%;
+    margin: 0;
+    padding: 20px 0;
+    background-color: #0044cc;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Contenedor principal ajustado */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+
+h1, h2 {
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"], input[type="date"], input[type="email"], input[type="tel"], select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.radio-group input {
+    margin-right: 10px;
+}
+
+.signature {
+    width: 100%;
+    display: block;
+    margin-top: 30px;
+}
+
+  /* Pie de Pagina -1 */
+  footer {
+    color: #fff;
+    padding: 20px 0;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.footer-columnas, .footer-socials {
+    flex: 1;
+    min-width: 200px;
+    margin: 15px 0;
+}
+
+.footer-logo img {
+    max-width: 250px; /* Ajusta el tamaño del logo */
+    position: relative;
+    top: 50px;
+
+}
+
+.footer-info, .footer-links, .footer-socials {
+    margin: 0 20px;
+    flex: 1; /* Permite que cada columna tenga el mismo ancho */
+}
+
+.footer-info h4,
+.footer-links h4,
+.footer-socials h4 {
+    margin-bottom: 10px;
+    font-weight: 200;
+}
+
+.footer-links ul,
+.footer-socials ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-links a,
+.footer-socials a {
+    color: #71bfbc;
+    text-decoration: none;
+}
+
+.footer-links a:hover,
+.footer-socials a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Footer ajustado */
+footer {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #053aaa;
+    color: #71bfbc;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.footer-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    box-sizing: border-box;
+}
+
+/* Ajustes para el footer-texto */
+#footer-texto {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #053aaa;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#footer-texto p {
+    margin: 0;
+    padding: 0;
+}
+.footer-container {
+    background-color: #053aaa; /* Color azul del fondo */
+    padding: 1px 20px 30px; /* Espaciado dentro del cuadro */
+    text-align: center; /* Centrar el texto */
+    position: relative; /* Asegura que el footer se posicione correctamente */
+}
+
+
+.footer-info h4{
+    color: #71bfbc;
+}
+.footer-socials h4{
+    color: #71bfbc;
+}
+
+
+/*iconos redes*/
+.footer-socials {
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos */
+    text-align: center; /* Asegura que el texto y los íconos estén alineados */
+}
+
+.footer-socials h4 {
+    margin-bottom: 10px; /* Espaciado entre el texto y los íconos */
+}
+
+.footer-socials ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    gap: 15px;
+    margin: 0;
+}
+
+.footer-socials ul li {
+    display: inline-block;
+}
+
+.social-icon {
+    width: 40px; /* Ajusta el tamaño de los íconos */
+    height: auto;
+}
+
+#hola{
+    color:#f3ecec;
+    text-decoration: none;
+}
+
+
+.navbar .logo {
+    flex: 0 0 auto;
+}
+
+.navbar .logo img {
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.navbar .text-container {
+    flex: 1;
+    text-align: center;
+}
+
+.navbar .text-container h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar .logo {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        width: 250px;
+        height: auto;
+    }
+
+    .navbar .text-container h1 {
+        font-size: 20px;
+    }
+}
+.btn-volver {
+    background-color: #0044cc;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    margin-left: auto; /* Lo alinea a la derecha */
+}
+
+.footer-container {
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-logo, 
+.footer-info, 
+.footer-socials {
+    margin: 15px 0;
+}
+
+.btn-volver:hover {
+    background-color: #133986;
+}
+.boton-prematricula {
+    background-color: #0056b3; /* Azul */
+    color: white; /* Texto en blanco */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none; /* Sin bordes */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+    cursor: pointer; /* Cambia el cursor a una mano */
+    display: block; /* Lo convierte en un bloque para manipular su posición */
+    margin: 20px auto; /* Centrado horizontalmente */
+    text-align: center; /* Asegura que el texto esté centrado */
+    transition: 0.3s ease-in-out; /* Animación al pasar el mouse */
+}
+
+.boton-prematricula:hover {
+    background-color: #133986; /* Azul más oscuro al pasar el mouse */
+}
+
+.footer-columnas {
+    text-align: center;
+}
+
+.footer-columnas ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-columnas li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.footer-columnas a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-columnas a:hover {
+    color: #d7da12;
+    text-decoration: underline;
+}
+/*---------------------------------------------*/
+
+/* Botón de WhatsApp flotante */
+.whatsapp-btn {
+    position: fixed;
+    bottom: 80px; /* Colocado arriba de la flecha */
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 9998; /* Un nivel menos que la flecha */
+    transition: transform 0.3s;
+}
+
+.whatsapp-btn:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-btn img {
+    width: 30px;
+    height: 30px;
+}

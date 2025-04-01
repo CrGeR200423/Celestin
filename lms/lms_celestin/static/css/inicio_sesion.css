@@ -1,0 +1,157 @@
+body {
+    font-family: sans-serif;
+    display: flex; /* Se usa display: flex para centrar el contenido */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
+    margin: 0; /* Elimina los márgenes predeterminados */
+    background-color: #ffffff; /* Color de fondo */
+    position: relative; /* Necesario para la posición absoluta del fondo */
+  }
+  
+  .left-column {
+    width: 20%; /* Ancho de la columna izquierda */
+    background-color:#007BFF;/* Color de fondo de la columna izquierda */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 0; /* Se pega a la pared izquierda */
+    height: 100%; /* Asegura que la columna ocupe toda la altura */
+    z-index: 1;
+  }
+
+  .right-column {
+    width: 20%; /* Ancho de la columna izquierda */
+    background-color:#053aaa; /* Color de fondo de la columna izquierda */
+    display: flex;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    right: 0; /* Se pega a la pared izquierda */
+    height: 100%; /* Asegura que la columna ocupe toda la altura */
+    z-index: 1;
+  }
+
+
+/* Estilos para el contenedor */
+.container {
+    position: relative;
+    z-index: 1; /* Asegura que el formulario esté por encima del fondo difuso */
+    background-color: rgb(255, 255, 255); /* Fondo blanco semi-transparente */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.815);
+    padding: 20px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra todos los elementos dentro del container */
+}
+
+
+/* Estilos para centrar la imagen del logo */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 160px; /* Ajusta el tamaño según lo necesites */
+    height: auto;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: calc(100% - 12px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background:#0658e5;
+    color:#ffffff;
+    border:none;
+    position:relative;
+    height:50px;
+    font-size:1.6em;
+    padding:0 3em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+    border-radius: 10px;
+}
+
+/*Animacion*/
+button:hover{
+    background:#5b6587;
+    color:hsl(190, 97%, 50%);
+}
+
+button:before,button:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: hsl(190, 97%, 50%);
+    transition:400ms ease all;
+}
+button:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
+
+}
+
+button:hover:before,button:hover:after{
+    width:100%;
+    transition:800ms ease all;
+}
+
+
+.links {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.slogan {
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.website {
+    text-align: center;
+    margin-top: 5px;
+}

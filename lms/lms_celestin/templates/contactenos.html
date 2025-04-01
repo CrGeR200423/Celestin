@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conocenos</title>
+    <link rel="stylesheet" href="{% static 'css/contactenos.css' %}">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo" />
+        </div>
+    </header>
+
+    <header>
+        <div class="menu">
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+
+                <!-- submenu -->
+                <li>
+                    <a href="{% url 'conocenos' %}">Conocenos</a>
+                    <ul class="sub-menu_conocenos">
+                        <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
+                        <li><a href="Historia.html">Historia</a></li>
+                        <li><a href="Himno.html">Himno</a></li>
+                        </ul>
+                </li>
+            
+                <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li>
+            </ul>
+
+                    <!-- Botón de inicio de sesión alineado a la derecha -->
+        <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="info">
+            <h2>Conozca nuestra sede principal:</h2>
+            <p>
+                📍 Dirección: Cl 22a #11447 Sogamoso, Boyacá <br>
+                📱 Celular: <a href="#">3105480655</a><br>
+                ✉️ Email: <a href="#">celestinfreinet@gmail.com</a>
+            </p> <br>
+            <div class="mapa">
+                <div class="mapa-contenedor">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3969.9124183390372!2d-72.9248374!3d5.7257546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a47dde46ac867%3A0x2673fa9d46d7e1b9!2sColegio%20celestin%20freind!5e0!3m2!1ses-419!2sco!4v1742560446505!5m2!1ses-419!2sco"
+                        width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="formulario">
+            <h2>Contáctenos</h2>
+            <p>Déjenos sus datos o comentarios y pronto nos comunicaremos con usted:</p>
+            <form>
+                <input type="text" placeholder="Nombre completo" required>
+                <input type="email" placeholder="Correo electrónico" required>
+                <textarea placeholder="Mensaje" required></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- pie de pagina-->
+<div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+            </div>
+
+            
+            <div class="footer-columnas">
+                <h3>Enlaces de interés</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="{% url 'conocenos' %}">Conócenos</a></li>
+                    <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                    <li><a href="{% url 'contactenos' %}">Contáctanos</a></li>
+                    <li><a href="{% url 'prematricula' %}">Pre-Matrícula</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-socials">
+                <h4>Redes Sociales</h4>
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/share/1A4P41xaiC/" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" class="social-icon">
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Botón de WhatsApp flotante -->
+                        <a href="https://chat.whatsapp.com/Ipv3sq6KCZkDF5ymdWSDEo" target="_blank" class="whatsapp-btn">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/colegio_celestinfreinet?igsh=ODZ1enljbXhicmVn" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="social-icon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="footer-columnas">
+                <h3>Contactanos</h3>
+                <p>rectoria@cfn.edu.co</p> <br>
+                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8"target="_blank" id = "hola">Cl 22a #11447<br> Sogamoso, Boyacá</a>
+            </div>
+        </div>
+    </footer>
+
+    <footer id="footer-texto">
+        <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
+    </footer>
+
+    <script src="{% static 'js/script_actividades.js' %}"></script>
+
+</body>
+</html>

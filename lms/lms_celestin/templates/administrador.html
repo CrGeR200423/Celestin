@@ -1,0 +1,446 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="{% static 'css/estilo_administrador.css' %}">
+</head>
+<body>
+    <!-- Encabezado -->
+    <header class="header">
+        <h1>Celestin Freinet - Administrador</h1>
+        <div>
+            <button class="logout-btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+            <button class="menu-toggle">☰</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Menú lateral -->
+        <nav class="sidebar">
+            <ul><br><br>
+                <li><a href="#novedades">Novedades</a></li>
+                <li><a href="#usuarios">Usuarios</a></li>
+                <li><a href="#estado">Estado</a></li>
+                <li><a href="#circulares">Aplicantes</a></li>
+                <li><a href="#galeria">Cursos</a></li>
+                <div class="logo">
+                    <img src="{% static 'images/logoactualizado.png' %}" alt="Logo" />
+                </div>
+            </ul>
+        </nav>
+
+        <!-- Contenido principal -->
+        <section id="novedades" class="active">
+            <h2>Gestión de Novedades</h2>
+            
+            <!-- Formulario para agregar novedades -->
+            <div class="form-novedad">
+                <h3>Agregar Nueva Novedad</h3>
+                <form id="formAgregarNovedad">
+                    <div class="form-group">
+                        <label for="tituloNovedad">Título:</label>
+                        <input type="text" id="tituloNovedad" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descripcionNovedad">Descripción:</label>
+                        <textarea id="descripcionNovedad" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="imagenNovedad">Imagen:</label>
+                        <input type="file" id="imagenNovedad" accept="image/jpeg, image/png, image/gif, image/webp">
+                        <div id="previewImagen" class="preview-container"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fechaNovedad">Fecha:</label>
+                        <input type="date" id="fechaNovedad" required>
+                    </div>
+                    
+                    <button type="button" class="btn-subir" onclick="subirNovedad()">Subir Novedad</button>
+                </form>
+            </div>
+            
+            <!-- Listado de novedades existentes -->
+            <div class="lista-novedades">
+                <h3>Novedades Publicadas</h3>
+                <table class="tabla-novedades">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-novedades">
+                        <!-- Se llenará dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+            <section id="usuarios">
+                <h2>Listado de Usuarios</h2>
+                <div class="form-nuevo-usuario">
+                    <button class="btn-agregar-usuario" onclick="agregarUsuario()">
+                        <span class="icono">➕</span> Agregar Usuario
+                    </button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Num</th>
+                            <th>Nombre</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaUsuarios">
+                        <tr>
+                            <td>1</td>
+                            <td>Juan Pérez</td>
+                            <td>Estudiante</td>
+                            <td>
+                                <button class="modificar">✏️ Modificar</button>
+                                <button class="ver">👁️ Ver</button>
+                                <button class="eliminar" onclick="confirmarEliminacion(this)">❌ Eliminar</button>
+                            </td>
+                            <td>
+                                <button class="habilitar" onclick="cambiarEstado(this, true)">🟢 Habilitar</button>
+                                <button class="inhabilitar" onclick="cambiarEstado(this, false)">🔴 Inhabilitar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="estado">
+                <h2>Estado de Usuarios</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Num</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Juan Pérez</td>
+                            <td>Habilitado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="circulares">
+                <h2>Aplicantes</h2>
+                
+                <!-- Tabla de aplicantes -->
+                <div class="tabla-aplicantes-container">
+                    <table class="tabla-aplicantes">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre Completo</th>
+                                <th>Documento</th>
+                                <th>Acciones</th>
+                            </tr><br><br>
+                        </thead>
+                        <tbody id="lista-aplicantes">
+                            <!-- Ejemplo de fila (se llenará dinámicamente) -->
+                            <tr>
+                                <td>1</td>
+                                <td>María González</td>
+                                <td>1023456789</td>
+                                <td>
+                                    <button class="btn-ver" onclick="mostrarDetallesAplicante(1)">👁️ Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Carlos Rodríguez</td>
+                                <td>987654321</td>
+                                <td>
+                                    <button class="btn-ver" onclick="mostrarDetallesAplicante(2)">👁️ Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            
+                <!-- Modal para detalles del aplicante -->
+                <div id="modal-aplicante" class="modal" style="display: none;">
+                    <div class="modal-contenido">
+                        <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+                        <h3>Información Completa del Aplicante</h3>
+                        
+                        <div id="detalles-aplicante" class="detalles-container">
+                            <!-- Aquí se mostrarán los detalles dinámicamente -->
+                            <div class="detalle-item">
+                                <strong>Nombre Completo:</strong> <span id="detalle-nombre">María González</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Documento:</strong> <span id="detalle-documento">1023456789</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Fecha de Nacimiento:</strong> <span id="detalle-fecha-nac">15/03/2010</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Grado al que aplica:</strong> <span id="detalle-grado">3° Primaria</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Nombre del Acudiente:</strong> <span id="detalle-acudiente">Laura González</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Teléfono:</strong> <span id="detalle-telefono">3001234567</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Correo Electrónico:</strong> <span id="detalle-email">acudiente@example.com</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Dirección:</strong> <span id="detalle-direccion">Calle 123 #45-67</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Fecha de Aplicación:</strong> <span id="detalle-fecha-apl">20/05/2023</span>
+                            </div>
+                        </div>
+                        
+                        <div class="acciones-modal">
+                            <button class="btn-rechazar" onclick="rechazarAplicante()">Rechazar</button>
+                            <button class="btn-aceptar" onclick="confirmarAceptacion()">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Modal de confirmación -->
+                <div id="modal-confirmacion" class="modal" style="display: none;">
+                    <div class="modal-contenido modal-pequeno">
+                        <p id="mensaje-confirmacion">¿Está seguro que desea aceptar este aplicante?</p>
+                        <div class="botones-confirmacion">
+                            <button class="btn-cancelar" onclick="cerrarConfirmacion()">Cancelar</button>
+                            <button class="btn-confirmar" onclick="aceptarAplicante()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+                <!-- Reemplaza la sección galeria por esta nueva sección cursos -->
+            <section id="galeria" class="section-cursos">
+                <h2>Gestión de Cursos</h2>
+                
+                <!-- Tabla de cursos -->
+                <div class="cursos-container">
+                    <table class="tabla-cursos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre del Curso</th>
+                                <th>Docente Asignado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-cursos">
+                            <!-- Se llenará dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Contenedor para estudiantes del curso seleccionado -->
+                <div id="estudiantes-curso" class="estudiantes-container" style="display: none;">
+                    <h3>Estudiantes del Curso: <span id="nombre-curso-seleccionado"></span></h3>
+                    <table class="tabla-estudiantes">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Documento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-estudiantes">
+                            <!-- Se llenará dinámicamente -->
+                        </tbody>
+                    </table>
+                    <button id="asignar-docente-btn" class="btn-asignar">Asignar Docente</button>
+                </div>
+
+                <!-- Modal para asignar docente -->
+                <div id="modal-docente" class="modal" style="display: none;">
+                    <div class="modal-contenido">
+                        <span class="cerrar-modal">&times;</span>
+                        <h3>Asignar Docente al Curso: <span id="nombre-curso-modal"></span></h3>
+                        <div class="busqueda-docente">
+                            <input type="text" id="buscar-docente" placeholder="Buscar docente...">
+                        </div>
+                        <table class="tabla-docentes">
+                            <thead>
+                                <tr>
+                                    <th>Seleccionar</th>
+                                    <th>Nombre</th>
+                                    <th>Especialidad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-docentes">
+                                <!-- Se llenará dinámicamente -->
+                            </tbody>
+                        </table>
+                        <button id="confirmar-docente" class="btn-confirmar">Confirmar Asignación</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{% static 'js/administrador.js' %}"></script>
+    <script src="{% static 'js/novedades.js' %}"></script>
+    <script src="{% static 'js/adm_usuarios.js' %}"></script>
+    <script src="{% static 'js/aplicante.js' %}"></script>
+
+    <style>
+        /* Estilos para la sección de aplicantes */
+.tabla-aplicantes-container {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.tabla-aplicantes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tabla-aplicantes th, .tabla-aplicantes td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla-aplicantes th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.tabla-aplicantes tr:hover {
+    background-color: #f5f5f5;
+}
+
+.btn-ver {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-contenido {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 700px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.modal-pequeno {
+    max-width: 500px;
+}
+
+.cerrar-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover {
+    color: black;
+}
+
+/* Estilos para los detalles */
+.detalles-container {
+    margin: 20px 0;
+}
+
+.detalle-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #4CAF50;
+}
+
+/* Botones de acción */
+.acciones-modal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-aceptar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-rechazar {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-confirmar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.botones-confirmacion {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+    </style>
+
+</body>
+</html>

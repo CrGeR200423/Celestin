@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>www.celestinfreinet.edu.co</title>
+    <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo" />
+        </div>
+    </header>
+
+    <header>
+        <div class="menu-container">
+            <ul class="main-menu">
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                
+                <li class="has-submenu">
+                    <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
+                        <li><a href="Historia.html">Historia</a></li>
+                        <li><a href="Himno.html">Himno</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
+            </ul>
+
+                    <!-- Botón de inicio de sesión alineado a la derecha -->
+        <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
+        </div>
+    </header>
+
+
+<!-- Sección del banner con carrusel -->
+<header class="banner">
+    <div class="carousel-container" id="carousel-banner">
+        <div class="carousel">
+            <div class="carousel-slide"><img src="{% static 'images/colegio_fondo.jfif' %}" alt="Imagen 1"></div>
+            <div class="carousel-slide"><img src="{% static 'images/danza_1.jpg' %}" alt="Imagen 2"></div>
+            <div class="carousel-slide"><img src="{% static 'images/danza_2.jpg' %}" alt="Imagen 3"></div>
+        </div>
+        <!-- Botones de navegación -->
+        <button class="prev" onclick="prevSlideBanner()">&#10094;</button>
+        <button class="next" onclick="nextSlideBanner()">&#10095;</button>
+    </div>
+    <h1>Bienvenido a la Institución Celestin Freinet</h1>
+    <a href="{% url 'conocenos' %}" class="button">Saber más</a>
+</header>
+
+
+
+<!-- contenido-->
+<section class="seccion-principal">
+
+    <!-- 🔹 Contenedor Izquierdo -->
+    <div class="info-izquierda">
+        <h3>DESCUBRE ACERCA DE NOSOTROS</h3>
+        <p>Educación de Calidad</p>
+    </div>
+
+    <!-- 🔹 Contenedor Derecho (Texto + Video) -->
+    <div class="info-derecha">
+        <p>Una institución orientada a formar no solo estudiantes, sino también personas. En el Celestin Freinet 
+            puedes aplicar la ética de una forma distinta. Somos una familia bastante amplia y llevamos años 
+            dedicándonos a la educación.
+        </p>
+
+        <!-- Video -->
+        <video controls class="video-derecha">
+            <source src="video/yt1z.net - Volando en Drone, MAVIC 2 ZOOM 4K ,COLEGIO LA INMACULADA - CHIA-COLOMBIA (720p).mp4" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
+    </div>
+
+</section>
+
+
+<!-- 🔹 Contenedor del Número y la Imagen -->
+<section class="info-con-banner" id="seccion-actividades">
+    
+    <!-- Se llenará dinámicamente con las novedades -->
+</section>
+
+
+<section class="segunda-seccion">
+    <div class="titulo">NUESTRAS METAS ALCANZADAS</div>
+    <h2>CFN En Números</h2>
+
+    <div class="contenedor">
+        <div class="contador">
+            <div class="numero amarillo" id="grad-count">0</div>
+            <p><b>Estudiantes en el 2023</b></p>
+            <p class="descripcion">Estudiantes que alcanzaron con éxito su grado de bachiller</p>
+        </div>
+
+        <div class="contador">
+            <div class="numero azul" id="students-count">0</div>
+            <p><b>Estudiantes en el 2024</b></p>
+            <p class="descripcion">Estudiantes matriculados en el colegio</p>
+        </div>
+
+        <div class="contador">
+            <div class="numero rosa" id="prof-count">0</div>
+            <p><b>Profesores en el 2024</b></p>
+            <p class="descripcion">Profesores comprometidos con educación y la institución</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- pie de pagina-->
+<div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+            </div>
+
+            
+            <div class="footer-columnas">
+                <h3>Enlaces de interés</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="{% url 'conocenos' %}">Conócenos</a></li>
+                    <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                    <li><a href="{% url 'contactenos' %}">Contáctanos</a></li>
+                    <li><a href="{% url 'prematricula' %}">Pre-Matrícula</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-socials">
+                <h4>Redes Sociales</h4>
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/share/1A4P41xaiC/" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" class="social-icon">
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Botón de WhatsApp flotante -->
+                        <a href="https://chat.whatsapp.com/Ipv3sq6KCZkDF5ymdWSDEo" target="_blank" class="whatsapp-btn">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/colegio_celestinfreinet?igsh=ODZ1enljbXhicmVn" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="social-icon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="footer-columnas">
+                <h3>Contactanos</h3>
+                <p>rectoria@cfn.edu.co</p> <br>
+                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8"target="_blank" id = "hola">Cl 22a #11447<br> Sogamoso, Boyacá</a>
+            </div>
+        </div>
+    </footer>
+
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+    <footer id="footer-texto">
+            <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
+    </footer>
+
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/flecha.js' %}"></script>
+    <script src="{% static 'js/contador.js' %}"></script>
+    <script src="{% static 'js/AgregarActividades.js' %}"></script>
+</body>
+</html>
+

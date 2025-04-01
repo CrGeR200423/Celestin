@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conocenos</title>
+    <link rel="stylesheet" href="{% static 'css/estilos_conocenos.css' %}">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo" />
+        </div>
+    </header>
+
+    <header>
+        <div class="menu">
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+
+                <!-- submenu -->
+                <li>
+                    <a href="{% url 'conocenos' %}">Conocenos</a>
+                    <ul class="sub-menu_conocenos">
+                        <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
+                        <li><a href="Historia.html">Historia</a></li>
+                        <li><a href="Himno.html">Himno</a></li>
+                        </ul>
+                </li>
+            
+                <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li>
+            </ul>
+
+                    <!-- Botón de inicio de sesión alineado a la derecha -->
+        <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
+        </div>
+    </header>
+
+    <!-- header-contenido -->
+    <header class="header">
+        <h1 class="header-title">MISIÓN Y VISIÓN</h1>
+    </header>
+
+
+    <div class="container">
+        <div class="image-section">
+        <!-- Aquí iría la imagen -->
+        <img src="{% static 'images/mision_img.jpg' %}" alt="img_mision">
+        </div>
+        
+        <div class="text-section">
+        <h1>Misión</h1>
+        <p>Formar estudiantes integrales en sus dimensiones fisicas, intelectuales, morales, eticas y psocioafectivas.,
+            Mediante un proceso de enseñanza-aprendizaje activo, de participacion, exploracion, conocimiento de su propio entorno y 
+            quehacer cotidiano a adquirir una capacidad critica, investigativa y creativa, donde el estudiante desarrolle sus habilidades
+            y destrezas encaminadas a asumir una proyeccion de mejoramiento continuo en su vida personal y social.</p>
+        </div>
+    </div>
+
+
+    <div class="container-2">
+        <div class="text-section-2">
+        <h1>Visión</h1>
+        <p>El colegio "Celestin Freinet" se consolida como una institucion con proyeccion a los retos educativos que exigen nuestro
+            entorno social, mediante el ofrecimiento de una eduacion escolar con calidad humana donde se ofrezca la continuidad de los diferentes
+            niveles de escolaridad mediante la combinacion de apoyos tecnologicos y alianzas estrategicas con entidades gubernamentales y sin animo
+            de lucro para formar personas creativas. Con capacidad de liderazgo, trabajo en equipo, liderazgo,  y valores eticos y morales.</p>
+        </div>
+
+        <div class="image-section-2">
+            <!-- Aquí iría la imagen -->
+            <img src="{% static 'images/vision_img_1.jpg' %}" alt="img_mision">
+        </div>
+    </div>
+
+    <div class="container-2">
+        <div class="text-section-3">
+            <section class="section-info-1">
+                <header class="header-encabezado-info">
+                
+                    <h1 class="main-title">Excelencia Educativa</h1>
+                    <p class="subtitle">Celestin Freinet está comprometido a desarrollar estudiantes centrados en un ambiente sano que 
+                        desarrollen las cualidades de Líderes, Personas Valientes y Aplicadas. 
+                        Basado en un modelo que anime a los estudiantes a amar el arte de lo que es la educacion, creciendo como colegio CF. 
+                    </p>
+                    
+                    <p class="subtitle"> Nuestro personal docente ejemplifica y fomenta estos rasgos, preparando a los estudiantes para liderar con buen entendimiento 
+                        y saber en su respectetiva asignatura.</p>
+                    
+                    <h1 class="main-title"><center>Historia</center></h1>
+                    <p class="subtitle">El Colegio Celestin Freinet de Sogamoso, Boyacá, es una institución educativa reconocida en la región por su enfoque pedagógico basado en la metodología del 
+                        pedagogo francés Célestin Freinet, la cual promueve el aprendizaje activo, la cooperación y la creatividad en los estudiantes. Ubicado en la dirección<br> Cl 22a #11447, 
+                        este colegio ha sido un pilar fundamental en la formación de niños y jóvenes, brindando educación de calidad a la comunidad sogamoseña.
+                        En cuanto a la dirección y liderazgo de la institución, la rectora actual es la Esp. Mary Luz Guerrero Cárdenas, quien ha trabajado en el fortalecimiento del proyecto educativo,
+                        impulsando iniciativas que fomentan el desarrollo académico y personal de los estudiantes. Bajo su dirección, el colegio se ha destacado por su compromiso con la 
+                        excelencia educativa y la implementación de estrategias innovadoras para mejorar el proceso de enseñanza-aprendizaje.
+                        </p>
+                    
+                    <p class="subtitle"> Nuestro personal docente ejemplifica y fomenta estos rasgos, preparando a los estudiantes para liderar con buen entendimiento 
+                        y saber en su respectetiva asignatura. <br>  <br> </p>
+        
+                    <h1 class="main-title"><center>¿ De donde proviene Nuestro Nombre ?</center></h1>
+                    <p class="subtitle">El nombre del Colegio Celestin Freinet proviene del pedagogo y educador francés Célestin Freinet (1896-1966), quien desarrolló
+                        una metodología educativa innovadora basada en el aprendizaje activo, la cooperación y la experimentación.
+                        Freinet creía que la educación debía estar centrada en la experiencia y la creatividad de los estudiantes, fomentando la participación activa en
+                        su propio aprendizaje a través de herramientas como la imprenta escolar, el trabajo en grupo y el método natural de aprendizaje. Su enfoque buscaba
+                        romper con la educación tradicional basada en la memorización y la repetición, promoviendo una enseñanza más libre y significativa.
+                        El colegio lleva su nombre como un homenaje a su legado y filosofía pedagógica, aplicando principios de su método en la formación de sus
+                        estudiantes en Sogamoso, Boyacá.<br> <br> </p>
+                    </header>
+                </section>
+            </div>
+        </div>
+
+        <!-- pie de pagina-->
+<div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+            </div>
+
+            
+            <div class="footer-columnas">
+                <h3>Enlaces de interés</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="{% url 'conocenos' %}">Conócenos</a></li>
+                    <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                    <li><a href="{% url 'contactenos' %}">Contáctanos</a></li>
+                    <li><a href="{% url 'prematricula' %}">Pre-Matrícula</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-socials">
+                <h4>Redes Sociales</h4>
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/share/1A4P41xaiC/" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" class="social-icon">
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Botón de WhatsApp flotante -->
+                        <a href="https://chat.whatsapp.com/Ipv3sq6KCZkDF5ymdWSDEo" target="_blank" class="whatsapp-btn">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/colegio_celestinfreinet?igsh=ODZ1enljbXhicmVn" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="social-icon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="footer-columnas">
+                <h3>Contactanos</h3>
+                <p>rectoria@cfn.edu.co</p> <br>
+                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8"target="_blank" id = "hola">Cl 22a #11447<br> Sogamoso, Boyacá</a>
+            </div>
+        </div>
+    </footer>
+        
+        
+            <footer id="footer-texto">
+                <div>
+                    <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
+                </div>
+            </footer>
+        
+</body>
+</html>

@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Nuevo Usuario</title>
+    <link rel="stylesheet" href="{% static 'css/estilo_administrador.css' %}">
+</head>
+<body>
+    <style>
+        body {
+            padding: 0;
+            background-color:  #dad9d9;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #053aaa;
+            color: white;
+            padding: 1rem;
+            width: 97,9%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        /* Estilos para centrar la imagen del logo */
+        .logoo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 10%;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+
+        .logoo img {
+            width: 100px; /* Ajusta el tamaño según lo necesites */
+            height: auto;
+            display: block;
+            flex-direction: column;
+            align-items: center;
+        }
+
+    </style>
+    <header class="header">
+        <div class="logoo">
+            <img src="{% static 'images/logoactualizado.png' %}" alt="Logo" />
+        </div>
+        <h1>Celestin Freinet - Registrar Usuario</h1>
+        <div>
+            <button class="logout-btn" onclick="window.location.href='/administrador/'">Volver</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <section class="active">
+                <h2>Seleccionar Tipo de Usuario</h2>
+                <div class="form-group">
+                    <label for="tipoUsuario" class="requerido">Tipo de Usuario:</label>
+                    <select id="tipoUsuario" onchange="mostrarFormulario()" required>
+                        <option value="">Seleccione un tipo</option>
+                        <option value="Estudiante">Estudiante</option>
+                        <option value="Profesor">Profesor</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                    <div id="error-tipoUsuario" class="mensaje-error">Este campo es obligatorio</div>
+                </div>
+
+                <div id="formularioEstudiante" class="formulario-rol" style="display:none;">
+                    <h3>Datos del Estudiante</h3>
+                    <form id="formEstudiante">
+                        <!-- Datos del Estudiante -->
+                        <div class="section">
+                            <label for="primer_nombre_estudiante" class="requerido">Primer Nombre:</label>
+                            <input type="text" id="primer_nombre_estudiante" name="primer_nombre_estudiante" required>
+                            <div id="error-primer_nombre_estudiante" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="segundo_nombre_estudiante">Segundo Nombre:</label>
+                            <input type="text" id="segundo_nombre_estudiante" name="segundo_nombre_estudiante">
+                            
+                            <label for="primer_apellido_estudiante" class="requerido">Primer Apellido:</label>
+                            <input type="text" id="primer_apellido_estudiante" name="primer_apellido_estudiante" required>
+                            <div id="error-primer_apellido_estudiante" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="segundo_apellido_estudiante">Segundo Apellido:</label>
+                            <input type="text" id="segundo_apellido_estudiante" name="segundo_apellido_estudiante">
+
+                            <label for="tipo_documento_estudiante" class="requerido">Tipo de Documento:</label>
+                            <select id="tipo_documento_estudiante" name="tipo_documento_estudiante" required>
+                                <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                                <option value="Registro Civil">Registro Civil</option>
+                            </select>
+                            
+                            <label for="numero_documento_estudiante" class="requerido">Número de Documento:</label>
+                            <input type="number" id="numero_documento_estudiante" name="numero_documento_estudiante" required>
+                            <div id="error-numero_documento_estudiante" class="mensaje-error">Solo números</div>
+                            
+                            <label for="fecha_nacimiento_estudiante" class="requerido">Fecha de Nacimiento:</label>
+                            <input type="date" id="fecha_nacimiento_estudiante" name="fecha_nacimiento_estudiante" required>
+                            <div id="error-fecha_nacimiento_estudiante" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="edad_estudiante" class="requerido">Edad:</label>
+                            <input type="number" id="edad_estudiante" name="edad_estudiante" min="1" max="99" required>
+                            <div id="error-edad_estudiante" class="mensaje-error">Solo números (1-99)</div>
+                            
+                            <label for="grado_estudiante" class="requerido">Grado o Nivel Educativo:</label>
+                            <input type="text" id="grado_estudiante" name="grado_estudiante" required>
+                            <div id="error-grado_estudiante" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="ciclo_escolar_estudiante">Ciclo Escolar:</label>
+                            <input type="text" id="ciclo_escolar_estudiante" name="ciclo_escolar_estudiante">
+                        </div>
+
+                        <!-- Datos de los Padres o Tutores -->
+                        <div class="section">
+                            <h4>Datos de los Padres o Tutores</h4>
+                            <label for="nombre_padre_tutor1" class="requerido">Nombre completo del Padre/Tutor 1:</label>
+                            <input type="text" id="nombre_padre_tutor1" name="nombre_padre_tutor1" required>
+                            <div id="error-nombre_padre_tutor1" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="tipo_documento_padre" class="requerido">Tipo de Documento:</label>
+                            <select id="tipo_documento_padre" name="tipo_documento_padre" required>
+                                <option value="Cédula">Cédula</option>
+                                <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                                <option value="Pasaporte">Pasaporte</option>
+                                <option value="Cédula Extranjería">Cédula de Extranjería</option>
+                            </select>
+                            
+                            <label for="numero_documento_padre" class="requerido">Número de Documento:</label>
+                            <input type="number" id="numero_documento_padre" name="numero_documento_padre" required>
+                            <div id="error-numero_documento_padre" class="mensaje-error">Solo números</div>
+                            
+                            <label for="telefono_padre" class="requerido">Teléfono de Contacto:</label>
+                            <input type="number" id="telefono_padre" name="telefono_padre" min="1000000000" max="9999999999" required>
+                            <div id="error-telefono_padre" class="mensaje-error">Solo números (10 dígitos)</div>
+                            
+                            <label for="correo_padre" class="requerido">Correo Electrónico:</label>
+                            <input type="email" id="correo_padre" name="correo_padre" required>
+                            <div id="error-correo_padre" class="mensaje-error">Ingrese un correo válido</div>
+                            
+                            <label for="direccion_estudiante" class="requerido">Dirección de Domicilio:</label>
+                            <textarea id="direccion_estudiante" name="direccion_estudiante" required></textarea>
+                            <div id="error-direccion_estudiante" class="mensaje-error">Este campo es obligatorio</div>
+                        </div>
+
+                        <!-- Datos de Salud -->
+                        <div class="section">
+                            <h4>Datos de Salud</h4>
+                            <label for="condicion_medica_estudiante">¿El estudiante tiene alguna condición médica importante?</label>
+                            <select id="condicion_medica_estudiante" name="condicion_medica_estudiante">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                            
+                            <label for="detalle_condicion_estudiante">Detalle condición médica:</label>
+                            <textarea id="detalle_condicion_estudiante" name="detalle_condicion_estudiante"></textarea>
+                        </div>
+
+                        <button type="button" class="btn-subir" onclick="registrarUsuario('Estudiante')">Registrar Estudiante</button>
+                    </form>
+                </div>
+
+                <div id="formularioProfesorAdmin" class="formulario-rol" style="display:none;">
+                    <h3 id="tituloFormulario">Datos del Usuario</h3>
+                    <form id="formProfesorAdmin">
+                        <div class="section">
+                            <label for="primer_nombre" class="requerido">Primer Nombre:</label>
+                            <input type="text" id="primer_nombre" name="primer_nombre" required>
+                            <div id="error-primer_nombre" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="segundo_nombre">Segundo Nombre:</label>
+                            <input type="text" id="segundo_nombre" name="segundo_nombre">
+                            
+                            <label for="primer_apellido" class="requerido">Primer Apellido:</label>
+                            <input type="text" id="primer_apellido" name="primer_apellido" required>
+                            <div id="error-primer_apellido" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="segundo_apellido">Segundo Apellido:</label>
+                            <input type="text" id="segundo_apellido" name="segundo_apellido">
+                            
+                            <label for="tipo_documento" class="requerido">Tipo de Documento:</label>
+                            <select id="tipo_documento" name="tipo_documento" required>
+                                <option value="Cédula">Cédula</option>
+                                <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                                <option value="Pasaporte">Pasaporte</option>
+                                <option value="Cédula Extranjería">Cédula de Extranjería</option>
+                            </select>
+                            
+                            <label for="numero_documento" class="requerido">Número de Documento:</label>
+                            <input type="number" id="numero_documento" name="numero_documento" required>
+                            <div id="error-numero_documento" class="mensaje-error">Solo números</div>
+                            
+                            <label for="titulos">Títulos:</label>
+                            <textarea id="titulos" name="titulos"></textarea>
+                            
+                            <label for="direccion" class="requerido">Dirección:</label>
+                            <textarea id="direccion" name="direccion" required></textarea>
+                            <div id="error-direccion" class="mensaje-error">Este campo es obligatorio</div>
+                            
+                            <label for="correo" class="requerido">Correo Electrónico:</label>
+                            <input type="email" id="correo" name="correo" required>
+                            <div id="error-correo" class="mensaje-error">Ingrese un correo válido</div>
+                            
+                            <label for="telefono" class="requerido">Teléfono:</label>
+                            <input type="number" id="telefono" name="telefono" min="1000000000" max="9999999999" required>
+                            <div id="error-telefono" class="mensaje-error">Solo números (10 dígitos)</div>
+                        </div>
+                        
+                        <button type="button" class="btn-subir" onclick="registrarUsuario(document.getElementById('tipoUsuario').value)">Registrar Usuario</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{% static 'js/registrar_usuario.js' %}"></script>
+</body>
+</html>

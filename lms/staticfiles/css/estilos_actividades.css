@@ -1,0 +1,649 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #dad9d9;
+}
+
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:  #053aaa;
+    padding-top: 120px;
+}
+
+.logo img {
+    width: 300px; 
+    height: auto;
+    position: absolute; /* Posiciona el logo de forma absoluta respecto al contenedor */
+    /* top: 50%; Desplaza el logo 50% hacia abajo */
+    top: 60px;
+    left: 50%; /* Desplaza el logo 50% hacia la derecha */
+    transform: translate(-50%, -50%); /* Compensa el desplazamiento del logo centrado */
+}
+
+/* Ajuste de la clase container para el Menu */
+.container {
+    display: flex;
+    flex-direction: row; 
+    align-items: center; /* Alinea verticalmente los iconos */
+    justify-content: flex-end; 
+    padding: 20px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    background-color:   #dad9d9;
+    padding: 12px;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente los elementos dentro del ul */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
+}
+
+.menu li {
+    padding: 0 20px; /* Espaciado horizontal entre elementos */
+    border-right: 1px solid #000000; /* Línea divisoria entre elementos */
+}
+
+.menu li:last-child {
+    border-right: none; /* Sin línea divisoria en el último elemento */
+}
+
+.menu li a {
+    text-decoration: none;
+    color: rgb(4, 75, 72);
+    font-size: 18px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
+    font-weight: 700;
+    display: block;
+    font-family: Arial, sans-serif;
+}
+
+.menu li a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo del submenú desplegable - BOTON "CONOCENOS" */
+.menu li {
+    position: relative; /* Necesario para el submenú */
+}
+
+.menu li .sub-menu_conocenos {
+    display: none; /* Ocultar el submenú por defecto */
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: hsla(0, 0%, 100%, 0.651);
+    box-shadow: 0 4px 6px rgb(0, 0, 0);
+    border-radius: 5px;
+    min-width: 200px;
+    z-index: 1000;
+}
+
+.menu li .sub-menu_conocenos li {
+    display: block;
+    padding: 10px;
+    border-bottom: 1px solid #52505086;
+}
+
+.menu li .sub-menu_conocenos li:last-child {
+    border-bottom: none;
+}
+
+.menu li .sub-menu_conocenos li a {
+    color: rgb(4, 75, 72);
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+
+.menu li .sub-menu_conocenos li a:hover {
+    background-color: #053aaa;
+    color: white;
+}
+
+/* Mostrar submenú al pasar el cursor */
+.menu li:hover > .sub-menu_conocenos {
+    display: block;
+}
+
+
+/* Botón de inicio de sesión */
+.btn-iniciar-sesion {
+    background-color: #053aaa;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    position: absolute;
+    right: 20px; /* Lo coloca en el extremo derecho */
+}
+
+.btn-iniciar-sesion:hover {
+    background-color: #021f5a;
+}
+
+/*header-contenido*/
+.header {
+    width: 100%;
+    background-color: #053aaa; /* Color de fondo del header */
+    text-align: center; /* Centrar texto horizontalmente */
+    padding: 20px 0; /* Espaciado superior e inferior */
+    font-size: 120%;
+    line-height: normal;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.header-title {
+    color: white; /* Color del texto */
+    font-size: 2em; /* Tamaño de la fuente */
+    margin: 0; /* Eliminar márgenes por defecto */
+}
+
+/* Container */
+.container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* Columna Natacion*/
+.column {
+    background-color: #738dc4;
+    border-radius: 8px;
+    padding: 15px;
+    width: 30%;
+    margin: 10px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.column:hover {
+    transform: scale(1.02);
+}
+
+.column p {
+    margin-top: 80px; /* Ajusta esto para aumentar o disminuir el margen superior */
+    margin-bottom: 10px; /* Ajusta esto para aumentar o disminuir el margen inferior */
+    text-align: center;
+}
+
+/* Columna Karate*/
+.column-2 {
+    background-color:  #738dc4;
+    border-radius: 8px;
+    padding: 15px;
+    width: 30%;
+    margin: 10px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.column-2:hover {
+    transform: scale(1.02);
+}
+
+.column-2 p {
+    margin-top: 80px; /* Ajusta esto para aumentar o disminuir el margen superior */
+    margin-bottom: 10px; /* Ajusta esto para aumentar o disminuir el margen inferior */
+    text-align: center;
+}
+
+/* Columna Danza*/
+.column-3 {
+    background-color: #738dc4;
+    border-radius: 8px;
+    padding: 15px;
+    width: 30%;
+    margin: 10px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.column-3:hover {
+    transform: scale(1.02);
+}
+
+.column-3 p {
+    margin-top: 80px; /* Ajusta esto para aumentar o disminuir el margen superior */
+    margin-bottom: 10px; /* Ajusta esto para aumentar o disminuir el margen inferior */
+    text-align: center;
+}
+
+/* Imagen Container */
+.image-container-1  {
+    width: 300px; /* Ajusta este valor según el tamaño que desees */
+    height: auto; /* Mantiene la proporción de la imagen */
+    padding-left: 10px;
+}
+
+.image-container-2  {
+    width: 300px; /* Ajusta este valor según el tamaño que desees */
+    height: auto; /* Mantiene la proporción de la imagen */
+    padding-left: 30px;
+}
+
+.image-container-3  {
+    width: 300px; /* Ajusta este valor según el tamaño que desees */
+    height: auto; /* Mantiene la proporción de la imagen */
+    padding-left: 25px;
+}
+
+.carrusel {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Aumenta la altura del carrusel */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.carrusel img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 8px;
+    z-index: 0;
+    object-fit: cover; /* Asegura que la imagen llene el espacio correctamente */
+}
+
+.btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1; /* Asegúrate de que los botones estén por encima de la imagen */
+}
+
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+#prevBtnNatacion {
+    left: 10px; /* Ajusta el espacio a la izquierda */
+}
+
+#nextBtnNatacion {
+    right: 10px; /* Ajusta el espacio a la derecha */
+}
+
+#prevBtnKarate {
+    left: 10px; /* Ajusta el espacio a la izquierda */
+}
+
+#nextBtnKarate {
+    right: 10px; /* Ajusta el espacio a la derecha */
+}
+
+#prevBtnDanza {
+    left: 10px; /* Ajusta el espacio a la izquierda */
+}
+
+#nextBtnDanza {
+    right: 10px; /* Ajusta el espacio a la derecha */
+}
+
+/*--------footer---------*/
+
+footer {
+    color: #fff;
+    padding: 20px 0;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.footer-columnas, .footer-socials {
+    flex: 1;
+    min-width: 200px;
+    margin: 15px 0;
+}
+
+.footer-logo img {
+    max-width: 350px; /* Ajusta el tamaño del logo */
+}
+
+.footer-info, .footer-links, .footer-socials {
+    margin: 0 20px;
+    flex: 1; /* Permite que cada columna tenga el mismo ancho */
+}
+
+.footer-info h4,
+.footer-links h4,
+.footer-socials h4 {
+    margin-bottom: 10px;
+    font-weight: 200;
+}
+
+.footer-links ul,
+.footer-socials ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-links a,
+.footer-socials a {
+    color: #71bfbc;
+    text-decoration: none;
+}
+
+.footer-links a:hover,
+.footer-socials a:hover {
+    text-decoration: underline;
+}
+
+
+
+/*  Pie de Pagina - 2 */
+footer {
+    text-align: center;
+    padding: 2px 0;
+    background-color: #053aaa;
+    color: #71bfbc;
+    font-size: 20px;
+    font-weight: 200;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    
+}
+
+.footer-container {
+    background-color: #053aaa; /* Color verde del fondo */
+    padding: 1px 20px 30px; /* Espaciado dentro del cuadro */
+    text-align: center; /* Centrar el texto */
+    position: relative; /* Asegura que el footer se posicione correctamente */
+}
+
+#footer-texto {
+    position: relative; /* Asegura que no salga del contenedor */
+    bottom: 0; /* Lo mantiene dentro */
+    width: 100%;
+    font-size: 15px;
+    color: #a0f4ff; /* Color del texto */
+}
+
+#hola{
+    color:#f3ecec;
+    text-decoration: none;
+}
+
+.footer-info h4{
+    color: #71bfbc;
+}
+.footer-socials h4{
+    color: #71bfbc;
+}
+
+#footer-texto p{
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/*iconos redes*/
+.footer-socials {
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos */
+    text-align: center; /* Asegura que el texto y los íconos estén alineados */
+}
+
+.footer-socials h4 {
+    margin-bottom: 10px; /* Espaciado entre el texto y los íconos */
+}
+
+.footer-socials ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    gap: 15px;
+    margin: 0;
+}
+
+.footer-socials ul li {
+    display: inline-block;
+}
+
+.social-icon {
+    width: 40px; /* Ajusta el tamaño de los íconos */
+    height: auto;
+}
+
+/* Añade estas media queries al final de tu archivo CSS */
+
+/* Media Queries para Responsividad */
+@media (max-width: 1200px) {
+    .column, .column-2, .column-3 {
+        width: 28%; /* Reducimos un poco el ancho para pantallas medianas */
+    }
+    
+    .image-container-1, 
+    .image-container-2, 
+    .image-container-3 {
+        width: 250px;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        padding-top: 100px;
+    }
+    
+    .logo img {
+        width: 250px;
+        top: 50px;
+    }
+    
+    .column, .column-2, .column-3 {
+        width: 45%; /* Dos columnas en tablet */
+        margin: 15px auto; /* Centramos las columnas */
+    }
+    
+    .header {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    .header-title {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding-top: 80px;
+    }
+    
+    .logo img {
+        width: 200px;
+        top: 40px;
+    }
+    
+    .menu ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .menu li {
+        padding: 10px 0;
+        border-right: none;
+        border-bottom: 1px solid #000000;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .menu li .sub-menu_conocenos {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+    }
+    
+    .btn-iniciar-sesion {
+        position: static;
+        margin: 10px auto;
+        display: block;
+        width: fit-content;
+    }
+    
+    .column, .column-2, .column-3 {
+        width: 80%; /* Una columna en móviles */
+    }
+    
+    .image-container-1, 
+    .image-container-2, 
+    .image-container-3 {
+        width: 200px;
+        padding-left: 0;
+        margin: 0 auto;
+    }
+    
+    .carrusel {
+        height: 200px;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer-logo, 
+    .footer-info, 
+    .footer-socials {
+        margin: 15px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo img {
+        width: 180px;
+    }
+    
+    .header-title {
+        font-size: 1.5em;
+    }
+    
+    .column, .column-2, .column-3 {
+        width: 90%;
+    }
+    
+    .image-container-1, 
+    .image-container-2, 
+    .image-container-3 {
+        width: 350px;
+    }
+    
+    .carrusel {
+        height: 180px;
+    }
+    
+    .column p, 
+    .column-2 p, 
+    .column-3 p {
+        margin-top: 40px;
+        font-size: 14px;
+    }
+    
+    .footer-logo img {
+        max-width: 250px;
+    }
+}
+
+/* Ajustes para los botones del carrusel en móviles */
+@media (max-width: 480px) {
+    .btn {
+        font-size: 18px;
+        padding: 5px;
+    }
+    
+    #prevBtnNatacion, 
+    #prevBtnKarate, 
+    #prevBtnDanza {
+        left: 5px;
+    }
+    
+    #nextBtnNatacion, 
+    #nextBtnKarate, 
+    #nextBtnDanza {
+        right: 5px;
+    }
+}
+
+.footer-columnas {
+    text-align: center;
+}
+
+.footer-columnas ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-columnas li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.footer-columnas a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-columnas a:hover {
+    color: #d7da12;
+    text-decoration: underline;
+}
+/*---------------------------------------------*/
+
+/* Botón de WhatsApp flotante */
+.whatsapp-btn {
+    position: fixed;
+    bottom: 80px; /* Colocado arriba de la flecha */
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 9998; /* Un nivel menos que la flecha */
+    transition: transform 0.3s;
+}
+
+.whatsapp-btn:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-btn img {
+    width: 30px;
+    height: 30px;
+}

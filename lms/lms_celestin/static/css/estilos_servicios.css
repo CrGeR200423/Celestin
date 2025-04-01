@@ -1,0 +1,113 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color:  #1fa08a;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  background-color: #f5f5f5; /* Color de fondo claro */
+  padding: 20px;
+
+ 
+}
+
+.header h1 {
+  font-size: 30px; /* Ajusta el tamaño según sea necesario */
+  font-weight: bold;
+  margin: 0;
+  
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 700px;
+
+}
+
+.header p {
+  font-size: 14px; /* Ajusta el tamaño según sea necesario */
+}
+
+
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.column {
+  background-color: #3c8fd6;
+  border-radius: 8px;
+  padding: 15px;
+  width: 30%;
+  margin: 10px 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.column:hover {
+  transform: scale(1.02);
+}
+
+.image-container {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carrusel {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.carrusel img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 8px;
+}
+
+.btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.btn:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+#prevBtnNatacion {
+  left: 10px;
+}
+#nextBtnNatacion {
+  right: 10px;
+}
+#prevBtnKarate {
+  left: 10px;
+}
+#nextBtnKarate {
+  right: 10px;
+}
+#prevBtnDanza {
+  left: 10px;
+}
+#nextBtnDanza {
+  right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .column {
+      width: 100%;
+  }
+}

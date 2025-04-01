@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios</title>
+    <link rel="stylesheet" href="{% static 'css/estilos_actividades.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo" />
+        </div>
+    </header>
+
+    <header>
+        <div class="menu">
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+
+                <!-- submenu -->
+                <li>
+                    <a href="{% url 'conocenos' %}">Conocenos</a>
+                    <ul class="sub-menu_conocenos">
+                        <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
+                        <li><a href="Historia.html">Historia</a></li>
+                        <li><a href="Himno.html">Himno</a></li>
+                        </ul>
+                </li>
+            
+                <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li>
+            </ul>
+
+                    <!-- Botón de inicio de sesión alineado a la derecha -->
+        <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
+        </div>
+    </header>
+
+    
+
+        </div>
+
+    <!-- header-contenido -->
+    <header class="header">
+        <h1 class="header-title">ACTIVIDADES DEPORTIVAS</h1>
+    </header>
+
+
+<div class="container">
+    <div class="column">
+        <div class="image-container-1">
+            <img src="{% static 'images/iconatacion_web.png' %}" alt="Descripción Natación">
+        </div>
+        <div class="carrusel" id="carruselNatacion"
+            data-images='[
+                "{% static "images/natacion_3.jpg" %}",
+                "{% static "images/natacion_4.jpg" %}",
+                "{% static "images/natacion_5.jpg" %}"
+            ]'>
+            <button class="btn prevBtn">❮</button>
+            <img id="imageNatacion" src="{% static 'images/natacion_3.jpg' %}" alt="Imagen Carrusel">
+            <button class="btn nextBtn">❯</button>
+        </div>
+        <p>La natación es un deporte acuático que consiste en desplazarse en un ámbito acuático a partir de técnicas específicas.</p>
+    </div>
+
+    <div class="column-2">
+        <div class="image-container-2">
+            <img src="{% static 'images/ico_karate_web.png' %}" alt="Descripción Karate">
+        </div>
+        <div class="carrusel" id="carruselKarate"
+            data-images='[
+                "{% static "images/foto_karate_.jpg" %}",
+                "{% static "images/foto_karate_1.jpg" %}",
+                "{% static "images/foto_karate_2.jpg" %}"
+            ]'>
+            <button class="btn prevBtn">❮</button>
+            <img id="imageKarate" src="{% static 'images/foto_karate_.jpg' %}" alt="Imagen Carrusel">
+            <button class="btn nextBtn">❯</button>
+        </div>
+        <p>El karate es un arte marcial que se centra en la defensa personal, el control y la disciplina.</p>
+    </div>
+
+    <div class="column-3">
+        <div class="image-container-3">
+            <img src="{% static 'images/icon_dancing_1.png' %}" alt="Descripción Danza">
+        </div>
+        <div class="carrusel" id="carruselDanza"
+            data-images='[
+                "{% static "images/danza_3.jpg" %}",
+                "{% static "images/danza_4.jpg" %}",
+                "{% static "images/danza_5.jpg" %}"
+            ]'>
+            <button class="btn prevBtn">❮</button>
+            <img id="imageDanza" src="{% static 'images/danza_3.jpg' %}" alt="Imagen Carrusel">
+            <button class="btn nextBtn">❯</button>
+        </div>
+        <p>La danza es un arte donde se utiliza el movimiento del cuerpo como una forma de expresión y de interacción social.</p>
+    </div>
+</div>
+
+    <!-- pie de pagina-->
+<div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+            </div>
+
+            
+            <div class="footer-columnas">
+                <h3>Enlaces de interés</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="{% url 'conocenos' %}">Conócenos</a></li>
+                    <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                    <li><a href="{% url 'contactenos' %}">Contáctanos</a></li>
+                    <li><a href="{% url 'prematricula' %}">Pre-Matrícula</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-socials">
+                <h4>Redes Sociales</h4>
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/share/1A4P41xaiC/" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" class="social-icon">
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Botón de WhatsApp flotante -->
+                        <a href="https://chat.whatsapp.com/Ipv3sq6KCZkDF5ymdWSDEo" target="_blank" class="whatsapp-btn">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/colegio_celestinfreinet?igsh=ODZ1enljbXhicmVn" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="social-icon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="footer-columnas">
+                <h3>Contactanos</h3>
+                <p>rectoria@cfn.edu.co</p> <br>
+                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8"target="_blank" id = "hola">Cl 22a #11447<br> Sogamoso, Boyacá</a>
+            </div>
+        </div>
+    </footer>
+    
+        <footer id="footer-texto">
+            <div>
+                <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
+            </div>
+        </footer>
+
+    <script src="{% static 'js/script_actividades' %}"></script>
+</body>
+</html>

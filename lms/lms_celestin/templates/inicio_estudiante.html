@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Estudiante | Celestin Freinet</title>
+    <link rel="stylesheet" href="{% static 'css/inicio_estudiante.css' %}">
+</head>
+<body>
+    
+        <!-- Encabezado -->
+        <header class="header">
+            <h1>Celestin Freinet - Estudiante</h1>
+            <button class="logout-btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+        </header>
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Menú lateral -->
+        <aside class="sidebar">
+            <ul>
+                <li onclick="mostrarSeccion('miPerfil')">Mi Perfil</li>
+                <li onclick="mostrarSeccion('asignaturas')">Ver Asignaturas</li>
+                <li onclick="mostrarSeccion('calificaciones')">Ver Calificaciones</li>
+                <li onclick="mostrarSeccion('observador')">Ver Observador</li>
+                <div class="logo">
+                    <img src="{% static 'images/logoactualizado.png' %}" alt="Logo" />
+                </div>
+            </ul>
+        </aside>
+
+        <!-- Contenido dinámico -->
+        <main class="content">
+            <section id="miPerfil" class="section">
+                <h2>Mi Perfil</h2>
+                <div class="profile-container">
+                    <label>Nombre del Estudiante:</label>
+                    <input type="text" id="perfilNombre" readonly>
+            
+                    <label>No. Documento:</label>
+                    <input type="text" id="perfilDocumento" readonly>
+            
+                    <label>Grado:</label>
+                    <input type="text" id="perfilGrado" readonly>
+            
+                    <label>Fecha de Nacimiento:</label>
+                    <input type="text" id="perfilFechaNacimiento" readonly>
+                </div>
+            </section>
+            <section id="asignaturas" class="section active">
+                <h2>Asignaturas</h2>
+                    <table class="subjects-table">
+                        <thead>
+                            <tr>
+                                <th>Asignatura</th>
+                                <th>Docente</th>
+                                <th>Horario</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectsBody">
+                            <!-- Se llenará con JavaScript -->
+                        </tbody>
+                    </table>
+                </section>                
+            </section>
+
+            <section id="calificaciones" class="section">
+                <h2>Calificaciones</h2>
+                <p>Aquí puedes consultar tus calificaciones.</p>
+                    <table class="grades-table">
+                        <thead>
+                            <tr>
+                                <th>Asignatura</th>
+                                <th>Nota</th>
+                                <th>Observaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradesBody">
+                            <!-- Se llenará con JavaScript -->
+                        </tbody>
+                    </table>
+                </section>
+                
+            </section>
+
+            <section id="observador" class="section">
+                <h2>Observador del Estudiante</h2>
+                <p>Aquí puedes ver las observaciones registradas sobre tu desempeño.</p>
+                        <table class="observer-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Desempeño Académico</th>
+                                    <th>Desempeño Comportamental</th>
+                                    <th>Estrategias de Seguimiento</th>
+                                    <th>Firma Estudiante/Acudiente</th>
+                                    <th>Firma Profesor</th>
+                                </tr>
+                            </thead>
+                        <tbody id="observerBody"></tbody>
+                    </table>
+            </section>
+        </main>
+    </div>
+    <script src="{% static 'js/inicio_estudiante.js' %}"></script>
+</body>
+</html>

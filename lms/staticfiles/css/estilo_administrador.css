@@ -1,0 +1,747 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+/* Encabezado */
+.header {
+    background: #0c3897;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Botón de cerrar sesión */
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
+/* Botón de menú móvil */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    flex: 1;
+}
+
+/* Sidebar/Menú lateral */
+.sidebar {
+    width: 250px;
+    background-color: #053aaa;
+    color: white;
+    padding: 20px;
+    position:fixed;
+    top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #0055a5;
+}
+
+/* Contenido principal */
+.content {
+    flex: 1;
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    margin-left: 0px;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #0055a5;
+    color: white;
+    position: sticky;
+    top: 60px;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Formularios */
+input, select {
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+
+/* Estilo para el botón de agregar usuario */
+.btn-agregar-usuario {
+    background-color: #0c3897;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-agregar-usuario:hover {
+    background-color: #0055a5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-agregar-usuario .icono {
+    font-size: 18px;
+}
+
+/* Estilos para los formularios */
+.formulario-rol {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    margin-top: 20px;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-rol label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.formulario-rol input[type="text"],
+.formulario-rol input[type="date"],
+.formulario-rol input[type="email"],
+.formulario-rol input[type="tel"],
+.formulario-rol select,
+.formulario-rol textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.formulario-rol textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+
+.formulario-rol .section {
+    margin-bottom: 30px;
+}
+
+/* Estilo para campos numéricos (oculta las flechas en todos los navegadores) */
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Estándar */
+}
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Mensajes de error más visibles */
+.mensaje-error {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    display: none;
+    font-weight: bold;
+}
+
+/* Estilo para campos obligatorios */
+.requerido::after {
+    content: " *";
+    color: #e74c3c;
+}
+
+/* -----Botón habilitar/ inhabilitar */
+.habilitar, .inhabilitar {
+    transition: all 0.3s ease;
+}
+
+.habilitar.activo {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.habilitar:not(.activo) {
+    background-color: #95a5a6;
+    color: white;
+    opacity: 0.7;
+}
+
+.inhabilitar.activo {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.inhabilitar:not(.activo) {
+    background-color: #95a5a6;
+    color: white;
+    opacity: 0.7;
+}
+
+/* Secciones */
+section {
+    display: none;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+section.active {
+    display: block;
+}
+
+
+/* Media Queries para Responsividad */
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 220px;
+    }
+    
+    .content {
+        margin-left: 220px;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display:block;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 225px;
+        left: 0;
+        transform: translateX(-100%);
+        z-index: 100;
+        height: calc(100vh - 60px);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .content {
+        margin-left: 0;
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header {
+        flex-direction: column;
+        padding: 15px;
+        margin-right: -90px;
+    }
+    
+    .logout-btn {
+        margin-top: 0px;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    th, td {
+        padding: 8px;
+    }
+    
+    .button {
+        padding: 8px 12px;
+        margin-bottom: 5px;
+    }
+}
+
+
+/* Estilos para centrar la imagen del logo */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 140px;
+}
+
+.logo img {
+    width: 150px; /* Ajusta el tamaño según lo necesites */
+    height: auto;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/*---------- Estilos para la sección de cursos ---------*/
+.section-cursos {
+    padding: 20px;
+}
+
+.cursos-container, .estudiantes-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.tabla-cursos, .tabla-estudiantes, .tabla-docentes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.tabla-cursos th, .tabla-cursos td,
+.tabla-estudiantes th, .tabla-estudiantes td,
+.tabla-docentes th, .tabla-docentes td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.tabla-cursos th, .tabla-estudiantes th, .tabla-docentes th {
+    background-color: #0055a5;
+    color: white;
+}
+
+.btn-asignar {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-asignar:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-contenido {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.cerrar-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover {
+    color: black;
+}
+
+.busqueda-docente {
+    margin: 15px 0;
+}
+
+.busqueda-docente input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn-confirmar {
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-confirmar:hover {
+    background-color: #27ae60;
+}
+
+.btn-subir{
+    background-color: #2ecc71;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-contenido {
+        width: 95%;
+        margin: 10% auto;
+    }
+}
+
+
+/* -----------Estilo para la seccion de Novedades---------------*/
+
+/* Estilos para la sección de actividades */
+.actividad-contenido {
+    min-height: 150px;
+    margin-bottom: 15px;
+}
+
+.actividad-item {
+    margin-bottom: 15px;
+}
+
+.actividad-item h4 {
+    color: #0c3897;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.actividad-item p {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.fecha-actividad {
+    color: #777;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+/* Actualiza estos estilos en tu archivo CSS */
+.banner-container {
+    width: 100%;
+    max-width: 400px; /* Tamaño máximo reducido */
+    height: 250px; /* Altura fija más pequeña */
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+    border: 1px solid #ddd;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    padding: 10px; /* Espacio interno */
+}
+
+/* Navegación de actividades */
+.navegacion-actividades {
+    display: flex;
+    gap: 6px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.numero-actividad {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    color: #0c3897;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.numero-actividad:hover {
+    color: white;
+    background: #0c3897;
+    transform: scale(1.1);
+}
+
+.numero-actividad.activo {
+    color: white;
+    background: #0c3897;
+    font-weight: bold;
+}
+
+.numero-actividad.mas-actividades {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.numero-actividad.mas-actividades:hover {
+    background: #0c3897;
+    color: white;
+}
+
+/* Contenedor de imagen */
+.banner-actividades {
+    width: 100%;
+    max-width: 400px;
+    height: 250px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.banner-actividades img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .banner-actividades {
+        height: 200px;
+    }
+    
+    .numero-actividad {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-actividades {
+        height: 180px;
+    }
+    
+    .numero-actividad {
+        width: 26px;
+        height: 26px;
+        font-size: 12px;
+    }
+}
+
+
+/* Para el preview en el formulario */
+.preview-container {
+    width: 300px;
+    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+}
+
+.preview-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.texto-ayuda {
+    font-size: 0.8em;
+    color: #666;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Mensajes de alerta */
+.alert-mensaje {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 300px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.alert-mensaje.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.alert-mensaje.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-mensaje.exito {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .info-con-banner {
+        flex-direction: column;
+    }
+    
+    .banner-container {
+        height: 200px;
+        margin-top: 15px;
+    }
+    
+    .actividad-item h4 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-container {
+        height: 180px;
+    }
+    
+    .numero-actividad {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .alert-mensaje {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+
+
