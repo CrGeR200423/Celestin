@@ -301,6 +301,50 @@ body {
 #nextBtnDanza {
     right: 10px; /* Ajusta el espacio a la derecha */
 }
+/* Estilos para los carruseles */
+.carrusel {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carrusel img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.carrusel .btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    z-index: 10;
+}
+
+.carrusel .btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carrusel .prevBtn {
+    left: 10px;
+}
+
+.carrusel .nextBtn {
+    right: 10px;
+}
 
 /*--------footer---------*/
 
