@@ -1,29 +1,38 @@
-// Versión modificada para funcionar con Django
 document.addEventListener('DOMContentLoaded', function() {
     // Configuración centralizada de los carruseles
     const carrusels = {
         natacion: {
-            element: document.getElementById('carruselNatacion'),
+            id: 'carruselNatacion',
             currentIndex: 0,
             interval: null
         },
         karate: {
-            element: document.getElementById('carruselKarate'),
+            id: 'carruselKarate',
             currentIndex: 0,
             interval: null
         },
         danza: {
-            element: document.getElementById('carruselDanza'),
+            id: 'carruselDanza',
             currentIndex: 0,
             interval: null
         }
     };
 
-    // Obtener las imágenes del atributo data-images de cada carrusel
+    // Inicializar propiedades de los carruseles
     for (const key in carrusels) {
-        if (carrusels[key].element) {
-            carrusels[key].images = JSON.parse(carrusels[key].element.getAttribute('data-images'));
-            carrusels[key].imgElement = carrusels[key].element.querySelector('img');
+        const carrusel = carrusels[key];
+        carrusel.element = document.getElementById(carrusel.id);
+        
+        if (carrusel.element) {
+            try {
+                carrusel.images = JSON.parse(carrusel.element.getAttribute('data-images'));
+                carrusel.imgElement = carrusel.element.querySelector('img');
+                carrusel.prevBtn = carrusel.element.querySelector('.prevBtn');
+                carrusel.nextBtn = carrusel.element.querySelector('.nextBtn');
+            } catch (e) {
+                console.error(`Error al inicializar carrusel ${key}:`, e);
+                continue;
+            }
         }
     }
 
@@ -49,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para iniciar el intervalo automático
     function startAutoRotation(carrusel) {
+        if (!carrusel) return;
+        
         // Limpiar intervalo existente si hay uno
         if (carrusel.interval) clearInterval(carrusel.interval);
         
@@ -58,23 +69,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Función para pausar el auto-rotado al interactuar
+    // Función para configurar interacciones
     function setupCarruselInteractions(carrusel) {
-        if (!carrusel.element) return;
-
-        const prevBtn = carrusel.element.querySelector('.prevBtn');
-        const nextBtn = carrusel.element.querySelector('.nextBtn');
+        if (!carrusel || !carrusel.element) return;
 
         // Event listeners para botones
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
+        if (carrusel.prevBtn) {
+            carrusel.prevBtn.addEventListener('click', () => {
                 changeImage(carrusel, 'prev');
                 resetAutoRotation(carrusel);
             });
         }
         
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
+        if (carrusel.nextBtn) {
+            carrusel.nextBtn.addEventListener('click', () => {
                 changeImage(carrusel);
                 resetAutoRotation(carrusel);
             });
@@ -94,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para reiniciar el auto-rotado
     function resetAutoRotation(carrusel) {
+        if (!carrusel) return;
         if (carrusel.interval) clearInterval(carrusel.interval);
         startAutoRotation(carrusel);
     }
@@ -103,11 +112,15 @@ document.addEventListener('DOMContentLoaded', function() {
         for (const key in carrusels) {
             const carrusel = carrusels[key];
             
-            if (!carrusel.element || !carrusel.imgElement || !carrusel.images) continue;
+            if (!carrusel.element || !carrusel.imgElement || !carrusel.images) {
+                console.warn(`Carrusel ${key} no se pudo inicializar correctamente`);
+                continue;
+            }
             
             // Mostrar primera imagen
             carrusel.imgElement.src = carrusel.images[0];
             carrusel.imgElement.style.transition = 'opacity 0.3s ease';
+            carrusel.imgElement.style.opacity = 1;
             
             // Configurar interacciones
             setupCarruselInteractions(carrusel);
@@ -121,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function adjustCarouselHeight() {
         const carruseles = document.querySelectorAll('.carrusel');
         const height = window.innerWidth <= 768 ? '180px' : 
-                    window.innerWidth <= 992 ? '220px' : '250px';
+                      window.innerWidth <= 992 ? '220px' : '250px';
         
         carruseles.forEach(carrusel => {
             carrusel.style.height = height;
