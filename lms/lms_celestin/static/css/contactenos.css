@@ -32,96 +32,111 @@ body {
     padding: 20px;
 }
 
-.menu {
-    display: flex;
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    background-color:   #dad9d9;
+/* Contenedor principal */
+.menu-container {
+    background-color: #dad9d9;
     padding: 12px;
+    display: flex;
+    justify-content: center;
+    position: relative; 
 }
 
-.menu ul {
+/* Menú principal */
+.main-menu {
+    display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center; /* Centrar horizontalmente los elementos dentro del ul */
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
 }
 
-.menu li {
-    padding: 0 20px; /* Espaciado horizontal entre elementos */
-    border-right: 1px solid #000000; /* Línea divisoria entre elementos */
+.main-menu > li {
+    padding: 0 20px;
+    border-right: 1px solid #000;
+    position: relative;
 }
 
-.menu li:last-child {
-    border-right: none; /* Sin línea divisoria en el último elemento */
+.main-menu > li:last-child {
+    border-right: none;
+    margin-left: 0; /* Empuja el botón de login a la derecha */
 }
 
-.menu li a {
+.main-menu a {
     text-decoration: none;
     color: rgb(4, 75, 72);
     font-size: 18px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
     font-weight: 700;
-    display: block;
     font-family: Arial, sans-serif;
+    white-space: nowrap;
 }
 
-.menu li a:hover {
+.main-menu a:hover {
     text-decoration: underline;
 }
 
-/* Estilo del submenú desplegable - BOTON "CONOCENOS" */
-.menu li {
-    position: relative; /* Necesario para el submenú */
-}
-
-.menu li .sub-menu_conocenos {
-    display: none; /* Ocultar el submenú por defecto */
+/* Estilos del submenú */
+.submenu {
+    display: none;
+    list-style-type: none;
     position: absolute;
     left: 0;
     top: 100%;
-    background-color: hsla(0, 0%, 100%, 0.651);
-    box-shadow: 0 4px 6px rgb(0, 0, 0);
-    border-radius: 5px;
+    background-color: #dad9d989;
+    padding: 10px 0;
     min-width: 200px;
     z-index: 1000;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.menu li .sub-menu_conocenos li {
+.has-submenu.active .submenu {
     display: block;
-    padding: 10px;
-    border-bottom: 1px solid #52505086;
 }
 
-.menu li .sub-menu_conocenos li:last-child {
+.has-submenu.active .arrow {
+    transform: rotate(180deg);
+}
+
+.submenu li {
+    padding: 8px 15px;
+    list-style: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.submenu li:last-child {
     border-bottom: none;
 }
 
-.menu li .sub-menu_conocenos li a {
+.submenu a {
     color: rgb(4, 75, 72);
-    text-decoration: none;
-    display: block;
     font-size: 16px;
 }
 
-.menu li .sub-menu_conocenos li a:hover {
-    background-color: #053aaa;
-    color: white;
+
+
+/* Botón de inicio de sesión */
+.login-btn a {
+    background-color: #4CAF50;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 4px;
 }
 
-/* Mostrar submenú al pasar el cursor */
-.menu li:hover > .sub-menu_conocenos {
-    display: block;
+.login-btn a:hover {
+    background-color: #45a049;
+    text-decoration: none !important;
 }
-
 
 /* Botón de inicio de sesión */
 .btn-iniciar-sesion {
     background-color: #053aaa;
     color: white;
     padding: 10px 15px;
+    top: 3px; /* Ajusta este valor según necesites */
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
@@ -131,7 +146,7 @@ body {
 }
 
 .btn-iniciar-sesion:hover {
-    background-color: #021f5a;
+    background-color: #083081;
 }
 
 .container {
@@ -185,9 +200,7 @@ body {
 .formulario button:hover {
     background: #2a5298;
 }
-.footer-info a{
-    color: aliceblue;
-}
+
 .mapa-contenedor {
 background: rgba(57, 55, 55, 0.829); /* Fondo negro */
 padding: 4px; /* Espaciado interno */
@@ -199,7 +212,7 @@ display: inline-block; /* Ajusta al tamaño del contenido */
     display: block;
 }
 
-/*pie de pagina*/
+  /* Pie de Pagina -1 */
 footer {
     color: #fff;
     padding: 20px 0;
@@ -222,17 +235,15 @@ footer {
 }
 
 .footer-logo img {
-    max-width: 350px; /* Ajusta el tamaño del logo */
+    max-width:130px; /* Ajusta el tamaño del logo */
+    position: relative;
+    margin-top: 90px;
+
 }
 
 .footer-info, .footer-links, .footer-socials {
     margin: 0 20px;
     flex: 1; /* Permite que cada columna tenga el mismo ancho */
-}
-
-#hola{
-    color:#f3ecec;
-    text-decoration: none;
 }
 
 .footer-info h4,
@@ -250,7 +261,7 @@ footer {
 
 .footer-links a,
 .footer-socials a {
-    color: #fff;
+    color: #71bfbc;
     text-decoration: none;
 }
 
@@ -277,7 +288,7 @@ footer {
 }
 
 .footer-container {
-    background-color: #053aaa; /* Color verde del fondo */
+    background-color: #053aaa; /* Color azul del fondo */
     padding: 1px 20px 30px; /* Espaciado dentro del cuadro */
     text-align: center; /* Centrar el texto */
     position: relative; /* Asegura que el footer se posicione correctamente */
@@ -291,9 +302,17 @@ footer {
     color: #a0f4ff; /* Color del texto */
 }
 
+.footer-info h4{
+    color: #71bfbc;
+}
+.footer-socials h4{
+    color: #71bfbc;
+}
+
 #footer-texto p{
     margin-top: 0;
     padding-top: 0;
+    background-color: #053aaa;
 }
 
 /*iconos redes*/
@@ -302,6 +321,7 @@ footer {
     flex-direction: column; /* Apila los elementos verticalmente */
     align-items: center; /* Centra los elementos */
     text-align: center; /* Asegura que el texto y los íconos estén alineados */
+    margin-top: 18px;
 }
 
 .footer-socials h4 {
@@ -319,6 +339,7 @@ footer {
 
 .footer-socials ul li {
     display: inline-block;
+    margin-top: 60px;
 }
 
 .social-icon {
@@ -331,7 +352,30 @@ footer {
     text-decoration: none;
 }
 
-/* Añade estas media queries al final de tu archivo CSS */
+.footer-columnas {
+    text-align: center;
+}
+
+.footer-columnas ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-columnas li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.footer-columnas a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-columnas a:hover {
+    color: #d7da12;
+    text-decoration: underline;
+}
 
 /* Media Queries para Responsividad */
 @media (max-width: 1200px) {
@@ -472,30 +516,7 @@ footer {
     }
 }
 
-.footer-columnas {
-    text-align: center;
-}
 
-.footer-columnas ul {
-    padding: 0;
-    margin: 0;
-}
-
-.footer-columnas li {
-    list-style: none;
-    margin: 10px 0;
-}
-
-.footer-columnas a {
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-columnas a:hover {
-    color: #d7da12;
-    text-decoration: underline;
-}
 /*---------------------------------------------*/
 
 /* Botón de WhatsApp flotante */

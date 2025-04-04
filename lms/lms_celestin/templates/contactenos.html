@@ -23,9 +23,9 @@
                 <li><a href="{% url 'home' %}">Inicio</a></li>
 
                 <!-- submenu -->
-                <li>
-                    <a href="{% url 'conocenos' %}">Conocenos</a>
-                    <ul class="sub-menu_conocenos">
+                <li class="has-submenu">
+                    <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
+                    <ul class="submenu">
                         <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
                         <li><a href="Historia.html">Historia</a></li>
                         <li><a href="Himno.html">Himno</a></li>
@@ -75,7 +75,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+                <img src="{% static 'images/logoactualizado.png' %}" alt="Logo del Colegio">
             </div>
 
             
