@@ -31,3 +31,8 @@ def estudiante(request):
 def observador(request):
     return render(request, 'observador.html')
 
+def himno(request):
+    return render(request, 'Himno.html')
+
+def historia(request):
+    return render(request, 'Historia.html')

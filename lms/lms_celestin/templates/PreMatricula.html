@@ -1,144 +1,271 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formato de Prematrícula</title>
-    <link rel="stylesheet" href="Prematricula.css">
+    <link rel="icon" href="img/logoactualizado.png" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/Prematricula.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body>
 
-    <!-- Header con logo y texto -->
     <header class="navbar">
         <div class="logo">
-            <img src="./img/logo_colegio_cf.png" alt="Logo Colegio Celestin Freinet">
-        </div>
-
-        <div class="text-container">
-            <h1>Formato de Prematrícula 2025</h1>
-        </div>
-        <div class="btn-volver">
-            <a href="home.html" class="btn-volver">volver al inicio</a>
+            <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo" />
         </div>
     </header>
 
-    <div class="container">
-        <p>Complete los campos del siguiente formulario para proceder con la prematrícula del estudiante.</p>
-        <form action="submit_prematricula.php" method="post">
-            <!-- Aquí sigue el resto del formulario -->
-            <form action="submit_prematricula.php" method="post">
-                <!-- Datos del Estudiante -->
-                <div class="section">
-                    <h2>Datos del Estudiante</h2>
-                    <label for="nombre_estudiante">Nombre Completo del Estudiante:</label>
-                    <input type="text" id="nombre_estudiante" name="nombre_estudiante" required>
-                    
-                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-                    
-                    <label for="edad">Edad:</label>
-                    <input type="text" id="edad" name="edad" required>
-                    
-                    <label for="grado">Grado o Nivel Educativo:</label>
-                    <input type="text" id="grado" name="grado" required>
-                    
-                    <label for="ciclo_escolar">Ciclo Escolar (si aplica):</label>
-                    <input type="text" id="ciclo_escolar" name="ciclo_escolar">
-                </div>
-    
-                <!-- Datos de los Padres o Tutores -->
-                <div class="section">
-                    <h2>Datos de los Padres o Tutores</h2>
-                    <label for="padre_tutor1">Nombre del Padre/Tutor 1:</label>
-                    <input type="text" id="padre_tutor1" name="padre_tutor1" required>
-                    
-                    <label for="telefono1">Teléfono de Contacto:</label>
-                    <input type="tel" id="telefono1" name="telefono1" required>
-                    
-                    <label for="email1">Correo Electrónico:</label>
-                    <input type="email" id="email1" name="email1" required>
-                    
-                    <label for="direccion">Dirección de Domicilio:</label>
-                    <textarea id="direccion" name="direccion" required></textarea>
-                    
-                    <label for="padre_tutor2">Nombre del Padre/Tutor 2 (si aplica):</label>
-                    <input type="text" id="padre_tutor2" name="padre_tutor2">
-                    
-                    <label for="telefono2">Teléfono de Contacto:</label>
-                    <input type="tel" id="telefono2" name="telefono2">
-                    
-                    <label for="email2">Correo Electrónico:</label>
-                    <input type="email" id="email2" name="email2">
-                </div>
-    
-                <!-- Datos de Salud y Necesidades Especiales -->
-                <div class="section">
-                    <h2>Datos de Salud y Necesidades Especiales</h2>
-                    <label for="condicion_medica">¿El estudiante tiene alguna condición médica importante que debamos conocer?</label><br>
-                    <div class="radio-group">
-                        <input type="radio" id="condicion_medica_si" name="condicion_medica" value="Sí">
-                        <label for="condicion_medica_si">Sí</label>
-                        <input type="radio" id="condicion_medica_no" name="condicion_medica" value="No">
-                        <label for="condicion_medica_no">No</label>
-                    </div>
-                    
-                    <label for="detalle_condicion">Si la respuesta es sí, especifique:</label>
-                    <textarea id="detalle_condicion" name="detalle_condicion"></textarea>
-                    
-                    <label for="necesidades_especiales">¿El estudiante tiene alguna discapacidad o necesidad educativa especial?</label><br>
-                    <div class="radio-group">
-                        <input type="radio" id="necesidades_especiales_si" name="necesidades_especiales" value="Sí">
-                        <label for="necesidades_especiales_si">Sí</label>
-                        <input type="radio" id="necesidades_especiales_no" name="necesidades_especiales" value="No">
-                        <label for="necesidades_especiales_no">No</label>
-                    </div>
-                    
-                    <label for="detalle_necesidades">Si la respuesta es sí, especifique:</label>
-                    <textarea id="detalle_necesidades" name="detalle_necesidades"></textarea>
-                </div>
-    
-                <!-- Autorizaciones -->
-                <div class="section">
-                    <h2>Autorizaciones</h2>
-                    <label for="autorizacion_imagen">Autorizo al colegio para utilizar imágenes, videos o grabaciones del estudiante para actividades académicas, publicitarias o en redes sociales, si fuera necesario.</label><br>
-                    <div class="radio-group">
-                        <input type="radio" id="autorizacion_imagen_si" name="autorizacion_imagen" value="Sí">
-                        <label for="autorizacion_imagen_si">Sí</label>
-                        <input type="radio" id="autorizacion_imagen_no" name="autorizacion_imagen" value="No">
-                        <label for="autorizacion_imagen_no">No</label>
-                    </div>
-                    
-                    <label for="autorizacion_emergencia">En caso de emergencia, autorizo al colegio a tomar las medidas necesarias para asegurar la salud y el bienestar del estudiante, incluida la posibilidad de trasladarlo a un centro médico en caso de ser necesario.</label><br>
-                    <div class="radio-group">
-                        <input type="radio" id="autorizacion_emergencia_si" name="autorizacion_emergencia" value="Sí">
-                        <label for="autorizacion_emergencia_si">Sí</label>
-                        <input type="radio" id="autorizacion_emergencia_no" name="autorizacion_emergencia" value="No">
-                        <label for="autorizacion_emergencia_no">No</label>
-                    </div>
-                </div>
-    
-                <!-- Firma -->
-                <div class="section">
-                    <h2>Firma</h2>
-                    <div class="signature">
-                        <label for="firma_padre1">Firma del Padre/Tutor 1:</label>
-                        <input type="text" id="firma_padre1" name="firma_padre1" required>
-                    </div>
-                    <div class="signature">
-                        <label for="firma_padre2">Firma del Padre/Tutor 2:</label>  
-                        <input type="text" id="firma_padre2" name="firma_padre2">
-                    </div>
-                </div>
-    
-                <!-- Fecha de Prematrícula -->
-                <div class="section">
-                    <label for="fecha_prematricula">Fecha de Prematrícula:</label>
-                    <input type="date" id="fecha_prematricula" name="fecha_prematricula" required>
-                </div>
-    
-                <button class="boton-prematricula">Enviar Prematrícula</button>
-            </form>
+    <header>
+        <div class="menu-container">
+            <ul class="main-menu">
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                
+                <li class="has-submenu">
+                    <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
+                        <li><a href="{% url 'historia' %}">Historia</a></li>
+                        <li><a href="{% url 'himno' %}">Himno</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
+            </ul>
+
+                    <!-- Botón de inicio de sesión alineado a la derecha -->
+        <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
         </div>
+    </header>
+
+    <form id="formulario-matricula">
+        <!-- Información del estudiante -->
+        <div class="seccion">
+            <div class="seccion-titulo">INFORMACIÓN DEL ESTUDIANTE</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="primer_apellido">PRIMER APELLIDO *</label>
+                    <input type="text" id="primer_apellido" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="primer_nombre">PRIMER NOMBRE *</label>
+                    <input type="text" id="primer_nombre" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="segundo_apellido">SEGUNDO APELLIDO</label>
+                    <input type="text" id="segundo_apellido" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="segundo_nombre">SEGUNDO NOMBRE</label>
+                    <input type="text" id="segundo_nombre" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tipo_documento">TIPO DE DOCUMENTO *</label>
+                    <select id="tipo_documento" class="form-control" required>
+                        <option value="">Seleccione...</option>
+                        <option value="RC">Registro Civil</option>
+                        <option value="TI">Tarjeta de Identidad</option>
+                        <option value="CC">Cédula de Ciudadanía</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="identificacion">IDENTIFICACIÓN *</label>
+                    <input type="text" id="identificacion" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="municipio_expedicion">MUNICIPIO EXPEDICIÓN</label>
+                    <input type="text" id="municipio_expedicion" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="departamento_expedicion">DEPARTAMENTO EXPEDICIÓN</label>
+                    <input type="text" id="departamento_expedicion" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="grado_ingresa">GRADO AL QUE INGRESA *</label>
+                    <select id="grado_ingresa" class="form-control" required>
+                        <option value="">Seleccione...</option>
+                        <option value="00">Transición</option>
+                        <option value="01">Primero</option>
+                        <option value="02">Segundo</option>
+                        <option value="03">Tercero</option>
+                        <option value="04">Cuarto</option>
+                        <option value="05">Quinto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ESTATUS *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="estatus" value="REPITENTE" required> Repitente</label>
+                        <label><input type="radio" name="estatus" value="NUEVO"> Nuevo</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="direccion">DIRECCIÓN *</label>
+                    <input type="text" id="direccion" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="municipio_residencia">MUNICIPIO *</label>
+                    <input type="text" id="municipio_residencia" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="barrio">BARRIO</label>
+                    <input type="text" id="barrio" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">TELÉFONO *</label>
+                    <input type="tel" id="telefono" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Afiliación al sistema de salud -->
+        <div class="seccion">
+            <div class="seccion-titulo">AFILIACIÓN AL SISTEMA DE SALUD</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eps">EPS</label>
+                    <input type="text" id="eps" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="ips">IPS</label>
+                    <input type="text" id="ips" class="form-control">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Situación socioeconómica -->
+        <div class="seccion">
+            <div class="seccion-titulo">SITUACIÓN SOCIOECONÓMICA</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>SISBEN</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="sisben" value="SI"> Sí</label>
+                        <label><input type="radio" name="sisben" value="NO"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>FAMILIAS EN ACCIÓN</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="familias_accion" value="SI"> Sí</label>
+                        <label><input type="radio" name="familias_accion" value="NO"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>DISCAPACIDAD</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="discapacidad" value="SI"> Sí</label>
+                        <label><input type="radio" name="discapacidad" value="NO"> No</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tipo_discapacidad">EN CASO DE POSER DISCAPACIDAD, INDICAR CUÁL</label>
+                    <input type="text" id="tipo_discapacidad" class="form-control">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Datos familiares -->
+        <div class="seccion">
+            <div class="seccion-titulo">DATOS FAMILIARES</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre_padre">PADRE (NOMBRE Y APELLIDO)</label>
+                    <input type="text" id="nombre_padre" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="telefono_padre">TELÉFONO</label>
+                    <input type="tel" id="telefono_padre" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre_madre">MADRE (NOMBRE Y APELLIDO)</label>
+                    <input type="text" id="nombre_madre" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="telefono_madre">TELÉFONO</label>
+                    <input type="tel" id="telefono_madre" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre_acudiente">ACUDIENTE (NOMBRE Y APELLIDO) *</label>
+                    <input type="text" id="nombre_acudiente" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono_acudiente">TELÉFONO ACUDIENTE *</label>
+                    <input type="tel" id="telefono_acudiente" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contacto_emergencia">EN CASO DE EMERGENCIA LLAMAR A *</label>
+                    <input type="text" id="contacto_emergencia" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono_emergencia">TELÉFONO EMERGENCIA *</label>
+                    <input type="tel" id="telefono_emergencia" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email_acudiente">E-MAIL ACUDIENTE</label>
+                    <input type="email" id="email_acudiente" class="form-control">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Declaración y firma -->
+        <div class="seccion">
+            <p><strong>Con mi firma certifico que los datos suministrados corresponden a la realidad y pueden ser verificados</strong></p>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firma_alumno">FIRMA ALUMNO</label>
+                    <input type="text" id="firma_alumno" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="firma_acudiente">FIRMA ACUDIENTE *</label>
+                    <input type="text" id="firma_acudiente" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn-enviar">ENVIAR MATRÍCULA</button>
+    </form>
 
 
         <!-- pie de pagina-->
@@ -146,18 +273,18 @@
     <footer>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="./img/logo_colegio_cf.png" alt="Logo del Colegio">
+                <img src="{% static 'images/logoactualizado.png' %}" alt="Logo del Colegio">
             </div>
 
             
             <div class="footer-columnas">
                 <h3>Enlaces de interés</h3>
                 <ul>
-                    <li><a href="home.html">Inicio</a></li>
-                    <li><a href="conocenos.html">Conócenos</a></li>
-                    <li><a href="actividades.html">Actividades</a></li>
-                    <li><a href="contactenos.html">Contáctanos</a></li>
-                    <li><a href="PreMatricula.html">Pre-Matrícula</a></li>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="{% url 'conocenos' %}">Conócenos</a></li>
+                    <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                    <li><a href="{% url 'contactenos' %}">Contáctanos</a></li>
+                    <li><a href="{% url 'prematricula' %}">Pre-Matrícula</a></li>
                 </ul>
             </div>
 
@@ -185,9 +312,9 @@
 
 
             <div class="footer-columnas">
-                <h3>Contactanos</h3>
-                <p>rectoria@cfn.edu.co</p> <br>
-                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8"target="_blank" id = "hola">Cl 22a #11447<br> Sogamoso, Boyacá</a>
+                <h3>Contactanos</h3><br>
+                <p>celestinfreinet_2010@hotmail.com</p>
+                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8"target="_blank" id = "hola">Calle 22 a #12 a 32<br> Sogamoso, Boyacá</a>
             </div>
         </div>
     </footer>
@@ -198,6 +325,9 @@
                 </div>
             </footer>
         
+    <script src="{% static 'js/PreMatricula.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/sienna.js' %}"></script>
 
 </body>
 </html>

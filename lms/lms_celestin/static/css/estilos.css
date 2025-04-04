@@ -25,19 +25,9 @@ body {
     width: 300px; 
     height: auto;
     position: absolute; /* Posiciona el logo de forma absoluta respecto al contenedor */
-    /* top: 50%; Desplaza el logo 50% hacia abajo */
     top: 60px;
     left: 50%; /* Desplaza el logo 50% hacia la derecha */
     transform: translate(-50%, -50%); /* Compensa el desplazamiento del logo centrado */
-}
-
-/* Ajuste de la clase container para el Menu */
-.container {
-    display: flex;
-    flex-direction: row; 
-    align-items: center; /* Alinea verticalmente los iconos */
-    justify-content: flex-end; 
-    padding: 20px;
 }
 
 
@@ -90,11 +80,12 @@ body {
 
 /* Estilos del submenú */
 .submenu {
+    list-style-type: none;
     display: none;
     position: absolute;
     left: 0;
     top: 100%;
-    background-color: #0539aaa4;
+    background-color: #dad9d989;
     padding: 10px 0;
     min-width: 200px;
     z-index: 1000;
@@ -112,6 +103,7 @@ body {
 
 .submenu li {
     padding: 8px 15px;
+    list-style: none;
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -120,14 +112,11 @@ body {
 }
 
 .submenu a {
-    color: white !important;
+    color: rgb(4, 75, 72) ;
     font-size: 16px;
 }
 
-.submenu a:hover {
-    background-color: #4b7ae1;
-    text-decoration: none !important;
-}
+
 
 /* Botón de inicio de sesión */
 .login-btn a {
@@ -161,7 +150,9 @@ body {
 }
 
 
-
+.titulo{
+    font-size: 28px;
+}
 
 
 nav ul {
@@ -201,7 +192,7 @@ nav ul li ul.sub-menu li {
 }
 
 nav ul li ul.sub-menu li a {
-  padding: 10px 15px;
+    padding: 10px 15px;
 }
 
 
@@ -300,8 +291,8 @@ nav ul li a:hover::after {
 }
 
 .carousel-slide img {
-    width: 90%;
-    height: 700px;
+    width: 100%;
+    height: 1000px;
     object-fit: fill;
 }
 
@@ -691,6 +682,68 @@ footer {
     background-color: #053aaa;
 }
 
+/*iconos redes*/
+.footer-socials {
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos */
+    text-align: center; /* Asegura que el texto y los íconos estén alineados */
+    margin-top: 18px;
+}
+
+.footer-socials h4 {
+    margin-bottom: 10px; /* Espaciado entre el texto y los íconos */
+}
+
+.footer-socials ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    gap: 15px;
+    margin: 0;
+}
+
+.footer-socials ul li {
+    display: inline-block;
+    margin-top: 60px;
+}
+
+.social-icon {
+    width: 40px; /* Ajusta el tamaño de los íconos */
+    height: auto;
+}
+
+#hola{
+    color:#f3ecec;
+    text-decoration: none;
+}
+
+.footer-columnas {
+    text-align: center;
+}
+
+.footer-columnas ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-columnas li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.footer-columnas a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-columnas a:hover {
+    color: #d7da12;
+    text-decoration: underline;
+}
+
 
 /* Estilos Responsivos */
 @media screen and (max-width: 768px) {
@@ -760,43 +813,8 @@ footer {
     transform: scale(0.9);
 }
 
-/*iconos redes*/
-.footer-socials {
-    display: flex;
-    flex-direction: column; /* Apila los elementos verticalmente */
-    align-items: center; /* Centra los elementos */
-    text-align: center; /* Asegura que el texto y los íconos estén alineados */
-    margin-top: 18px;
-}
 
-.footer-socials h4 {
-    margin-bottom: 10px; /* Espaciado entre el texto y los íconos */
-}
 
-.footer-socials ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    gap: 15px;
-    margin: 0;
-}
-
-.footer-socials ul li {
-    display: inline-block;
-    margin-top: 60px;
-}
-
-.social-icon {
-    width: 40px; /* Ajusta el tamaño de los íconos */
-    height: auto;
-}
-
-#hola{
-    color:#f3ecec;
-    text-decoration: none;
-}
-/* Añade esto al final de tu archivo CSS */
 
 /* Media Queries para Responsividad */
 @media (max-width: 1200px) {
@@ -953,31 +971,6 @@ footer {
     .footer-logo img {
         max-width: 200px;
     }
-}
-
-.footer-columnas {
-    text-align: center;
-}
-
-.footer-columnas ul {
-    padding: 0;
-    margin: 0;
-}
-
-.footer-columnas li {
-    list-style: none;
-    margin: 10px 0;
-}
-
-.footer-columnas a {
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-columnas a:hover {
-    color: #d7da12;
-    text-decoration: underline;
 }
 
 

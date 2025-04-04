@@ -8,6 +8,7 @@
     <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Accesibilidad/custom.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
@@ -27,8 +28,8 @@
                     <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
                     <ul class="submenu">
                         <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
-                        <li><a href="Historia.html">Historia</a></li>
-                        <li><a href="Himno.html">Himno</a></li>
+                        <li><a href="{% url 'historia' %}">Historia</a></li>
+                        <li><a href="{% url 'himno' %}">Himno</a></li>
                     </ul>
                 </li>
                 
@@ -36,7 +37,6 @@
                 <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
                 <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
             </ul>
-
                     <!-- Botón de inicio de sesión alineado a la derecha -->
         <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
         </div>
@@ -50,16 +50,18 @@
             <div class="carousel-slide"><img src="{% static 'images/colegio_fondo.jfif' %}" alt="Imagen 1"></div>
             <div class="carousel-slide"><img src="{% static 'images/danza_1.jpg' %}" alt="Imagen 2"></div>
             <div class="carousel-slide"><img src="{% static 'images/danza_2.jpg' %}" alt="Imagen 3"></div>
-        </div>
+        </div>'
         <!-- Botones de navegación -->
         <button class="prev" onclick="prevSlideBanner()">&#10094;</button>
         <button class="next" onclick="nextSlideBanner()">&#10095;</button>
-    </div>
-    <h1>Bienvenido a la Institución Celestin Freinet</h1>
-    <a href="{% url 'conocenos' %}" class="button">Saber más</a>
+%     </div>
 </header>
 
-
+<section class="titulo">
+    <center>
+    <h1>Bienvenido a la Institución Celestin Freinet</h1>
+</center>
+</section>
 
 <!-- contenido-->
 <section class="seccion-principal">
@@ -125,7 +127,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+                <img src="{% static 'images/logoactualizado.png' %}" alt="Logo del Colegio">
             </div>
 
             
@@ -182,6 +184,8 @@
     <script src="{% static 'js/flecha.js' %}"></script>
     <script src="{% static 'js/contador.js' %}"></script>
     <script src="{% static 'js/AgregarActividades.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/sienna.js' %}"></script>
 </body>
 </html>
 

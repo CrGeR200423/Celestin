@@ -1,69 +1,280 @@
 /* Reset de márgenes para body y html */
 html, body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     width: 100%;
     overflow-x: hidden;
 }
 
-/* Header ajustado */
 .navbar {
-    width: 100%;
-    margin: 0;
-    padding: 20px 0;
-    background-color: #0044cc;
-    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-sizing: border-box;
+    background-color:  #053aaa;
+    padding-top: 120px;
 }
 
-/* Contenedor principal ajustado */
-.container {
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    box-sizing: border-box;
+.logo img {
+    width: 300px;
+    height: 93.5px;
+    position: absolute; /* Posiciona el logo de forma absoluta respecto al contenedor */
+    top: 60px;
+    left: 50%; /* Desplaza el logo 50% hacia la derecha */
+    transform: translate(-50%, -50%); /* Compensa el desplazamiento del logo centrado */
 }
 
-
-
-h1, h2 {
-    text-align: center;
+/* Contenedor principal */
+.menu-container {
+    background-color: #dad9d9;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    position: relative; 
 }
 
-.section {
-    margin-bottom: 20px;
+/* Menú principal */
+.main-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
 }
 
-label {
-    font-weight: bold;
+.main-menu > li {
+    padding: 0 20px;
+    border-right: 1px solid #000;
+    position: relative;
 }
 
-input[type="text"], input[type="date"], input[type="email"], input[type="tel"], select, textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+.main-menu > li:last-child {
+    border-right: none;
+    margin-left: 0; /* Empuja el botón de login a la derecha */
 }
 
-.radio-group input {
-    margin-right: 10px;
+.main-menu a {
+    text-decoration: none;
+    color: rgb(4, 75, 72);
+    font-size: 18px;
+    font-weight: 700;
+    font-family: Arial, sans-serif;
+    white-space: nowrap;
 }
 
-.signature {
-    width: 100%;
+.main-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos del submenú */
+.submenu {
+    display: none;
+    list-style-type: none; 
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: #dad9d989;
+    padding: 10px 0;
+    min-width: 200px;
+    z-index: 1000;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.has-submenu.active .submenu {
     display: block;
-    margin-top: 30px;
 }
+
+.has-submenu.active .arrow {
+    transform: rotate(180deg);
+}
+
+.submenu li {
+    padding: 8px 15px;
+    list-style: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.submenu li:last-child {
+    border-bottom: none;
+}
+
+.submenu a {
+    color: rgb(4, 75, 72);
+    font-size: 16px;
+}
+
+
+/* Botón de inicio de sesión */
+.login-btn a {
+    background-color: #4CAF50;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+
+.login-btn a:hover {
+    background-color: #45a049;
+    text-decoration: none !important;
+}
+
+/* Botón de inicio de sesión */
+.btn-iniciar-sesion {
+    background-color: #053aaa;
+    color: white;
+    padding: 10px 15px;
+    top: 3px; /* Ajusta este valor según necesites */
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    position: absolute;
+    right: 20px; /* Lo coloca en el extremo derecho */
+}
+
+.btn-iniciar-sesion:hover {
+    background-color: #083081;
+}
+
+
+/* Estilos del formulario */
+#formulario-matricula {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.seccion {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.seccion-titulo {
+    background-color: #053aaa;
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 8px;
+}
+
+.radio-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+}
+
+/* Botón de enviar */
+.btn-enviar {
+    display: block;
+    width: 200px;
+    margin: 30px auto;
+    padding: 12px 20px;
+    background-color: #053aaa;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-enviar:hover {
+    background-color: #042e8a;
+    transform: translateY(-2px);
+}
+
+/* Mensajes de error */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.error {
+    border-color: #e74c3c !important;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .form-group {
+        flex: 100%;
+        margin-right: 0;
+    }
+}
+
+/*---------------------------------------------*/
+
+/* Botón de WhatsApp flotante */
+.whatsapp-btn {
+    position: fixed;
+    bottom: 80px; /* Colocado arriba de la flecha */
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 9998; /* Un nivel menos que la flecha */
+    transition: transform 0.3s;
+}
+
+.whatsapp-btn:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-btn img {
+    width: 30px;
+    height: 30px;
+}
+
 
   /* Pie de Pagina -1 */
-  footer {
+footer {
     color: #fff;
     padding: 20px 0;
 }
@@ -85,9 +296,9 @@ input[type="text"], input[type="date"], input[type="email"], input[type="tel"], 
 }
 
 .footer-logo img {
-    max-width: 250px; /* Ajusta el tamaño del logo */
+    max-width:130px; /* Ajusta el tamaño del logo */
     position: relative;
-    top: 50px;
+    margin-top: 90px;
 
 }
 
@@ -122,41 +333,21 @@ input[type="text"], input[type="date"], input[type="email"], input[type="tel"], 
 
 
 
-/* Footer ajustado */
+/*  Pie de Pagina - 2 */
 footer {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    text-align: center;
+    padding: 2px 0;
     background-color: #053aaa;
     color: #71bfbc;
+    font-size: 20px;
+    font-weight: 200;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    box-sizing: border-box;
-}
-
-.footer-container {
+    position: relative;
+    bottom: 0;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    box-sizing: border-box;
+    
 }
 
-/* Ajustes para el footer-texto */
-#footer-texto {
-    width: 100%;
-    padding: 10px 0;
-    background-color: #053aaa;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-#footer-texto p {
-    margin: 0;
-    padding: 0;
-}
 .footer-container {
     background-color: #053aaa; /* Color azul del fondo */
     padding: 1px 20px 30px; /* Espaciado dentro del cuadro */
@@ -164,6 +355,13 @@ footer {
     position: relative; /* Asegura que el footer se posicione correctamente */
 }
 
+#footer-texto {
+    position: relative; /* Asegura que no salga del contenedor */
+    bottom: 0; /* Lo mantiene dentro */
+    width: 100%;
+    font-size: 15px;
+    color: #a0f4ff; /* Color del texto */
+}
 
 .footer-info h4{
     color: #71bfbc;
@@ -172,6 +370,11 @@ footer {
     color: #71bfbc;
 }
 
+#footer-texto p{
+    margin-top: 0;
+    padding-top: 0;
+    background-color: #053aaa;
+}
 
 /*iconos redes*/
 .footer-socials {
@@ -179,6 +382,7 @@ footer {
     flex-direction: column; /* Apila los elementos verticalmente */
     align-items: center; /* Centra los elementos */
     text-align: center; /* Asegura que el texto y los íconos estén alineados */
+    margin-top: 18px;
 }
 
 .footer-socials h4 {
@@ -196,6 +400,7 @@ footer {
 
 .footer-socials ul li {
     display: inline-block;
+    margin-top: 60px;
 }
 
 .social-icon {
@@ -206,93 +411,6 @@ footer {
 #hola{
     color:#f3ecec;
     text-decoration: none;
-}
-
-
-.navbar .logo {
-    flex: 0 0 auto;
-}
-
-.navbar .logo img {
-    height: 50px;
-    margin-bottom: 10px;
-}
-
-.navbar .text-container {
-    flex: 1;
-    text-align: center;
-}
-
-.navbar .text-container h1 {
-    margin: 0;
-    font-size: 30px;
-    font-weight: bold;
-}
-
-/* Estilos responsivos */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .navbar .logo {
-        margin-bottom: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .logo img {
-        width: 250px;
-        height: auto;
-    }
-
-    .navbar .text-container h1 {
-        font-size: 20px;
-    }
-}
-.btn-volver {
-    background-color: #0044cc;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s ease-in-out;
-    margin-left: auto; /* Lo alinea a la derecha */
-}
-
-.footer-container {
-    flex-direction: column;
-    align-items: center;
-}
-
-.footer-logo, 
-.footer-info, 
-.footer-socials {
-    margin: 15px 0;
-}
-
-.btn-volver:hover {
-    background-color: #133986;
-}
-.boton-prematricula {
-    background-color: #0056b3; /* Azul */
-    color: white; /* Texto en blanco */
-    padding: 10px 20px; /* Espaciado interno */
-    border: none; /* Sin bordes */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño del texto */
-    font-weight: bold; /* Texto en negrita */
-    cursor: pointer; /* Cambia el cursor a una mano */
-    display: block; /* Lo convierte en un bloque para manipular su posición */
-    margin: 20px auto; /* Centrado horizontalmente */
-    text-align: center; /* Asegura que el texto esté centrado */
-    transition: 0.3s ease-in-out; /* Animación al pasar el mouse */
-}
-
-.boton-prematricula:hover {
-    background-color: #133986; /* Azul más oscuro al pasar el mouse */
 }
 
 .footer-columnas {
@@ -318,31 +436,4 @@ footer {
 .footer-columnas a:hover {
     color: #d7da12;
     text-decoration: underline;
-}
-/*---------------------------------------------*/
-
-/* Botón de WhatsApp flotante */
-.whatsapp-btn {
-    position: fixed;
-    bottom: 80px; /* Colocado arriba de la flecha */
-    right: 10px;
-    width: 50px;
-    height: 50px;
-    background-color: #25D366;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    z-index: 9998; /* Un nivel menos que la flecha */
-    transition: transform 0.3s;
-}
-
-.whatsapp-btn:hover {
-    transform: scale(1.1);
-}
-
-.whatsapp-btn img {
-    width: 30px;
-    height: 30px;
 }

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios</title>
     <link rel="stylesheet" href="{% static 'css/estilos_actividades.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body>
     <header class="navbar">
@@ -16,25 +17,23 @@
     </header>
 
     <header>
-        <div class="menu">
-            <ul>
+        <div class="menu-container">
+            <ul class="main-menu">
                 <li><a href="{% url 'home' %}">Inicio</a></li>
-
-                <!-- submenu -->
-                <li>
-                    <a href="{% url 'conocenos' %}">Conocenos</a>
-                    <ul class="sub-menu_conocenos">
+                
+                <li class="has-submenu">
+                    <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
+                    <ul class="submenu">
                         <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
-                        <li><a href="Historia.html">Historia</a></li>
-                        <li><a href="Himno.html">Himno</a></li>
-                        </ul>
+                        <li><a href="{% url 'historia' %}">Historia</a></li>
+                        <li><a href="{% url 'himno' %}">Himno</a></li>
+                    </ul>
                 </li>
-            
+                
                 <li><a href="{% url 'actividades' %}">Actividades</a></li>
                 <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
-                <li><a href="{% url 'contactenos' %}">Contactenos</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
             </ul>
-
                     <!-- Botón de inicio de sesión alineado a la derecha -->
         <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
         </div>
@@ -108,7 +107,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+                <img src="{% static 'images/logoactualizado.png' %}" alt="Logo del Colegio">
             </div>
 
             
@@ -161,5 +160,7 @@
         </footer>
 
     <script src="{% static 'js/script_actividades.js' %}"></script>
+    <script src="{% static 'js/sienna.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
 </body>
 </html>

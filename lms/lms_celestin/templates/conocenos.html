@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conocenos</title>
+    <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/estilos_conocenos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body>
 
@@ -17,23 +19,22 @@
     </header>
 
     <header>
-        <div class="menu">
-            <ul>
+        <div class="menu-container">
+            <ul class="main-menu">
                 <li><a href="{% url 'home' %}">Inicio</a></li>
-
-                <!-- submenu -->
-                <li>
-                    <a href="{% url 'conocenos' %}">Conocenos</a>
-                    <ul class="sub-menu_conocenos">
+                
+                <li class="has-submenu">
+                    <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
+                    <ul class="submenu">
                         <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
-                        <li><a href="Historia.html">Historia</a></li>
-                        <li><a href="Himno.html">Himno</a></li>
-                        </ul>
+                        <li><a href="{% url 'historia' %}">Historia</a></li>
+                        <li><a href="{% url 'himno' %}">Himno</a></li>
+                    </ul>
                 </li>
-            
+                
                 <li><a href="{% url 'actividades' %}">Actividades</a></li>
                 <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
-                <li><a href="{% url 'contactenos' %}">Contactenos</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
             </ul>
 
                     <!-- Botón de inicio de sesión alineado a la derecha -->
@@ -83,35 +84,44 @@
             <section class="section-info-1">
                 <header class="header-encabezado-info">
                 
-                    <h1 class="main-title">Excelencia Educativa</h1>
-                    <p class="subtitle">Celestin Freinet está comprometido a desarrollar estudiantes centrados en un ambiente sano que 
-                        desarrollen las cualidades de Líderes, Personas Valientes y Aplicadas. 
-                        Basado en un modelo que anime a los estudiantes a amar el arte de lo que es la educacion, creciendo como colegio CF. 
-                    </p>
-                    
-                    <p class="subtitle"> Nuestro personal docente ejemplifica y fomenta estos rasgos, preparando a los estudiantes para liderar con buen entendimiento 
-                        y saber en su respectetiva asignatura.</p>
-                    
-                    <h1 class="main-title"><center>Historia</center></h1>
-                    <p class="subtitle">El Colegio Celestin Freinet de Sogamoso, Boyacá, es una institución educativa reconocida en la región por su enfoque pedagógico basado en la metodología del 
-                        pedagogo francés Célestin Freinet, la cual promueve el aprendizaje activo, la cooperación y la creatividad en los estudiantes. Ubicado en la dirección<br> Cl 22a #11447, 
-                        este colegio ha sido un pilar fundamental en la formación de niños y jóvenes, brindando educación de calidad a la comunidad sogamoseña.
-                        En cuanto a la dirección y liderazgo de la institución, la rectora actual es la Esp. Mary Luz Guerrero Cárdenas, quien ha trabajado en el fortalecimiento del proyecto educativo,
-                        impulsando iniciativas que fomentan el desarrollo académico y personal de los estudiantes. Bajo su dirección, el colegio se ha destacado por su compromiso con la 
-                        excelencia educativa y la implementación de estrategias innovadoras para mejorar el proceso de enseñanza-aprendizaje.
-                        </p>
-                    
-                    <p class="subtitle"> Nuestro personal docente ejemplifica y fomenta estos rasgos, preparando a los estudiantes para liderar con buen entendimiento 
-                        y saber en su respectetiva asignatura. <br>  <br> </p>
-        
-                    <h1 class="main-title"><center>¿ De donde proviene Nuestro Nombre ?</center></h1>
-                    <p class="subtitle">El nombre del Colegio Celestin Freinet proviene del pedagogo y educador francés Célestin Freinet (1896-1966), quien desarrolló
-                        una metodología educativa innovadora basada en el aprendizaje activo, la cooperación y la experimentación.
-                        Freinet creía que la educación debía estar centrada en la experiencia y la creatividad de los estudiantes, fomentando la participación activa en
-                        su propio aprendizaje a través de herramientas como la imprenta escolar, el trabajo en grupo y el método natural de aprendizaje. Su enfoque buscaba
-                        romper con la educación tradicional basada en la memorización y la repetición, promoviendo una enseñanza más libre y significativa.
-                        El colegio lleva su nombre como un homenaje a su legado y filosofía pedagógica, aplicando principios de su método en la formación de sus
-                        estudiantes en Sogamoso, Boyacá.<br> <br> </p>
+                    <center><h1 class="main-title">BIOGRAFÍA DE CELESTIN FREINET </h1></center>
+                    <p class="subtitle">Pedagogo francés. Propone una pedagogía basada en el niño, en sus posibilidades, necesidades y deseos. Introdujo el
+                        método natural de aprendizaje; método que permite al niño aprender en la escuela como aprendía en la vida. Esto es, el método del
+                        tanteo experimental, de las aproximaciones sucesivas y del ensayo y error.<br>
+                        
+                        <br>Nace el 15 de octubre de 1896 en Gars (Alpes Marítimos). En 1916, Celestin Freinet, resulta herido en los pulmones, a consecuencia
+                        de la metralla, en la batalla de Verdún. En 1920, después de pasar cuatro años por los hospitales, solicita una plaza de maestro y
+                        es designado para la escuela de Bar-sur-Loup. Sus problemas de salud no van con el tipo de escuela que encuentra. La formación
+                        recibida no encaja con las necesidades de los niños. 1924 inicia la correspondencia escolar de su clase con una de la Bretaña. 1926
+                        Freinet utiliza la imprenta de la escuela. En marzo, Élise se reúne con Celestin, en Bar-sur-Loup, para trabajar juntos. 1927 en
+                        Tours se celebra el primer congreso del movimiento que encabeza Freinet. 1928 trasladan a Freinet a la escuela de St. Paul de Vence.
+                        Crea la Cooperativa de la Enseñanza Laica, que funciona en su propio domicilio.1930 Las ideas de Freinet han entrado en España y un
+                        grupo de maestros leridanos empieza a ponerlas en práctica. 1932 en febrero sale el primer número de la Biblioteque de Travail.
+                        La “revista de pedagogía”, de Madrid, publica &langno; La imprenta en la Escuela, escrita por Herminio Almendros. 1933 los elementos
+                        reaccionarios de St. Paul se oponen a Freinet y consiguen que en 1934 se le abra un expediente administrativo. Los maestros que en
+                        España han adoptado las ideas de Freinet celebran el primer congreso de la Cooperativa española de la imprenta en la escuela,
+                        en Huesca. 1935 Freinet es invitado a dar un cursillo de sus técnicas en la Escola d´Estiu de la Generalitat de Cataluña.
+                        Negándose a ceder en sus ideas pedagógicas, Freinet abre por su cuenta una escuela en Vence.1936 En octubre, ya estallada la guerra
+                        en España, se abre una escuela Freinet en el Tibidado, Barcelona. En diciembre, Celestin y Élise acogen a una treintena de niños
+                        españoles refugiados.1939 Derrotadas las tropas republicanas, Herminio Almendros es acogido en Vence, hasta que puede partir
+                        hacia Cuba. 1940 a causa de su actividad pedagógica y sindical, Freinet es detenido después de iniciada la guerra mundial.<br>
+                        
+                        <br>Mientras este internado en el campo de concentración, medita sobre su experiencia pedagógica y empieza a escribir sus obras
+                        fundamentales: La Escuela del Trabajo, la experiencia por el Tanteo y Ensayo de Sicología Sensible, labor que continuará durante
+                        el tiempo de la Resistencia, en que también escribe Consejos a los padres y prepara La Escuela Moderna Francés.1941 Freinet es
+                        puesto en libertad, pero va a engrosar las filas de la Resistencia. 1947 Freinet reabre su escuela en Vence. 1948 se crea el
+                        Instituto Cooperativo de la Escuela Moderna. 1965 en España, después de redescubrir la escuela moderna de Freinet, algunos
+                        maestros empiezan a establecer contactos. 1966 el 8 de octubre Celestin Freinet muere repentinamente en Vence.  La obra que
+                        inicio Freinet sigue adelante, extendiéndose más y más y cobrando mayor profundidad.<br>
+                        
+                        <br>Celestin Freinet fue, antes que nada, un maestro de pueblo. Como tal, supo mucho de locales y medios inadecuados,
+                        de soledad e incomprensión, de aislamiento; pero también tuvo ocasión de aprender mucho de las gentes del pueblo,
+                        del contacto con la naturaleza, de la lucha junto al pueblo. Contrariamente a lo que sucede con casi la totalidad
+                        de los más conocidos autores que en nuestro siglo propugnan una escuela diferente, Freinet empezó por hacer diferente
+                        su escuela; no partió, pues, de una gran teorización pedagógica, sino del intento de dar respuestas prácticas válidas
+                        a los múltiples problemas que su actividad cotidiana planteaba. Esto es lo que hace que la pedagogía Freinet esté cargada
+                        de estrategias, de técnicas, de recursos, esto es lo que hace, en definitiva, que la de Freinet sea la pedagogía realista
+                        y práctica, la pedagogía de un maestro es la base.</p>
                     </header>
                 </section>
             </div>
@@ -122,7 +132,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo del Colegio">
+                <img src="{% static 'images/logoactualizado.png' %}" alt="Logo del Colegio">
             </div>
 
             
@@ -175,5 +185,9 @@
                 </div>
             </footer>
         
+    <script src="{% static 'js/conocenos.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/sienna.js' %}"></script>
+
 </body>
 </html>
