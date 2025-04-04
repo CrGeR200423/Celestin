@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
-    <title>Conocenos</title>
+    <title>Contactanos</title>
     <link rel="stylesheet" href="{% static 'css/contactenos.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
@@ -27,8 +27,8 @@
                     <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
                     <ul class="submenu">
                         <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
-                        <li><a href="Historia.html">Historia</a></li>
-                        <li><a href="Himno.html">Himno</a></li>
+                        <li><a href="{% url 'historia' %}">Historia</a></li>
+                        <li><a href="{% url 'himno' %}">Himno</a></li>
                         </ul>
                 </li>
             
@@ -125,7 +125,7 @@
         <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
     </footer>
 
-    <script src="{% static 'js/script_actividades.js' %}"></script>
+    <script src="{% static 'js/contactanos.js' %}"></script>
     <script src="{% static 'js/sienna.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
 
