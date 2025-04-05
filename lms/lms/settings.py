@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import pymysql
-pymysql.install_as_MySQLdb()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,12 +77,12 @@ WSGI_APPLICATION = 'lms.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'colegio',
-        'USER': 'root',
+        'USER': 'cristian',
         'PASSWORD': '1053584023',  # Si no tienes contraseña en XAMPP, déjalo vacío
-        'HOST': '127.0.0.1',
-        'PORT': '3306',  # Puerto correcto de MySQL
+        'HOST': 'localhost',
+        'PORT': '5432',  # Puerto correcto de MySQL
     }
 }
 
@@ -126,7 +125,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "lms_celestin","static"),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
