@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'lms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'colegio',
+        'NAME': 'postgres',
         'USER': 'cristian',
         'PASSWORD': '1053584023',  # Si no tienes contraseña en XAMPP, déjalo vacío
         'HOST': 'localhost',
