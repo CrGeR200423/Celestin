@@ -82,7 +82,7 @@ DATABASES = {
         'USER': 'cristian',
         'PASSWORD': '1053584023',  # Si no tienes contraseña en XAMPP, déjalo vacío
         'HOST': 'localhost',
-        'PORT': '5432',  # Puerto correcto de MySQL
+        'PORT': '5432',  # Puerto correcto de Postg
     }
 }
 

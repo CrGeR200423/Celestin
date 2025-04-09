@@ -1,41 +1,43 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conocenos</title>
-    <link rel="stylesheet" href="estilos_conocenos.css">
+    <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/estilos_conocenos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body>
 
     <header class="navbar">
         <div class="logo">
-            <img src="./img/logo_colegio_cf.png" alt="Logo" />
+            <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo" />
         </div>
     </header>
 
     <header>
-        <div class="menu">
-            <ul>
-                <li><a href="home.html">Inicio</a></li>
-
-                <!-- submenu -->
-                <li>
-                    <a href="conocenos.html">Conocenos</a>
-                    <ul class="sub-menu_conocenos">
-                        <li><a href="conocenos.html">Vision - Mision</a></li>
-                        <li><a href="Historia.html">Historia</a></li>
-                        <li><a href="Himno.html">Himno</a></li>
-                        </ul>
+        <div class="menu-container">
+            <ul class="main-menu">
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                
+                <li class="has-submenu">
+                    <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
+                    <ul class="submenu">
+                        <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
+                        <li><a href="{% url 'historia' %}">Historia</a></li>
+                        <li><a href="{% url 'himno' %}">Himno</a></li>
+                    </ul>
                 </li>
-            
-                <li><a href="actividades.html">Actividades</a></li>
-                <li><a href="PreMatricula.html">Pre-Matricula</a></li>
-                <li><a href="contactenos.html">Contactenos</a></li>
+                
+                <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
             </ul>
 
                     <!-- Botón de inicio de sesión alineado a la derecha -->
-        <a href="inicio_sesion.html" class="btn-iniciar-sesion">Iniciar Sesión</a>
+        <a href="{% url 'iniciosesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
         </div>
     </header>
 
@@ -77,18 +79,18 @@
     <footer>
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="./img/logo_colegio_cf.png" alt="Logo del Colegio">
+                <img src="{% static 'images/logoactualizado.png' %}" alt="Logo del Colegio">
             </div>
 
             
             <div class="footer-columnas">
                 <h3>Enlaces de interés</h3>
                 <ul>
-                    <li><a href="home.html">Inicio</a></li>
-                    <li><a href="conocenos.html">Conócenos</a></li>
-                    <li><a href="actividades.html">Actividades</a></li>
-                    <li><a href="contactenos.html">Contáctanos</a></li>
-                    <li><a href="PreMatricula.html">Pre-Matrícula</a></li>
+                    <li><a href="{% url 'home' %}">Inicio</a></li>
+                    <li><a href="{% url 'conocenos' %}">Conócenos</a></li>
+                    <li><a href="{% url 'actividades' %}">Actividades</a></li>
+                    <li><a href="{% url 'contactenos' %}">Contáctanos</a></li>
+                    <li><a href="{% url 'prematricula' %}">Pre-Matrícula</a></li>
                 </ul>
             </div>
 
@@ -130,5 +132,8 @@
                 </div>
             </footer>
         
+    <script src="{% static 'js/historia.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/sienna.js' %}"></script>
 </body>
 </html>

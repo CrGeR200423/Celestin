@@ -260,62 +260,81 @@ body {
     padding-left: 25px;
 }
 
+/* Contenedor principal del carrusel */
 .carrusel {
     position: relative;
     width: 100%;
-    height: 250px; /* Aumenta la altura del carrusel */
+    max-width: 800px; /* Ajusta según necesidad */
+    height: 300px; /* Altura aumentada */
+    margin: 20px auto;
     overflow: hidden;
-    display: flex;
-    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* Imagen del carrusel */
 .carrusel img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: opacity 0.5s ease;
     display: block;
-    border-radius: 8px;
-    z-index: 0;
-    object-fit: cover; /* Asegura que la imagen llene el espacio correctamente */
 }
 
-.btn {
+/* Botones de navegación */
+.carrusel .btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
     border: none;
-    font-size: 24px;
+    padding: 10px 15px;
+    font-size: 1.5rem;
     cursor: pointer;
-    z-index: 1; /* Asegúrate de que los botones estén por encima de la imagen */
+    border-radius: 50%;
+    z-index: 10;
+    transition: all 0.3s ease;
 }
 
-.btn:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+.carrusel .btn:hover {
+    background-color: rgba(0,0,0,0.8);
 }
 
-#prevBtnNatacion {
-    left: 10px; /* Ajusta el espacio a la izquierda */
+.carrusel .prevBtn {
+    left: 20px;
 }
 
-#nextBtnNatacion {
-    right: 10px; /* Ajusta el espacio a la derecha */
+.carrusel .nextBtn {
+    right: 20px;
 }
 
-#prevBtnKarate {
-    left: 10px; /* Ajusta el espacio a la izquierda */
+/* Indicadores (opcional) */
+.carrusel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
 }
 
-#nextBtnKarate {
-    right: 10px; /* Ajusta el espacio a la derecha */
+.carrusel-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-#prevBtnDanza {
-    left: 10px; /* Ajusta el espacio a la izquierda */
+.carrusel-indicator.active {
+    background-color: white;
+    transform: scale(1.2);
 }
 
-#nextBtnDanza {
-    right: 10px; /* Ajusta el espacio a la derecha */
-}
 
 /*--------footer---------*/
 
@@ -621,22 +640,25 @@ footer {
 }
 
 /* Ajustes para los botones del carrusel en móviles */
+@media (max-width: 768px) {
+    .carrusel {
+        height: 250px;
+    }
+    
+    .carrusel .btn {
+        padding: 8px 12px;
+        font-size: 1.2rem;
+    }
+}
+
 @media (max-width: 480px) {
-    .btn {
-        font-size: 18px;
-        padding: 5px;
+    .carrusel {
+        height: 200px;
     }
     
-    #prevBtnNatacion, 
-    #prevBtnKarate, 
-    #prevBtnDanza {
-        left: 5px;
-    }
-    
-    #nextBtnNatacion, 
-    #nextBtnKarate, 
-    #nextBtnDanza {
-        right: 5px;
+    .carrusel .btn {
+        padding: 6px 10px;
+        font-size: 1rem;
     }
 }
 

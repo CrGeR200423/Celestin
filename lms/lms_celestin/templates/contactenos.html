@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conocenos</title>
     <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
-    <title>Contactanos</title>
     <link rel="stylesheet" href="{% static 'css/contactenos.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
@@ -18,23 +18,22 @@
     </header>
 
     <header>
-        <div class="menu">
-            <ul>
+        <div class="menu-container">
+            <ul class="main-menu">
                 <li><a href="{% url 'home' %}">Inicio</a></li>
-
-                <!-- submenu -->
+                
                 <li class="has-submenu">
                     <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
                     <ul class="submenu">
                         <li><a href="{% url 'conocenos' %}">Vision - Mision</a></li>
                         <li><a href="{% url 'historia' %}">Historia</a></li>
                         <li><a href="{% url 'himno' %}">Himno</a></li>
-                        </ul>
+                    </ul>
                 </li>
-            
+                
                 <li><a href="{% url 'actividades' %}">Actividades</a></li>
                 <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
-                <li><a href="{% url 'contactenos' %}">Contactenos</a></li>
+                <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
             </ul>
 
                     <!-- Botón de inicio de sesión alineado a la derecha -->
@@ -125,9 +124,9 @@
         <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
     </footer>
 
-    <script src="{% static 'js/contactanos.js' %}"></script>
-    <script src="{% static 'js/sienna.js' %}"></script>
+    <script src="{% static 'js/script_actividades.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/sienna.js' %}"></script>
 
 </body>
 </html>

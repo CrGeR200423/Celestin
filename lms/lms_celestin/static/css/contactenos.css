@@ -80,8 +80,8 @@ body {
 
 /* Estilos del submenú */
 .submenu {
-    list-style-type: none;
     display: none;
+    list-style-type: none;
     position: absolute;
     left: 0;
     top: 100%;
