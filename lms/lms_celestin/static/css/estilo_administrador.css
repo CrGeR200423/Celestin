@@ -520,7 +520,7 @@ section.active {
     font-style: italic;
 }
 
-/* Actualiza estos estilos en tu archivo CSS */
+
 .banner-container {
     width: 100%;
     max-width: 400px; /* Tamaño máximo reducido */
@@ -707,7 +707,9 @@ section.active {
     color: #155724;
     border: 1px solid #c3e6cb;
 }
-
+.formulario-rol[style*="display: block"] {
+    display: block !important;
+}
 /* Media queries para responsividad */
 @media (max-width: 768px) {
     .info-con-banner {

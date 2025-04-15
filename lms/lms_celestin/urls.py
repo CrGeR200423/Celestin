@@ -14,4 +14,7 @@ urlpatterns = [
     path('estudiante/', views.estudiante, name='estudiante'),
     path('himno/', views.himno, name='himno'),
     path('historia/', views.historia, name='historia'),
+    path('registrar/estudiante/', views.registrar_estudiante, name='registrar_estudiante'),
+    path('registrar/docente/', views.registrar_docente, name='registrar_docente'),
+    path('registrar/administrador/', views.registrar_administrador, name='registrar_administrador')
 ]

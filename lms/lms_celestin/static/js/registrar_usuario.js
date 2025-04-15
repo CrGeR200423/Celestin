@@ -1,264 +1,217 @@
-// Función para mostrar el formulario correspondiente
-function mostrarFormulario() {
-    const tipoUsuario = document.getElementById("tipoUsuario").value;
-    document.getElementById("formularioEstudiante").style.display = "none";
-    document.getElementById("formularioProfesorAdmin").style.display = "none";
+// registrar_usuario.js
 
-    if (tipoUsuario === "Estudiante") {
-        document.getElementById("formularioEstudiante").style.display = "block";
-        inicializarValidacionEstudiante();
-    } else if (tipoUsuario === "Profesor" || tipoUsuario === "Administrador") {
-        document.getElementById("formularioProfesorAdmin").style.display = "block";
-        document.getElementById("tituloFormulario").textContent = 
-            tipoUsuario === "Profesor" ? "Datos del Profesor" : "Datos del Administrador";
-        inicializarValidacionProfesorAdmin();
+// Mostrar el formulario según el tipo de usuario seleccionado
+function mostrarFormulario() {
+    const tipoUsuario = document.getElementById('tipoUsuario').value;
+    
+    // Ocultar todos los formularios primero
+    document.getElementById('formularioEstudiante').style.display = 'none';
+    document.getElementById('formularioDocente').style.display = 'none';
+    document.getElementById('formularioAdministrador').style.display = 'none';
+    
+    // Mostrar el formulario correspondiente
+    if (tipoUsuario === 'Estudiante') {
+        document.getElementById('formularioEstudiante').style.display = 'block';
+        inicializarValidacionesEstudiante();
+    } else if (tipoUsuario === 'Profesor') {
+        document.getElementById('formularioDocente').style.display = 'block';
+        document.getElementById('tituloFormulario').textContent = 'Datos del Docente';
+        inicializarValidacionesProfesorAdmin();
+    } else if (tipoUsuario === 'Administrador') {
+        document.getElementById('formularioAdministrador').style.display = 'block';
+        document.getElementById('tituloFormulario').textContent = 'Datos del Administrador';
+        inicializarValidacionesProfesorAdmin();
     }
 }
+// ==================== VALIDACIONES ====================
+function inicializarValidacionesEstudiante() {
+    // Campos requeridos para estudiante
+    const camposEstudiante = [
+        'primer_nombre_estudiante', 'primer_apellido_estudiante',
+        'tipo_documento_estudiante', 'numero_documento_estudiante',
+        'fecha_nacimiento_estudiante', 'nombre_padre_tutor1',
+        'tipo_documento_padre', 'numero_documento_padre',
+        'telefono_padre', 'correo_padre', 'direccion_estudiante'
+    ];
 
-// Validaciones para formulario de estudiante
-function inicializarValidacionEstudiante() {
-    const campos = {
-        'primer_nombre_estudiante': validarCampo,
-        'primer_apellido_estudiante': validarCampo,
-        'numero_documento_estudiante': validarDocumento,
-        'fecha_nacimiento_estudiante': validarCampo,
-        'edad_estudiante': validarEdad,
-        'grado_estudiante': validarCampo,
-        'nombre_padre_tutor1': validarCampo,
-        'numero_documento_padre': validarDocumento,
-        'telefono_padre': validarTelefono,
-        'correo_padre': validarCorreo,
-        'direccion_estudiante': validarCampo
-    };
-
-    Object.entries(campos).forEach(([id, validacion]) => {
-        const campo = document.getElementById(id);
+    camposEstudiante.forEach(campoId => {
+        const campo = document.getElementById(campoId);
         if (campo) {
-            campo.addEventListener('input', () => validacion(campo));
-            campo.addEventListener('blur', () => validacion(campo));
+            campo.addEventListener('blur', () => validarCampo(campoId));
         }
     });
+
+    // Validaciones específicas
+    document.getElementById('numero_documento_estudiante').addEventListener('input', validarSoloNumeros);
+    document.getElementById('numero_documento_padre').addEventListener('input', validarSoloNumeros);
+    document.getElementById('telefono_padre').addEventListener('input', validarTelefono);
+    document.getElementById('correo_padre').addEventListener('input', validarCorreo);
 }
 
-// Validaciones para formulario de profesor/administrador
-function inicializarValidacionProfesorAdmin() {
-    const campos = {
-        'primer_nombre': validarCampo,
-        'primer_apellido': validarCampo,
-        'tipo_documento': validarCampo,
-        'numero_documento': validarDocumento,
-        'direccion': validarCampo,
-        'correo': validarCorreo,
-        'telefono': validarTelefono
-    };
+function inicializarValidacionesProfesorAdmin() {
+    // Campos requeridos para profesor/administrador
+    const camposProfesorAdmin = [
+        'primer_nombre', 'primer_apellido',
+        'tipo_documento', 'numero_documento',
+        'direccion', 'correo', 'telefono'
+    ];
 
-    Object.entries(campos).forEach(([id, validacion]) => {
-        const campo = document.getElementById(id);
+    camposProfesorAdmin.forEach(campoId => {
+        const campo = document.getElementById(campoId);
         if (campo) {
-            campo.addEventListener('input', () => validacion(campo));
-            campo.addEventListener('blur', () => validacion(campo));
+            campo.addEventListener('blur', () => validarCampo(campoId));
         }
     });
+
+    // Validaciones específicas
+    document.getElementById('numero_documento').addEventListener('input', validarSoloNumeros);
+    document.getElementById('telefono').addEventListener('input', validarTelefono);
+    document.getElementById('correo').addEventListener('input', validarCorreo);
 }
 
 // Funciones de validación
-function validarCampo(campo) {
-    const errorId = `error-${campo.id}`;
-    const mensajeError = document.getElementById(errorId);
+function validarCampo(campoId) {
+    const campo = document.getElementById(campoId);
+    const error = document.getElementById(`error-${campoId}`);
     
-    if (!mensajeError) return true;
-    
-    if (campo.required && campo.value.trim() === '') {
-        mensajeError.style.display = 'block';
+    if (!campo.value.trim() && campo.required) {
+        error.style.display = 'block';
         return false;
     }
-    mensajeError.style.display = 'none';
+    error.style.display = 'none';
     return true;
 }
 
-function validarTelefono(campo) {
-    const errorId = `error-${campo.id}`;
-    const mensajeError = document.getElementById(errorId);
+function validarSoloNumeros(e) {
+    const value = e.target.value;
+    const errorId = `error-${e.target.id}`;
+    const errorElement = document.getElementById(errorId);
     
-    if (!/^\d*$/.test(campo.value)) {
-        mensajeError.textContent = 'Solo se permiten números';
-        mensajeError.style.display = 'block';
-        return false;
-    } else if (campo.value.length !== 10) {
-        mensajeError.textContent = 'Debe tener 10 dígitos';
-        mensajeError.style.display = 'block';
-        return false;
+    if (!/^\d*$/.test(value)) {
+        errorElement.textContent = 'Solo se permiten números';
+        errorElement.style.display = 'block';
+        e.target.value = value.replace(/[^\d]/g, '');
+    } else {
+        errorElement.style.display = 'none';
     }
-    return validarCampo(campo);
 }
 
-function validarEdad(campo) {
-    const errorId = `error-${campo.id}`;
-    const mensajeError = document.getElementById(errorId);
+function validarTelefono(e) {
+    const value = e.target.value;
+    const errorId = `error-${e.target.id}`;
+    const errorElement = document.getElementById(errorId);
     
-    if (!/^\d*$/.test(campo.value)) {
-        mensajeError.textContent = 'Solo se permiten números';
-        mensajeError.style.display = 'block';
-        return false;
-    } else if (campo.value < 1 || campo.value > 99) {
-        mensajeError.textContent = 'Edad inválida (1-99)';
-        mensajeError.style.display = 'block';
+    if (value.length !== 10 || !/^\d+$/.test(value)) {
+        errorElement.textContent = 'Debe tener 10 dígitos numéricos';
+        errorElement.style.display = 'block';
         return false;
     }
-    return validarCampo(campo);
+    errorElement.style.display = 'none';
+    return true;
 }
 
-function validarDocumento(campo) {
-    const errorId = `error-${campo.id}`;
-    const mensajeError = document.getElementById(errorId);
-    
-    if (!/^\d*$/.test(campo.value)) {
-        mensajeError.textContent = 'Solo se permiten números';
-        mensajeError.style.display = 'block';
-        return false;
-    }
-    return validarCampo(campo);
-}
-
-function validarCorreo(campo) {
-    const errorId = `error-${campo.id}`;
-    const mensajeError = document.getElementById(errorId);
+function validarCorreo(e) {
+    const value = e.target.value;
+    const errorId = `error-${e.target.id}`;
+    const errorElement = document.getElementById(errorId);
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
-    if (!regex.test(campo.value)) {
-        mensajeError.textContent = 'Ingrese un correo válido';
-        mensajeError.style.display = 'block';
+    if (!regex.test(value)) {
+        errorElement.textContent = 'Ingrese un correo válido';
+        errorElement.style.display = 'block';
         return false;
     }
-    return validarCampo(campo);
+    errorElement.style.display = 'none';
+    return true;
 }
 
-// Registrar/Actualizar usuario
-function registrarUsuario(tipo = null) {
-    // Obtener el tipo si no se proporcionó
-    tipo = tipo || document.getElementById("tipoUsuario").value;
-    
-    if (!tipo) {
-        alert("Por favor seleccione un tipo de usuario");
-        document.getElementById("error-tipoUsuario").style.display = 'block';
+// ==================== ENVÍO DEL FORMULARIO ====================
+async function registrarUsuario(tipo) {
+    // Validar tipo de usuario
+    const tipoUsuario = document.getElementById('tipoUsuario').value;
+    if (!tipoUsuario) {
+        document.getElementById('error-tipoUsuario').style.display = 'block';
         return;
     }
 
     // Validar campos según el tipo
-    let valido = true;
-    const campos = tipo === "Estudiante" ? 
-        ['primer_nombre_estudiante', 'primer_apellido_estudiante', 'numero_documento_estudiante', 
-         'fecha_nacimiento_estudiante', 'edad_estudiante', 'grado_estudiante', 'nombre_padre_tutor1',
-         'numero_documento_padre', 'telefono_padre', 'correo_padre', 'direccion_estudiante'] :
-        ['primer_nombre', 'primer_apellido', 'tipo_documento', 'numero_documento', 
-         'direccion', 'correo', 'telefono'];
-    
-    campos.forEach(id => {
-        const campo = document.getElementById(id);
-        if (campo) {
-            const validator = id.includes('telefono') ? validarTelefono : 
-                            id.includes('correo') ? validarCorreo :
-                            id.includes('edad') ? validarEdad : 
-                            id.includes('documento') ? validarDocumento : 
-                            validarCampo;
-            if (!validator(campo)) valido = false;
-        }
-    });
+    let formularioValido = true;
+    if (tipoUsuario === 'Estudiante') {
+        formularioValido = validarFormularioEstudiante();
+    } else {
+        formularioValido = validarFormularioProfesorAdmin();
+    }
 
-    if (!valido) {
-        alert("Por favor complete correctamente todos los campos obligatorios");
+    if (!formularioValido) {
+        alert('Por favor complete todos los campos requeridos correctamente.');
         return;
     }
 
-    // Crear objeto usuario
-    const usuario = {
-        tipo,
-        datos: {},
-        estado: "Habilitado",
-        fechaRegistro: new Date().toISOString()
-    };
+    // Enviar datos
+    const formId = tipoUsuario === 'Estudiante' ? 'formEstudiante' : 'formProfesorAdmin';
+    const form = document.getElementById(formId);
+    const formData = new FormData(form);
+    const url = tipoUsuario === 'Estudiante' ? '/registrar/estudiante/' : '/registrar/docente/';
 
-    if (tipo === "Estudiante") {
-        usuario.datos = {
-            primerNombre: document.getElementById("primer_nombre_estudiante").value.trim(),
-            segundoNombre: document.getElementById("segundo_nombre_estudiante").value.trim(),
-            primerApellido: document.getElementById("primer_apellido_estudiante").value.trim(),
-            segundoApellido: document.getElementById("segundo_apellido_estudiante").value.trim(),
-            tipoDocumento: document.getElementById("tipo_documento_estudiante").value,
-            numeroDocumento: document.getElementById("numero_documento_estudiante").value,
-            fechaNacimiento: document.getElementById("fecha_nacimiento_estudiante").value,
-            edad: document.getElementById("edad_estudiante").value,
-            grado: document.getElementById("grado_estudiante").value,
-            cicloEscolar: document.getElementById("ciclo_escolar_estudiante").value,
-            padreTutor1: document.getElementById("nombre_padre_tutor1").value.trim(),
-            tipoDocumentoPadre: document.getElementById("tipo_documento_padre").value,
-            numeroDocumentoPadre: document.getElementById("numero_documento_padre").value,
-            telefonoPadre: document.getElementById("telefono_padre").value,
-            correoPadre: document.getElementById("correo_padre").value,
-            direccion: document.getElementById("direccion_estudiante").value.trim(),
-            condicionMedica: document.getElementById("condicion_medica_estudiante").value,
-            detalleCondicion: document.getElementById("detalle_condicion_estudiante").value
-        };
-    } else {
-        usuario.datos = {
-            primerNombre: document.getElementById("primer_nombre").value.trim(),
-            segundoNombre: document.getElementById("segundo_nombre").value.trim(),
-            primerApellido: document.getElementById("primer_apellido").value.trim(),
-            segundoApellido: document.getElementById("segundo_apellido").value.trim(),
-            tipoDocumento: document.getElementById("tipo_documento").value,
-            numeroDocumento: document.getElementById("numero_documento").value,
-            titulos: document.getElementById("titulos").value,
-            direccion: document.getElementById("direccion").value.trim(),
-            correo: document.getElementById("correo").value,
-            telefono: document.getElementById("telefono").value
-        };
-    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+        });
 
-    // Guardar en localStorage
-    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
-    const usuarioEditando = JSON.parse(localStorage.getItem("usuarioAModificar"));
-    
-    if (usuarioEditando && usuarioEditando.index !== undefined) {
-        // Actualizar usuario existente
-        usuarios[usuarioEditando.index] = usuario;
-        localStorage.removeItem("usuarioAModificar");
-        alert("Usuario actualizado correctamente");
-    } else {
-        // Agregar nuevo usuario
-        usuarios.push(usuario);
-        alert("Usuario registrado correctamente");
-    }
-    
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    window.location.href = "administrador.html";
-}
-
-// Cargar usuario existente para edición
-function cargarUsuarioExistente() {
-    const usuarioEditando = JSON.parse(localStorage.getItem("usuarioAModificar"));
-    if (usuarioEditando) {
-        const { usuario, index } = usuarioEditando;
-        document.getElementById("tipoUsuario").value = usuario.tipo;
-        mostrarFormulario();
-        
-        // Llenar formulario con datos existentes
-        if (usuario.tipo === "Estudiante") {
-            Object.entries(usuario.datos).forEach(([key, value]) => {
-                const elemento = document.getElementById(key);
-                if (elemento) elemento.value = value || '';
-            });
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+                window.location.href = '/administrador/'; // Redirección exitosa
+            } else {
+                alert(result.message || 'Error al registrar');
+            }
         } else {
-            Object.entries(usuario.datos).forEach(([key, value]) => {
-                const elemento = document.getElementById(key);
-                if (elemento) elemento.value = value || '';
-            });
+            alert('Error en el servidor');
         }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error de conexión');
     }
 }
 
-// Inicializar
-document.addEventListener("DOMContentLoaded", () => {
-    const tipoUsuario = document.getElementById("tipoUsuario");
-    if (tipoUsuario) tipoUsuario.addEventListener("change", mostrarFormulario);
-    cargarUsuarioExistente();
+// Funciones auxiliares de validación completa
+function validarFormularioEstudiante() {
+    let valido = true;
+    const camposRequeridos = [
+        'primer_nombre_estudiante', 'primer_apellido_estudiante',
+        'tipo_documento_estudiante', 'numero_documento_estudiante',
+        'fecha_nacimiento_estudiante', 'nombre_padre_tutor1',
+        'tipo_documento_padre', 'numero_documento_padre',
+        'telefono_padre', 'correo_padre', 'direccion_estudiante'
+    ];
+
+    camposRequeridos.forEach(campoId => {
+        if (!validarCampo(campoId)) valido = false;
+    });
+
+    return valido;
+}
+
+function validarFormularioProfesorAdmin() {
+    let valido = true;
+    const camposRequeridos = [
+        'primer_nombre', 'primer_apellido',
+        'tipo_documento', 'numero_documento',
+        'direccion', 'correo', 'telefono'
+    ];
+
+    camposRequeridos.forEach(campoId => {
+        if (!validarCampo(campoId)) valido = false;
+    });
+
+    return valido;
+}
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('tipoUsuario').addEventListener('change', mostrarFormulario);
 });
