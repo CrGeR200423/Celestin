@@ -215,3 +215,4 @@ function validarFormularioProfesorAdmin() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tipoUsuario').addEventListener('change', mostrarFormulario);
 });
+

@@ -9,6 +9,9 @@ from django.conf import settings
 from django.db import transaction
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from .models .auth import CustomUser
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 
 User = get_user_model()
@@ -32,7 +35,7 @@ def inicio_sesion(request):
     return render(request, 'inicio_sesion.html')
 
 def administrador(request):
-    return render(request, 'administrador.html')
+    return render(request, 'administradores')
 
 def formulario(request):
     return render(request, 'formulario_usuario.html')
@@ -52,125 +55,99 @@ def historia(request):
 
 
 
+
+
 def registrar_estudiante(request):
     if request.method == 'POST':
         try:
-            # ===== 1. Crear Usuario de Django (para autenticación) =====
-            documento_estudiante = request.POST.get('documento')
-            email_acudiente = request.POST.get('correo_acudiente')
-            
-            # Generar username y contraseña temporal (usando el documento)
-            username = f"est_{documento_estudiante}"  # Ej: "est_123456789"
-            password_temp = documento_estudiante  # La contraseña temporal será el documento
-            
-            # Crear el usuario en Django
-            user = User.objects.create_user(
-                email=email_acudiente,  # Usar el email del acudiente
-                username=f"est_{documento_estudiante}",
-                password=make_password(password_temp),  # Encriptar la contraseña
-                rol='EST',
-                is_active=True
-        )
-            
-            
-            # ===== 2. Crear Persona (estudiante) =====
-            persona = Personas(
-                tipo_documento=request.POST.get('tipo_documento'),
-                documento=documento_estudiante,
-                nombres=request.POST.get('nombres'),
-                apellidos=request.POST.get('apellidos'),
-                fecha_nacimiento=request.POST.get('fecha_nacimiento'),
-                sexo=request.POST.get('sexo'),
-                direccion=request.POST.get('direccion')
-            )
-            persona.save()
+            with transaction.atomic():
+                documento = request.POST['documento']
+                email_acudiente = request.POST['correo_acudiente']
+                username = f"est_{documento}"
+                password_temp = documento
 
-            # ===== 3. Crear Alumno =====
-            alumno = Alumnos(
-                codigo_estudiante=request.POST.get('codigo_estudiante'),
-                id_persona=persona,
-                usuario=user  # Añadir relación con el User de Django (necesitas agregar este campo al modelo)
-            )
-            alumno.save()
+                # Crear usuario
+                user = CustomUser.objects.create_user(
+                    email=email_acudiente,
+                    username=username,
+                    password=make_password(password_temp),
+                    rol='EST',
+                    is_active=True
+                )
 
-            # ===== 4. Crear Acudiente =====
-            acudiente = Acudientes(
-                correo=email_acudiente,
-                id_persona=Personas.objects.create(
-                    tipo_documento=request.POST.get('tipo_documento_acudiente'),
-                    documento=request.POST.get('documento_acudiente'),
-                    nombres=request.POST.get('nombre_acudiente'),
+                # Persona estudiante
+                estudiante_persona = Personas.objects.create(
+                    tipo_documento=request.POST['tipo_documento'],
+                    documento=documento,
+                    nombres=request.POST['nombres'],
+                    apellidos=request.POST['apellidos'],
+                    fecha_nacimiento=request.POST['fecha_nacimiento'],
+                    sexo=request.POST['sexo'],
+                    direccion=request.POST['direccion']
+                )
+
+                # Alumno
+                alumno = Alumnos.objects.create(
+                    codigo_estudiante=request.POST['codigo_estudiante'],
+                    id_persona=estudiante_persona,
+                    usuario=user
+                )
+
+                # Persona acudiente
+                acudiente_persona = Personas.objects.create(
+                    tipo_documento=request.POST['tipo_documento_acudiente'],
+                    documento=request.POST['documento_acudiente'],
+                    nombres=request.POST['nombre_acudiente'],
                     apellidos='',
                     sexo='',
-                    direccion=request.POST.get('direccion_acudiente')
+                    direccion=request.POST['direccion_acudiente']
                 )
-            )
-            acudiente.save()
 
-            # ===== 5. Relación Acudiente-Alumno =====
-            AcudientesAlumnos.objects.create(
-                acudiente=acudiente,
-                alumno=alumno
-            )
+                # Acudiente
+                acudiente = Acudientes.objects.create(
+                    correo=email_acudiente,
+                    id_persona=acudiente_persona
+                )
 
-            # ===== 6. Enviar credenciales por email =====
-            asunto = "Credenciales de acceso - Sistema Escolar"
-            mensaje = f"""
-            ¡Bienvenido al sistema!
-            
-            Credenciales para el estudiante {persona.nombres} {persona.apellidos}:
-            Usuario: {username}
-            Contraseña temporal: {password_temp}
-            
-            Por seguridad, cambie su contraseña después del primer ingreso.
-            """
-            
-            send_mail(
-                asunto,
-                mensaje,
-                settings.EMAIL_HOST_USER,  # Configurar en settings.py
-                [email_acudiente],
-                fail_silently=False,
-            )
+                # Relación
+                AcudientesAlumnos.objects.create(
+                    acudiente=acudiente,
+                    alumno=alumno
+                )
 
-            messages.success(request, "Estudiante registrado correctamente. Se enviaron las credenciales al acudiente.")
-            return redirect('administrador')
+                messages.success(request, "✅ Estudiante registrado correctamente.")
+                return redirect('formulario')
 
         except Exception as e:
-            messages.error(request, f"Error al registrar: {str(e)}")
-    
+            messages.error(request, f"❌ Error al registrar: {str(e)}")
+
     return render(request, 'formulario_usuario.html')
+
 
 
 def registrar_docente(request):
     if request.method == 'POST':
         try:
             with transaction.atomic():
-                # Validación básica
-                required_fields = ['nombres', 'apellidos', 'tipo_documento', 'documento', 'especialidad', 'email']
-                for field in required_fields:
-                    if not request.POST.get(field):
-                        raise ValidationError(f"El campo {field} es requerido")
-
-                email = request.POST['email']
                 documento = request.POST['documento']
+                email = request.POST['email']
+                username = f"doc_{documento}"
+                password_temp = documento
 
-                if User.objects.filter(email=email).exists():
+                if CustomUser.objects.filter(email=email).exists():
                     raise ValidationError("Este correo ya está registrado")
 
-                # Crear usuario
-                username = f"doc_{documento}"
-                password_temp = User.objects.make_random_password()
+                if Personas.objects.filter(documento=documento).exists():
+                    raise ValidationError("Este documento ya está registrado")
 
-                user = User.objects.create_user(
+                user = CustomUser.objects.create_user(
                     email=email,
-                    username=f"doc_{documento}",
+                    username=username,
                     password=make_password(password_temp),
                     rol='DOC',
                     is_active=True
                 )
 
-                # Crear Persona
                 persona = Personas.objects.create(
                     tipo_documento=request.POST['tipo_documento'],
                     documento=documento,
@@ -180,7 +157,6 @@ def registrar_docente(request):
                     direccion=request.POST.get('direccion', '')
                 )
 
-                # Crear Docente
                 docente = Docentes.objects.create(
                     especialidad=request.POST['especialidad'],
                     titulos=request.POST.get('titulos', ''),
@@ -188,61 +164,36 @@ def registrar_docente(request):
                     usuario=user
                 )
 
-                # Enviar credenciales
-                try:
-                    send_mail(
-                        'Credenciales de acceso - Sistema Escolar',
-                        f'''Usuario: {username}
-Contraseña temporal: {password_temp}
+                messages.success(request, "✅ Docente registrado correctamente.")
+                return redirect('formulario')
 
-Por seguridad, cambie su contraseña después del primer ingreso.''',
-                        settings.EMAIL_HOST_USER,
-                        [email],
-                        fail_silently=False,
-                    )
-                except Exception as e:
-                    print(f"Error enviando email: {str(e)}")
-
-                messages.success(request, "Docente registrado exitosamente!")
-                return redirect('administrador')
-
-        except ValidationError as e:
-            messages.error(request, str(e))
         except Exception as e:
-            messages.error(request, f"Error en el registro: {str(e)}")
-    
+            messages.error(request, f"❌ Error al registrar docente: {str(e)}")
+
     return render(request, 'formulario_usuario.html')
+
 
 def registrar_administrador(request):
     if request.method == 'POST':
         try:
             with transaction.atomic():
-                required_fields = ['nombres', 'apellidos', 'tipo_documento', 'documento', 'email']
-                for field in required_fields:
-                    if not request.POST.get(field):
-                        raise ValidationError(f"El campo {field} es requerido")
-
-                email = request.POST['email']
                 documento = request.POST['documento']
+                email = request.POST['email']
+                username = f"adm_{documento}"
+                password_temp = documento
 
-                if User.objects.filter(email=email).exists():
+                if CustomUser.objects.filter(email=email).exists():
                     raise ValidationError("Este correo ya está registrado")
 
-                # Crear usuario
-                username = f"adm_{documento}"
-                password_temp = User.objects.make_random_password()
-
-                user = User.objects.create_user(
+                user = CustomUser.objects.create_user(
                     email=email,
-                    username=f"adm_{documento}",
+                    username=username,
                     password=make_password(password_temp),
                     rol='ADM',
                     is_staff=True,
                     is_active=True
                 )
-            
 
-                # Crear Persona
                 persona = Personas.objects.create(
                     tipo_documento=request.POST['tipo_documento'],
                     documento=documento,
@@ -252,33 +203,252 @@ def registrar_administrador(request):
                     direccion=request.POST.get('direccion', '')
                 )
 
-                # Crear Administrador
                 Administradores.objects.create(
-                    usuario=user.username,  # O podrías relacionarlo directamente con el User
+                    usuario=user,
                     id_persona=persona
                 )
 
-                # Enviar credenciales
-                try:
-                    send_mail(
-                        'Credenciales de acceso - Sistema Escolar',
-                        f'''Usuario: {username}
-Contraseña temporal: {password_temp}
+                messages.success(request, "✅ Administrador registrado correctamente.")
+                return redirect('formulario')
 
-Por seguridad, cambie su contraseña después del primer ingreso.''',
-                        settings.EMAIL_HOST_USER,
-                        [email],
-                        fail_silently=False,
-                    )
-                except Exception as e:
-                    print(f"Error enviando email: {str(e)}")
-
-                messages.success(request, "Administrador registrado exitosamente!")
-                return redirect('administrador')
-
-        except ValidationError as e:
-            messages.error(request, str(e))
         except Exception as e:
-            messages.error(request, f"Error en el registro: {str(e)}")
-    
+            messages.error(request, f"❌ Error al registrar administrador: {str(e)}")
+
     return render(request, 'formulario_usuario.html')
+
+def administradores(request):
+    usuarios = CustomUser.objects.select_related(
+        'alumno', 'docente', 'administrador'
+    ).all().order_by('-date_joined')
+    
+    usuarios_data = []
+    for i, usuario in enumerate(usuarios, start=1):
+        nombre_completo = "No asignado"
+        
+        # Determinar el nombre según el rol
+        if usuario.rol == 'EST' and hasattr(usuario, 'alumno'):
+            persona = usuario.alumno.id_persona
+            nombre_completo = f"{persona.nombres} {persona.apellidos}"
+        elif usuario.rol == 'DOC' and hasattr(usuario, 'docente'):
+            persona = usuario.docente.id_persona
+            nombre_completo = f"{persona.nombres} {persona.apellidos}"
+        elif usuario.rol == 'ADM' and hasattr(usuario, 'administrador'):
+            persona = usuario.administrador.id_persona
+            nombre_completo = f"{persona.nombres} {persona.apellidos}"
+        
+        usuarios_data.append({
+            'id': usuario.id,  # Asegúrate que esto está presente
+            'numero': i,
+            'nombre': nombre_completo,
+            'email': usuario.email,
+            'rol': usuario.get_rol_display() if hasattr(usuario, 'get_rol_display') else usuario.rol,
+            'estado': 'Activo' if usuario.is_active else 'Inactivo'
+        })
+    
+    # Debug: Verifica los datos antes de enviarlos
+    print("Datos enviados a la plantilla:", usuarios_data[:1])  # Imprime el primer usuario para verificar
+    
+    return render(request, 'administrador.html', {
+        'usuarios': usuarios_data,
+        'debug_data': str(usuarios_data[:1])  # Para depuración en plantilla
+    })
+
+
+
+def cambiar_estado_usuario(request, user_id):
+    if request.method == 'POST':
+        try:
+            usuario = CustomUser.objects.get(id=user_id)
+            activar = request.POST.get('activar', 'false').lower() == 'true'
+            
+            usuario.is_active = activar
+            usuario.save()
+            
+            return JsonResponse({'success': True})
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Usuario no encontrado'})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+from django.db import transaction
+
+def eliminar_usuario(request, user_id):
+    if request.method == 'POST':
+        try:
+            with transaction.atomic():
+                usuario = CustomUser.objects.get(id=user_id)
+
+                if usuario.rol == 'EST' and hasattr(usuario, 'alumno'):
+                    alumno = usuario.alumno
+                    persona_estudiante = alumno.id_persona
+
+                    # Obtener todas las relaciones de acudientes con este alumno
+                    relaciones = AcudientesAlumnos.objects.filter(alumno=alumno)
+
+                    # Verificamos los acudientes relacionados
+                    for relacion in relaciones:
+                        acudiente = relacion.acudiente
+                        persona_acudiente = acudiente.id_persona
+
+                        # Eliminar la relación
+                        relacion.delete()
+
+                        # Verificar si el acudiente tiene más alumnos
+                        tiene_mas_alumnos = AcudientesAlumnos.objects.filter(acudiente=acudiente).exists()
+
+                        if not tiene_mas_alumnos:
+                            acudiente.delete()
+                            persona_acudiente.delete()
+
+                    # Eliminar alumno y su persona
+                    alumno.delete()
+                    persona_estudiante.delete()
+
+                elif usuario.rol == 'DOC' and hasattr(usuario, 'docente'):
+                    docente = usuario.docente
+                    persona = docente.id_persona
+                    docente.delete()
+                    persona.delete()
+
+                elif usuario.rol == 'ADM' and hasattr(usuario, 'administrador'):
+                    administrador = usuario.administrador
+                    persona = administrador.id_persona
+                    administrador.delete()
+                    persona.delete()
+
+                usuario.delete()
+
+                return JsonResponse({'success': True})
+
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Usuario no encontrado'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+
+
+
+def editar_usuario(request, user_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+
+    if request.method == 'POST':
+        try:
+            with transaction.atomic():
+                if usuario.rol == 'EST' and hasattr(usuario, 'alumno'):
+                    alumno = usuario.alumno
+                    persona = alumno.id_persona
+
+                    persona.nombres = request.POST['nombres']
+                    persona.apellidos = request.POST['apellidos']
+                    persona.tipo_documento = request.POST['tipo_documento']
+                    persona.documento = request.POST['documento']
+                    persona.fecha_nacimiento = request.POST['fecha_nacimiento']
+                    persona.sexo = request.POST['sexo']
+                    persona.direccion = request.POST['direccion']
+                    persona.save()
+
+                    alumno.codigo_estudiante = request.POST['codigo_estudiante']
+                    alumno.save()
+
+                    messages.success(request, "✅ Estudiante actualizado correctamente.")
+
+                elif usuario.rol == 'DOC' and hasattr(usuario, 'docente'):
+                    docente = usuario.docente
+                    persona = docente.id_persona
+
+                    persona.nombres = request.POST['nombres']
+                    persona.apellidos = request.POST['apellidos']
+                    persona.tipo_documento = request.POST['tipo_documento']
+                    persona.documento = request.POST['documento']
+                    persona.sexo = request.POST.get('sexo', '')
+                    persona.direccion = request.POST.get('direccion', '')
+                    persona.save()
+
+                    docente.especialidad = request.POST['especialidad']
+                    docente.titulos = request.POST.get('titulos', '')
+                    docente.save()
+
+                    usuario.email = request.POST['email']
+                    usuario.save()
+
+                    messages.success(request, "✅ Docente actualizado correctamente.")
+
+                elif usuario.rol == 'ADM' and hasattr(usuario, 'administrador'):
+                    administrador = usuario.administrador
+                    persona = administrador.id_persona
+
+                    persona.nombres = request.POST['nombres']
+                    persona.apellidos = request.POST['apellidos']
+                    persona.tipo_documento = request.POST['tipo_documento']
+                    persona.documento = request.POST['documento']
+                    persona.sexo = request.POST.get('sexo', '')
+                    persona.direccion = request.POST.get('direccion', '')
+                    persona.save()
+
+                    usuario.email = request.POST['email']
+                    usuario.save()
+
+                    messages.success(request, "✅ Administrador actualizado correctamente.")
+
+                return redirect('administradores')
+
+        except Exception as e:
+            messages.error(request, f"❌ Error al actualizar: {str(e)}")
+
+    # Modo GET: cargar formulario con datos
+    datos = {}
+    if usuario.rol == 'EST' and hasattr(usuario, 'alumno'):
+        alumno = usuario.alumno
+        persona = alumno.id_persona
+        datos = {
+            'nombres': persona.nombres,
+            'apellidos': persona.apellidos,
+            'tipo_documento': persona.tipo_documento,
+            'documento': persona.documento,
+            'fecha_nacimiento': persona.fecha_nacimiento,
+            'sexo': persona.sexo,
+            'direccion': persona.direccion,
+            'codigo_estudiante': alumno.codigo_estudiante,
+        }
+        rol = 'Estudiante'
+
+    elif usuario.rol == 'DOC' and hasattr(usuario, 'docente'):
+        docente = usuario.docente
+        persona = docente.id_persona
+        datos = {
+            'nombres': persona.nombres,
+            'apellidos': persona.apellidos,
+            'tipo_documento': persona.tipo_documento,
+            'documento': persona.documento,
+            'sexo': persona.sexo,
+            'direccion': persona.direccion,
+            'especialidad': docente.especialidad,
+            'titulos': docente.titulos,
+            'email': usuario.email,
+        }
+        rol = 'Profesor'
+
+    elif usuario.rol == 'ADM' and hasattr(usuario, 'administrador'):
+        administrador = usuario.administrador
+        persona = administrador.id_persona
+        datos = {
+            'nombres': persona.nombres,
+            'apellidos': persona.apellidos,
+            'tipo_documento': persona.tipo_documento,
+            'documento': persona.documento,
+            'sexo': persona.sexo,
+            'direccion': persona.direccion,
+            'email': usuario.email,
+        }
+        rol = 'Administrador'
+
+    else:
+        rol = 'Otro'
+
+    return render(request, 'formulario_usuario.html', {
+        'modo_edicion': True,
+        'usuario_id': usuario.id,
+        'rol': rol,
+        'datos': datos,
+    })

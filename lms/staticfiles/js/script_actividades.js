@@ -1,81 +1,83 @@
-// Versión optimizada del script_actividades.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuración centralizada de los carruseles
-    const carrusels = {
-        natacion: {
-            images: [
-                './img/natacion_3.jpg',
-                './img/natacion_4.jpg',
-                './img/natacion_5.jpg'
-            ],
-            currentIndex: 0,
-            element: document.getElementById('imageNatacion'),
-            interval: null
-        },
-        karate: {
-            images: [
-                './img/foto_karate_.jpg',
-                './img/foto_karate_1.jpg',
-                './img/foto_karate_2.jpg'
-            ],
-            currentIndex: 0,
-            element: document.getElementById('imageKarate'),
-            interval: null
-        },
-        danza: {
-            images: [
-                './img/danza_3.jpg',
-                './img/danza_4.jpg',
-                './img/danza_5.jpg'
-            ],
-            currentIndex: 0,
-            element: document.getElementById('imageDanza'),
-            interval: null
-        }
-    };
+    // 1. Configuración centralizada de los carruseles (usando data-attributes del HTML)
+    const carrusels = {};
+    const carruselElements = document.querySelectorAll('.carrusel');
 
-    // Función genérica para cambiar imagen
-    function changeImage(carrusel, direction = 'next') {
-        const totalImages = carrusel.images.length;
+    // Inicializar cada carrusel encontrado en el DOM
+    carruselElements.forEach((carruselElement) => {
+        const carruselId = carruselElement.id.replace('carrusel', '').toLowerCase();
+        const imgElement = carruselElement.querySelector('img');
         
-        if (direction === 'next') {
-            carrusel.currentIndex = (carrusel.currentIndex + 1) % totalImages;
-        } else {
-            carrusel.currentIndex = (carrusel.currentIndex - 1 + totalImages) % totalImages;
+        if (!imgElement) {
+            console.error(`No se encontró la imagen en el carrusel ${carruselId}`);
+            return;
         }
+
+        // Obtener imágenes del data-attribute (ejemplo: data-images='["/static/images/natacion_1.jpg", ...]')
+        const images = JSON.parse(carruselElement.getAttribute('data-images')) || [];
         
+        if (images.length === 0) {
+            console.warn(`No hay imágenes definidas para el carrusel ${carruselId}`);
+            return;
+        }
+
+        carrusels[carruselId] = {
+            images: images,
+            currentIndex: 0,
+            element: imgElement,
+            interval: null
+        };
+    });
+
+    // 2. Función para cambiar imagen (avanzar/retroceder)
+    function changeImage(carrusel, direction = 'next') {
+        if (!carrusel || !carrusel.element) return;
+
+        const totalImages = carrusel.images.length;
+        carrusel.currentIndex = direction === 'next' 
+            ? (carrusel.currentIndex + 1) % totalImages 
+            : (carrusel.currentIndex - 1 + totalImages) % totalImages;
+
         carrusel.element.src = carrusel.images[carrusel.currentIndex];
     }
 
-    // Función para iniciar el intervalo automático
+    // 3. Iniciar rotación automática (cada 5 segundos)
     function startAutoRotation(carrusel) {
-        // Limpiar intervalo existente si hay uno
-        if (carrusel.interval) clearInterval(carrusel.interval);
+        if (!carrusel) return;
         
-        // Configurar nuevo intervalo
+        if (carrusel.interval) {
+            clearInterval(carrusel.interval);
+        }
+        
         carrusel.interval = setInterval(() => {
             changeImage(carrusel);
         }, 5000);
     }
 
-    // Función para pausar el auto-rotado al interactuar
+    // 4. Configurar interacciones (botones y hover)
     function setupCarruselInteractions(carrusel) {
-        const container = carrusel.element.parentElement;
-        const prevBtn = container.querySelector('.btn:first-child');
-        const nextBtn = container.querySelector('.btn:last-child');
+        const container = carrusel.element.closest('.carrusel');
+        if (!container) return;
 
-        // Event listeners para botones
-        prevBtn.addEventListener('click', () => {
-            changeImage(carrusel, 'prev');
-            resetAutoRotation(carrusel);
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            changeImage(carrusel);
-            resetAutoRotation(carrusel);
-        });
+        const prevBtn = container.querySelector('.prevBtn');
+        const nextBtn = container.querySelector('.nextBtn');
 
-        // Pausar al pasar el ratón (solo en desktop)
+        // Botones de navegación
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                changeImage(carrusel, 'prev');
+                resetAutoRotation(carrusel);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                changeImage(carrusel, 'next');
+                resetAutoRotation(carrusel);
+            });
+        }
+
+        // Pausar al hacer hover (solo en desktop)
         if (window.innerWidth > 768) {
             container.addEventListener('mouseenter', () => {
                 if (carrusel.interval) clearInterval(carrusel.interval);
@@ -87,18 +89,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Función para reiniciar el auto-rotado
+    // 5. Reiniciar rotación automática después de interacción
     function resetAutoRotation(carrusel) {
         startAutoRotation(carrusel);
     }
 
-    // Inicializar todos los carruseles
+    // 6. Inicializar todos los carruseles
     function initCarrusels() {
         for (const key in carrusels) {
             const carrusel = carrusels[key];
             
             // Mostrar primera imagen
-            carrusel.element.src = carrusel.images[0];
+            if (carrusel.images.length > 0) {
+                carrusel.element.src = carrusel.images[0];
+            }
             
             // Configurar interacciones
             setupCarruselInteractions(carrusel);
@@ -108,28 +112,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Ajustar altura del carrusel según el tamaño de pantalla
+    // 7. Ajustar altura del carrusel según el tamaño de pantalla
     function adjustCarouselHeight() {
         const carruseles = document.querySelectorAll('.carrusel');
         const height = window.innerWidth <= 768 ? '180px' : 
-                        window.innerWidth <= 992 ? '220px' : '250px';
+                    window.innerWidth <= 992 ? '220px' : '250px';
         
         carruseles.forEach(carrusel => {
             carrusel.style.height = height;
         });
     }
 
-    // Inicializar todo cuando el DOM esté listo
-    initCarrusels();
-    adjustCarouselHeight();
+    // Inicialización final
+    if (Object.keys(carrusels).length > 0) {
+        initCarrusels();
+        adjustCarouselHeight();
+    } else {
+        console.warn('No se encontraron carruseles para inicializar.');
+    }
 
     // Reajustar al cambiar el tamaño de la ventana
     window.addEventListener('resize', () => {
         adjustCarouselHeight();
-        
-        // Reiniciar interacciones para actualizar el comportamiento hover
-        for (const key in carrusels) {
-            setupCarruselInteractions(carrusels[key]);
-        }
     });
 });

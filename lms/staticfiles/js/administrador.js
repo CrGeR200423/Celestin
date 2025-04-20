@@ -39,16 +39,11 @@ function cerrarSesion() {
     const confirmar = confirm("¿Estás seguro de que quieres cerrar sesión?");
     
     if (confirmar) {
-        // Aquí podrías añadir lógica para limpiar la sesión
-        console.log("Cerrando sesión...");
-        window.location.href = "";
-    } else {
-        console.log("Cierre de sesión cancelado");
+        // Redirige directamente a la URL de home
+        window.location.href = "/";  // Esto debería redirigir a la vista home
     }
-    
-    return confirmar;
+    return false; // Previene el comportamiento por defecto si se llama desde un evento
 }
-
 // --------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -34,96 +34,111 @@ body {
     padding: 20px;
 }
 
-.menu {
-    display: flex;
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    background-color:   #dad9d9;
+/* Contenedor principal */
+.menu-container {
+    background-color: #dad9d9;
     padding: 12px;
+    display: flex;
+    justify-content: center;
+    position: relative; 
 }
 
-.menu ul {
+/* Menú principal */
+.main-menu {
+    display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center; /* Centrar horizontalmente los elementos dentro del ul */
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
 }
 
-.menu li {
-    padding: 0 20px; /* Espaciado horizontal entre elementos */
-    border-right: 1px solid #000000; /* Línea divisoria entre elementos */
+.main-menu > li {
+    padding: 0 20px;
+    border-right: 1px solid #000;
+    position: relative;
 }
 
-.menu li:last-child {
-    border-right: none; /* Sin línea divisoria en el último elemento */
+.main-menu > li:last-child {
+    border-right: none;
+    margin-left: 0; /* Empuja el botón de login a la derecha */
 }
 
-.menu li a {
+.main-menu a {
     text-decoration: none;
     color: rgb(4, 75, 72);
     font-size: 18px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
     font-weight: 700;
-    display: block;
     font-family: Arial, sans-serif;
+    white-space: nowrap;
 }
 
-.menu li a:hover {
+.main-menu a:hover {
     text-decoration: underline;
 }
 
-/* Estilo del submenú desplegable - BOTON "CONOCENOS" */
-.menu li {
-    position: relative; /* Necesario para el submenú */
-}
-
-.menu li .sub-menu_conocenos {
-    display: none; /* Ocultar el submenú por defecto */
+/* Estilos del submenú */
+.submenu {
+    display: none;
+    list-style-type: none;
     position: absolute;
     left: 0;
     top: 100%;
-    background-color: hsla(0, 0%, 100%, 0.651);
-    box-shadow: 0 4px 6px rgb(0, 0, 0);
-    border-radius: 5px;
+    background-color: #dad9d989;
+    padding: 10px 0;
     min-width: 200px;
     z-index: 1000;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.menu li .sub-menu_conocenos li {
+.has-submenu.active .submenu {
     display: block;
-    padding: 10px;
-    border-bottom: 1px solid #52505086;
 }
 
-.menu li .sub-menu_conocenos li:last-child {
+.has-submenu.active .arrow {
+    transform: rotate(180deg);
+}
+
+.submenu li {
+    padding: 8px 15px;
+    list-style: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.submenu li:last-child {
     border-bottom: none;
 }
 
-.menu li .sub-menu_conocenos li a {
+.submenu a {
     color: rgb(4, 75, 72);
-    text-decoration: none;
-    display: block;
     font-size: 16px;
 }
 
-.menu li .sub-menu_conocenos li a:hover {
-    background-color: #053aaa;
-    color: white;
+
+
+/* Botón de inicio de sesión */
+.login-btn a {
+    background-color: #4CAF50;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 4px;
 }
 
-/* Mostrar submenú al pasar el cursor */
-.menu li:hover > .sub-menu_conocenos {
-    display: block;
+.login-btn a:hover {
+    background-color: #45a049;
+    text-decoration: none !important;
 }
-
 
 /* Botón de inicio de sesión */
 .btn-iniciar-sesion {
     background-color: #053aaa;
     color: white;
     padding: 10px 15px;
+    top: 3px; /* Ajusta este valor según necesites */
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
@@ -133,7 +148,7 @@ body {
 }
 
 .btn-iniciar-sesion:hover {
-    background-color: #021f5a;
+    background-color: #083081;
 }
 
 /*header-contenido*/
@@ -245,62 +260,81 @@ body {
     padding-left: 25px;
 }
 
+/* Contenedor principal del carrusel */
 .carrusel {
     position: relative;
     width: 100%;
-    height: 250px; /* Aumenta la altura del carrusel */
+    max-width: 800px; /* Ajusta según necesidad */
+    height: 300px; /* Altura aumentada */
+    margin: 20px auto;
     overflow: hidden;
-    display: flex;
-    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* Imagen del carrusel */
 .carrusel img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: opacity 0.5s ease;
     display: block;
-    border-radius: 8px;
-    z-index: 0;
-    object-fit: cover; /* Asegura que la imagen llene el espacio correctamente */
 }
 
-.btn {
+/* Botones de navegación */
+.carrusel .btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
     border: none;
-    font-size: 24px;
+    padding: 10px 15px;
+    font-size: 1.5rem;
     cursor: pointer;
-    z-index: 1; /* Asegúrate de que los botones estén por encima de la imagen */
+    border-radius: 50%;
+    z-index: 10;
+    transition: all 0.3s ease;
 }
 
-.btn:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+.carrusel .btn:hover {
+    background-color: rgba(0,0,0,0.8);
 }
 
-#prevBtnNatacion {
-    left: 10px; /* Ajusta el espacio a la izquierda */
+.carrusel .prevBtn {
+    left: 20px;
 }
 
-#nextBtnNatacion {
-    right: 10px; /* Ajusta el espacio a la derecha */
+.carrusel .nextBtn {
+    right: 20px;
 }
 
-#prevBtnKarate {
-    left: 10px; /* Ajusta el espacio a la izquierda */
+/* Indicadores (opcional) */
+.carrusel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
 }
 
-#nextBtnKarate {
-    right: 10px; /* Ajusta el espacio a la derecha */
+.carrusel-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-#prevBtnDanza {
-    left: 10px; /* Ajusta el espacio a la izquierda */
+.carrusel-indicator.active {
+    background-color: white;
+    transform: scale(1.2);
 }
 
-#nextBtnDanza {
-    right: 10px; /* Ajusta el espacio a la derecha */
-}
 
 /*--------footer---------*/
 
@@ -326,7 +360,10 @@ footer {
 }
 
 .footer-logo img {
-    max-width: 350px; /* Ajusta el tamaño del logo */
+    max-width:130px; /* Ajusta el tamaño del logo */
+    position: relative;
+    margin-top: 90px;
+
 }
 
 .footer-info, .footer-links, .footer-socials {
@@ -376,7 +413,7 @@ footer {
 }
 
 .footer-container {
-    background-color: #053aaa; /* Color verde del fondo */
+    background-color: #053aaa; /* Color azul del fondo */
     padding: 1px 20px 30px; /* Espaciado dentro del cuadro */
     text-align: center; /* Centrar el texto */
     position: relative; /* Asegura que el footer se posicione correctamente */
@@ -390,11 +427,6 @@ footer {
     color: #a0f4ff; /* Color del texto */
 }
 
-#hola{
-    color:#f3ecec;
-    text-decoration: none;
-}
-
 .footer-info h4{
     color: #71bfbc;
 }
@@ -405,6 +437,7 @@ footer {
 #footer-texto p{
     margin-top: 0;
     padding-top: 0;
+    background-color: #053aaa;
 }
 
 /*iconos redes*/
@@ -413,6 +446,7 @@ footer {
     flex-direction: column; /* Apila los elementos verticalmente */
     align-items: center; /* Centra los elementos */
     text-align: center; /* Asegura que el texto y los íconos estén alineados */
+    margin-top: 18px;
 }
 
 .footer-socials h4 {
@@ -430,6 +464,7 @@ footer {
 
 .footer-socials ul li {
     display: inline-block;
+    margin-top: 60px;
 }
 
 .social-icon {
@@ -437,7 +472,35 @@ footer {
     height: auto;
 }
 
-/* Añade estas media queries al final de tu archivo CSS */
+#hola{
+    color:#f3ecec;
+    text-decoration: none;
+}
+
+.footer-columnas {
+    text-align: center;
+}
+
+.footer-columnas ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-columnas li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.footer-columnas a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-columnas a:hover {
+    color: #d7da12;
+    text-decoration: underline;
+}
 
 /* Media Queries para Responsividad */
 @media (max-width: 1200px) {
@@ -577,49 +640,29 @@ footer {
 }
 
 /* Ajustes para los botones del carrusel en móviles */
+@media (max-width: 768px) {
+    .carrusel {
+        height: 250px;
+    }
+    
+    .carrusel .btn {
+        padding: 8px 12px;
+        font-size: 1.2rem;
+    }
+}
+
 @media (max-width: 480px) {
-    .btn {
-        font-size: 18px;
-        padding: 5px;
+    .carrusel {
+        height: 200px;
     }
     
-    #prevBtnNatacion, 
-    #prevBtnKarate, 
-    #prevBtnDanza {
-        left: 5px;
-    }
-    
-    #nextBtnNatacion, 
-    #nextBtnKarate, 
-    #nextBtnDanza {
-        right: 5px;
+    .carrusel .btn {
+        padding: 6px 10px;
+        font-size: 1rem;
     }
 }
 
-.footer-columnas {
-    text-align: center;
-}
 
-.footer-columnas ul {
-    padding: 0;
-    margin: 0;
-}
-
-.footer-columnas li {
-    list-style: none;
-    margin: 10px 0;
-}
-
-.footer-columnas a {
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-columnas a:hover {
-    color: #d7da12;
-    text-decoration: underline;
-}
 /*---------------------------------------------*/
 
 /* Botón de WhatsApp flotante */
