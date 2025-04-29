@@ -170,15 +170,14 @@
                         <label>Dirección:</label>
                         <textarea name="direccion">{{ datos.direccion|default:'' }}</textarea>
                 
-                        <button type="submit" id="btnGuardar">
-                            {% if modo_edicion %}Actualizar{% else %}Registrar{% endif %}
-                        </button>
-                        <span id="spinner" style="display:none; margin-left: 10px;">⏳ Guardando...</span>
-                        
+                        <div style="margin-top: 10px;">
+                            <button type="submit" id="btnGuardar">
+                                {% if modo_edicion %}Actualizar{% else %}Registrar{% endif %}
+                            </button>
+                            <span id="spinner" style="display:none; margin-left: 10px;">⏳ Guardando...</span>
+                        </div>
                     </form>
                 </div>
-                
-                
                 
                 <div id="formularioAdministrador" class="formulario-rol" {% if rol != 'Administrador' %}style="display:none;"{% endif %}>
                     <h3>{% if modo_edicion %}Editar Administrador{% else %}Registrar Administrador{% endif %}</h3>
@@ -217,13 +216,15 @@
                         <label>Dirección:</label>
                         <textarea name="direccion">{{ datos.direccion|default:'' }}</textarea>
                 
-                        <button type="submit" id="btnGuardar">
-                            {% if modo_edicion %}Actualizar{% else %}Registrar{% endif %}
-                        </button>
-                        <span id="spinner" style="display:none; margin-left: 10px;">⏳ Guardando...</span>
-                        
+                        <div style="margin-top: 10px;">
+                            <button type="submit" id="btnGuardar">
+                                {% if modo_edicion %}Actualizar{% else %}Registrar{% endif %}
+                            </button>
+                            <span id="spinner" style="display:none; margin-left: 10px;">⏳ Guardando...</span>
+                        </div>
                     </form>
                 </div>
+                
                 
 <!-- Bloque de mensajes visuales -->
 <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>

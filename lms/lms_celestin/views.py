@@ -220,38 +220,54 @@ def administradores(request):
     usuarios = CustomUser.objects.select_related(
         'alumno', 'docente', 'administrador'
     ).all().order_by('-date_joined')
-    
+
     usuarios_data = []
     for i, usuario in enumerate(usuarios, start=1):
-        nombre_completo = "No asignado"
-        
-        # Determinar el nombre según el rol
+        data = {
+            'id': usuario.id,
+            'numero': i,
+            'email': usuario.email,
+            'rol': usuario.get_rol_display(),
+            'estado': 'Activo' if usuario.is_active else 'Inactivo'
+        }
+
         if usuario.rol == 'EST' and hasattr(usuario, 'alumno'):
             persona = usuario.alumno.id_persona
-            nombre_completo = f"{persona.nombres} {persona.apellidos}"
+            data.update({
+                'nombre': f"{persona.nombres} {persona.apellidos}",
+                'documento': persona.documento,
+                'tipo_documento': persona.tipo_documento,
+                'sexo': persona.sexo,
+                'direccion': persona.direccion,
+                'fecha_nacimiento': persona.fecha_nacimiento,
+                'codigo': usuario.alumno.codigo_estudiante,
+            })
+
         elif usuario.rol == 'DOC' and hasattr(usuario, 'docente'):
             persona = usuario.docente.id_persona
-            nombre_completo = f"{persona.nombres} {persona.apellidos}"
+            data.update({
+                'nombre': f"{persona.nombres} {persona.apellidos}",
+                'documento': persona.documento,
+                'tipo_documento': persona.tipo_documento,
+                'sexo': persona.sexo,
+                'direccion': persona.direccion,
+                'especialidad': usuario.docente.especialidad,
+                'titulos': usuario.docente.titulos,
+            })
+
         elif usuario.rol == 'ADM' and hasattr(usuario, 'administrador'):
             persona = usuario.administrador.id_persona
-            nombre_completo = f"{persona.nombres} {persona.apellidos}"
-        
-        usuarios_data.append({
-            'id': usuario.id,  # Asegúrate que esto está presente
-            'numero': i,
-            'nombre': nombre_completo,
-            'email': usuario.email,
-            'rol': usuario.get_rol_display() if hasattr(usuario, 'get_rol_display') else usuario.rol,
-            'estado': 'Activo' if usuario.is_active else 'Inactivo'
-        })
-    
-    # Debug: Verifica los datos antes de enviarlos
-    print("Datos enviados a la plantilla:", usuarios_data[:1])  # Imprime el primer usuario para verificar
-    
-    return render(request, 'administrador.html', {
-        'usuarios': usuarios_data,
-        'debug_data': str(usuarios_data[:1])  # Para depuración en plantilla
-    })
+            data.update({
+                'nombre': f"{persona.nombres} {persona.apellidos}",
+                'documento': persona.documento,
+                'tipo_documento': persona.tipo_documento,
+                'sexo': persona.sexo,
+                'direccion': persona.direccion,
+            })
+
+        usuarios_data.append(data)
+
+    return render(request, 'administrador.html', {'usuarios': usuarios_data})
 
 
 

@@ -31,284 +31,359 @@
                 </div>
             </ul>
         </nav>
-
+        <main class="content">
         <!-- Contenido principal -->
-        <section id="novedades" class="active">
-            <h2>Gestión de Novedades</h2>
-            
-            <!-- Formulario para agregar novedades -->
-            <div class="form-novedad">
-                <h3>Agregar Nueva Novedad</h3>
-                <form id="formAgregarNovedad">
-                    <div class="form-group">
-                        <label for="tituloNovedad">Título:</label>
-                        <input type="text" id="tituloNovedad" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="descripcionNovedad">Descripción:</label>
-                        <textarea id="descripcionNovedad" rows="4" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="imagenNovedad">Imagen:</label>
-                        <input type="file" id="imagenNovedad" accept="image/jpeg, image/png, image/gif, image/webp">
-                        <div id="previewImagen" class="preview-container"></div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="fechaNovedad">Fecha:</label>
-                        <input type="date" id="fechaNovedad" required>
-                    </div>
-                    
-                    <button type="button" class="btn-subir" onclick="subirNovedad()">Subir Novedad</button>
-                </form>
-            </div>
-            
-            <!-- Listado de novedades existentes -->
-            <div class="lista-novedades">
-                <h3>Novedades Publicadas</h3>
-                <table class="tabla-novedades">
-                    <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista-novedades">
-                        <!-- Se llenará dinámicamente -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section id="usuarios">
-            <!-- Debug: Ver datos recibidos -->
-            <div style="display: none;">
-                <h3>Datos recibidos (debug):</h3>
-                <pre>{{ debug_data }}</pre>
-                <p>Total usuarios: {{ usuarios|length }}</p>
-            </div>
-            <h2>Listado de Usuarios</h2>
-            <div class="form-nuevo-usuario">
-                <button class="btn-agregar-usuario" onclick="agregarUsuario()">
-                    <span class="icono">➕</span> Agregar Usuario
-                </button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Num</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaUsuarios">
-                    {% for usuario in usuarios %}
-                    <tr data-user-id="{{ usuario.id }}">
-                        <td style="display: none;">ID: {{ usuario.id }}</td>
-                        <td>{{ usuario.numero }}</td>
-                        <td>{{ usuario.nombre }}</td>
-                        <td>{{ usuario.email }}</td>
-                        <td>{{ usuario.rol }}</td>
-                        <td>
-                            <button onclick="editarUsuario({{ usuario.id }})">✏️ Modificar</button>
-                            <button class="ver">👁️ Ver</button>
-                            <button class="eliminar" onclick="confirmarEliminacion({{ usuario.id }})">❌ Eliminar</button>
-                        </td>
-                        <td>
-                            {% if usuario.estado == 'Activo' %}
-                                <button class="inhabilitar" onclick="cambiarEstado({{ usuario.id }}, false)">🔴 Inhabilitar</button>
-                            {% else %}
-                                <button class="habilitar" onclick="cambiarEstado({{ usuario.id }}, true)">🟢 Habilitar</button>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    
-                {% endfor %}
-                </tbody>
-            </table>
-        </section>
-
-            <section id="estado">
-                <h2>Estado de Usuarios</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Num</th>
-                            <th>Nombre</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan Pérez</td>
-                            <td>Habilitado</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section id="circulares">
-                <h2>Aplicantes</h2>
+            <section id="novedades" class="active">
+                <h2>Gestión de Novedades</h2>
                 
-                <!-- Tabla de aplicantes -->
-                <div class="tabla-aplicantes-container">
-                    <table class="tabla-aplicantes">
+                <!-- Formulario para agregar novedades -->
+                <div class="form-novedad">
+                    <h3>Agregar Nueva Novedad</h3>
+                    <form id="formAgregarNovedad">
+                        <div class="form-group">
+                            <label for="tituloNovedad">Título:</label>
+                            <input type="text" id="tituloNovedad" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="descripcionNovedad">Descripción:</label>
+                            <textarea id="descripcionNovedad" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="imagenNovedad">Imagen:</label>
+                            <input type="file" id="imagenNovedad" accept="image/jpeg, image/png, image/gif, image/webp">
+                            <div id="previewImagen" class="preview-container"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fechaNovedad">Fecha:</label>
+                            <input type="date" id="fechaNovedad" required>
+                        </div>
+                        
+                        <button type="button" class="btn-subir" onclick="subirNovedad()">Subir Novedad</button>
+                    </form>
+                </div>
+                
+                <!-- Listado de novedades existentes -->
+                <div class="lista-novedades">
+                    <h3>Novedades Publicadas</h3>
+                    <table class="tabla-novedades">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Nombre Completo</th>
-                                <th>Documento</th>
+                                <th>Título</th>
+                                <th>Fecha</th>
                                 <th>Acciones</th>
-                            </tr><br><br>
+                            </tr>
                         </thead>
-                        <tbody id="lista-aplicantes">
-                            <!-- Ejemplo de fila (se llenará dinámicamente) -->
+                        <tbody id="lista-novedades">
+                            <!-- Se llenará dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="usuarios">
+                <!-- Debug: Ver datos recibidos -->
+                <div style="display: none;">
+                    <h3>Datos recibidos (debug):</h3>
+                    <pre>{{ debug_data }}</pre>
+                    <p>Total usuarios: {{ usuarios|length }}</p>
+                </div>
+                <h2>Listado de Usuarios</h2>
+                <div class="filtros-usuarios">
+                    <!-- Barra de búsqueda -->
+                    <div class="search-box">
+                        <input type="text" id="buscarUsuario" placeholder="Buscar por nombre, email, documento..." onkeyup="filtrarUsuarios()">
+                        <span>🔍</span>
+                        <button id="btnLimpiarBusqueda" class="btn-limpiar" onclick="limpiarBusqueda()">×</button>
+                    </div>
+                    
+                    <!-- Filtros combinados -->
+                    <div class="filtros-combinados">
+                        <div class="filtro-rol">
+                            <label>Rol:</label>
+                            <select id="filtroRol" onchange="filtrarUsuarios()">
+                                <option value="">Todos los roles</option>
+                                <option value="Estudiante">Estudiantes</option>
+                                <option value="Profesor">Docentes</option>
+                                <option value="Administrador">Administradores</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filtro-estado">
+                            <label>Estado:</label>
+                            <select id="filtroEstado" onchange="filtrarUsuarios()">
+                                <option value="">Todos los estados</option>
+                                <option value="Activo">Activos</option>
+                                <option value="Inactivo">Inactivos</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filtro-orden">
+                            <label>Ordenar por:</label>
+                            <select id="filtroOrden" onchange="ordenarUsuarios()">
+                                <option value="nombre-asc">Nombre (A-Z)</option>
+                                <option value="nombre-desc">Nombre (Z-A)</option>
+                                <option value="fecha-asc">Fecha registro (antiguos)</option>
+                                <option value="fecha-desc">Fecha registro (recientes)</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn-limpiar-filtros" onclick="limpiarFiltros()">
+                            Limpiar todos los filtros
+                        </button>
+                    </div>
+                    
+                    <!-- Indicador de filtros activos -->
+                    <div id="filtros-activos" class="filtros-activos"></div>
+                    
+                    <!-- Contador de resultados -->
+                    <div id="contador-resultados" class="contador-resultados">
+                        Mostrando <span id="num-resultados">0</span> de <span id="num-total">0</span> usuarios
+                    </div>
+                </div>
+                <div class="form-nuevo-usuario">
+                    <button class="btn-agregar-usuario" onclick="agregarUsuario()">
+                        <span class="icono">➕</span> Agregar Usuario
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Num</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaUsuarios">
+                            {% for usuario in usuarios %}
+                            <tr data-user-id="{{ usuario.id }}">
+                                <td style="display: none;">ID: {{ usuario.id }}</td>
+                                <td>{{ usuario.numero }}</td>
+                                <td>{{ usuario.nombre }}</td>
+                                <td>{{ usuario.email }}</td>
+                                <td>{{ usuario.rol }}</td>
+                                <td>
+                                    <button onclick="editarUsuario({{ usuario.id }})">✏️ Modificar</button>
+                                    <button onclick="verUsuario({{ usuario.id }})">👁️ Ver</button>
+                                    <button class="eliminar" onclick="confirmarEliminacion({{ usuario.id }})">❌ Eliminar</button>
+                                </td>
+                                <td>
+                                    {% if usuario.estado == 'Activo' %}
+                                        <button class="inhabilitar" onclick="cambiarEstado({{ usuario.id }}, false)">🔴 Inhabilitar</button>
+                                    {% else %}
+                                        <button class="habilitar" onclick="cambiarEstado({{ usuario.id }}, true)">🟢 Habilitar</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            
+                        {% endfor %}
+                        </tbody>
+                        {% for usuario in usuarios %}
+                        <script id="usuario_data_{{ usuario.id }}" type="application/json">
+                            {
+                                "id": {{ usuario.id|safe }},
+                                "numero": {{ usuario.numero|safe }},
+                                "nombre": "{{ usuario.nombre|escapejs }}",
+                                "email": "{{ usuario.email|escapejs }}",
+                                "rol": "{{ usuario.rol|escapejs }}",
+                                "estado": "{{ usuario.estado|escapejs }}",
+                                "documento": "{{ usuario.documento|default:''|escapejs }}",
+                                "tipo_documento": "{{ usuario.tipo_documento|default:''|escapejs }}",
+                                "sexo": "{{ usuario.sexo|default:''|escapejs }}",
+                                "direccion": "{{ usuario.direccion|default:''|escapejs }}",
+                                "fecha_nacimiento": "{{ usuario.fecha_nacimiento|default:''|escapejs }}",
+                                "codigo_estudiante": "{{ usuario.codigo|default:''|escapejs }}",
+                                "especialidad": "{{ usuario.especialidad|default:''|escapejs }}",
+                                "titulos": "{{ usuario.titulos|default:''|escapejs }}"
+                            }
+                        </script>
+                    {% endfor %}
+
+                    </table>
+                </div>
+            </section>
+
+                <section id="estado">
+                    <h2>Estado de Usuarios</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Num</th>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>María González</td>
-                                <td>1023456789</td>
-                                <td>
-                                    <button class="btn-ver" onclick="mostrarDetallesAplicante(1)">👁️ Ver</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Carlos Rodríguez</td>
-                                <td>987654321</td>
-                                <td>
-                                    <button class="btn-ver" onclick="mostrarDetallesAplicante(2)">👁️ Ver</button>
-                                </td>
+                                <td>Juan Pérez</td>
+                                <td>Habilitado</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-            
-                <!-- Modal para detalles del aplicante -->
-                <div id="modal-aplicante" class="modal" style="display: none;">
-                    <div class="modal-contenido">
-                        <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
-                        <h3>Información Completa del Aplicante</h3>
-                        
-                        <div id="detalles-aplicante" class="detalles-container">
-                            <!-- Aquí se mostrarán los detalles dinámicamente -->
-                            <div class="detalle-item">
-                                <strong>Nombre Completo:</strong> <span id="detalle-nombre">María González</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Documento:</strong> <span id="detalle-documento">1023456789</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Fecha de Nacimiento:</strong> <span id="detalle-fecha-nac">15/03/2010</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Grado al que aplica:</strong> <span id="detalle-grado">3° Primaria</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Nombre del Acudiente:</strong> <span id="detalle-acudiente">Laura González</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Teléfono:</strong> <span id="detalle-telefono">3001234567</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Correo Electrónico:</strong> <span id="detalle-email">acudiente@example.com</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Dirección:</strong> <span id="detalle-direccion">Calle 123 #45-67</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Fecha de Aplicación:</strong> <span id="detalle-fecha-apl">20/05/2023</span>
-                            </div>
-                        </div>
-                        
-                        <div class="acciones-modal">
-                            <button class="btn-rechazar" onclick="rechazarAplicante()">Rechazar</button>
-                            <button class="btn-aceptar" onclick="confirmarAceptacion()">Aceptar</button>
-                        </div>
-                    </div>
-                </div>
-            
-                <!-- Modal de confirmación -->
-                <div id="modal-confirmacion" class="modal" style="display: none;">
-                    <div class="modal-contenido modal-pequeno">
-                        <p id="mensaje-confirmacion">¿Está seguro que desea aceptar este aplicante?</p>
-                        <div class="botones-confirmacion">
-                            <button class="btn-cancelar" onclick="cerrarConfirmacion()">Cancelar</button>
-                            <button class="btn-confirmar" onclick="aceptarAplicante()">Confirmar</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-                <!-- Reemplaza la sección galeria por esta nueva sección cursos -->
-            <section id="galeria" class="section-cursos">
-                <h2>Gestión de Cursos</h2>
-                
-                <!-- Tabla de cursos -->
-                <div class="cursos-container">
-                    <table class="tabla-cursos">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre del Curso</th>
-                                <th>Docente Asignado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lista-cursos">
-                            <!-- Se llenará dinámicamente -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Contenedor para estudiantes del curso seleccionado -->
-                <div id="estudiantes-curso" class="estudiantes-container" style="display: none;">
-                    <h3>Estudiantes del Curso: <span id="nombre-curso-seleccionado"></span></h3>
-                    <table class="tabla-estudiantes">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Documento</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lista-estudiantes">
-                            <!-- Se llenará dinámicamente -->
-                        </tbody>
-                    </table>
-                    <button id="asignar-docente-btn" class="btn-asignar">Asignar Docente</button>
-                </div>
-
-                <!-- Modal para asignar docente -->
-                <div id="modal-docente" class="modal" style="display: none;">
-                    <div class="modal-contenido">
-                        <span class="cerrar-modal">&times;</span>
-                        <h3>Asignar Docente al Curso: <span id="nombre-curso-modal"></span></h3>
-                        <div class="busqueda-docente">
-                            <input type="text" id="buscar-docente" placeholder="Buscar docente...">
-                        </div>
-                        <table class="tabla-docentes">
+                <section id="circulares">
+                    <h2>Aplicantes</h2>
+                    
+                    <!-- Tabla de aplicantes -->
+                    <div class="tabla-aplicantes-container">
+                        <table class="tabla-aplicantes">
                             <thead>
                                 <tr>
-                                    <th>Seleccionar</th>
-                                    <th>Nombre</th>
-                                    <th>Especialidad</th>
+                                    <th>#</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Documento</th>
+                                    <th>Acciones</th>
+                                </tr><br><br>
+                            </thead>
+                            <tbody id="lista-aplicantes">
+                                <!-- Ejemplo de fila (se llenará dinámicamente) -->
+                                <tr>
+                                    <td>1</td>
+                                    <td>María González</td>
+                                    <td>1023456789</td>
+                                    <td>
+                                        <button class="btn-ver" onclick="mostrarDetallesAplicante(1)">👁️ Ver</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Carlos Rodríguez</td>
+                                    <td>987654321</td>
+                                    <td>
+                                        <button class="btn-ver" onclick="mostrarDetallesAplicante(2)">👁️ Ver</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                
+                    <!-- Modal para detalles del aplicante -->
+                    <div id="modal-aplicante" class="modal" style="display: none;">
+                        <div class="modal-contenido">
+                            <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+                            <h3>Información Completa del Aplicante</h3>
+                            
+                            <div id="detalles-aplicante" class="detalles-container">
+                                <!-- Aquí se mostrarán los detalles dinámicamente -->
+                                <div class="detalle-item">
+                                    <strong>Nombre Completo:</strong> <span id="detalle-nombre">María González</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Documento:</strong> <span id="detalle-documento">1023456789</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Fecha de Nacimiento:</strong> <span id="detalle-fecha-nac">15/03/2010</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Grado al que aplica:</strong> <span id="detalle-grado">3° Primaria</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Nombre del Acudiente:</strong> <span id="detalle-acudiente">Laura González</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Teléfono:</strong> <span id="detalle-telefono">3001234567</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Correo Electrónico:</strong> <span id="detalle-email">acudiente@example.com</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Dirección:</strong> <span id="detalle-direccion">Calle 123 #45-67</span>
+                                </div>
+                                <div class="detalle-item">
+                                    <strong>Fecha de Aplicación:</strong> <span id="detalle-fecha-apl">20/05/2023</span>
+                                </div>
+                            </div>
+                            
+                            <div class="acciones-modal">
+                                <button class="btn-rechazar" onclick="rechazarAplicante()">Rechazar</button>
+                                <button class="btn-aceptar" onclick="confirmarAceptacion()">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Modal de confirmación -->
+                    <div id="modal-confirmacion" class="modal" style="display: none;">
+                        <div class="modal-contenido modal-pequeno">
+                            <p id="mensaje-confirmacion">¿Está seguro que desea aceptar este aplicante?</p>
+                            <div class="botones-confirmacion">
+                                <button class="btn-cancelar" onclick="cerrarConfirmacion()">Cancelar</button>
+                                <button class="btn-confirmar" onclick="aceptarAplicante()">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                    <!-- Reemplaza la sección galeria por esta nueva sección cursos -->
+                <section id="galeria" class="section-cursos">
+                    <h2>Gestión de Cursos</h2>
+                    
+                    <!-- Tabla de cursos -->
+                    <div class="cursos-container">
+                        <table class="tabla-cursos">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre del Curso</th>
+                                    <th>Docente Asignado</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="lista-docentes">
+                            <tbody id="lista-cursos">
                                 <!-- Se llenará dinámicamente -->
                             </tbody>
                         </table>
-                        <button id="confirmar-docente" class="btn-confirmar">Confirmar Asignación</button>
                     </div>
-                </div>
-            </section>
+
+                    <!-- Contenedor para estudiantes del curso seleccionado -->
+                    <div id="estudiantes-curso" class="estudiantes-container" style="display: none;">
+                        <h3>Estudiantes del Curso: <span id="nombre-curso-seleccionado"></span></h3>
+                        <table class="tabla-estudiantes">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Documento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-estudiantes">
+                                <!-- Se llenará dinámicamente -->
+                            </tbody>
+                        </table>
+                        <button id="asignar-docente-btn" class="btn-asignar">Asignar Docente</button>
+                    </div>
+
+                    <!-- Modal para asignar docente -->
+                    <div id="modal-docente" class="modal" style="display: none;">
+                        <div class="modal-contenido">
+                            <span class="cerrar-modal">&times;</span>
+                            <h3>Asignar Docente al Curso: <span id="nombre-curso-modal"></span></h3>
+                            <div class="busqueda-docente">
+                                <input type="text" id="buscar-docente" placeholder="Buscar docente...">
+                            </div>
+                            <table class="tabla-docentes">
+                                <thead>
+                                    <tr>
+                                        <th>Seleccionar</th>
+                                        <th>Nombre</th>
+                                        <th>Especialidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista-docentes">
+                                    <!-- Se llenará dinámicamente -->
+                                </tbody>
+                            </table>
+                            <button id="confirmar-docente" class="btn-confirmar">Confirmar Asignación</button>
+                        </div>
+                    </div>
+                </section>
         </main>
     </div>
 
@@ -482,6 +557,15 @@
         }, 3000);
     }
     </script>
+    <!-- Modal de vista -->
+    <div id="modalVerUsuarioDetalles" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0006; z-index:9999;">
+        <div style="background:#fff; padding:20px; width:400px; max-width:90%; margin:10% auto; border-radius:10px; position:relative;">
+            <span style="position:absolute; top:10px; right:10px; cursor:pointer; font-size:20px;" onclick="cerrarModalUsuario()">&times;</span>
+            <h3>👁️ Detalles del Usuario</h3>
+            <div id="detalleUsuario"></div>
+            <button style="margin-top:15px; padding:8px 15px;" onclick="cerrarModalUsuario()">Cerrar</button>
+        </div>
+    </div>
 
 </body>
 </html>
