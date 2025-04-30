@@ -106,6 +106,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'tu_app.backends.CustomUserBackend',  # Si tienes un backend personalizado
+]
 
 
 # Internationalization
@@ -143,5 +147,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Para Gmail
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'cristiangrb@gmail.com'
+EMAIL_HOST_USER = 'cristiangrb2004@gmail.com'
 EMAIL_HOST_PASSWORD = '1053584023CgRb'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

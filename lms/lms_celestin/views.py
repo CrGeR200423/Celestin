@@ -12,6 +12,11 @@ from django.core.exceptions import ValidationError
 from .models .auth import CustomUser
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
+import json
+import string
+from django.utils.crypto import get_random_string
 
 
 User = get_user_model()
@@ -64,10 +69,12 @@ def registrar_estudiante(request):
                 documento = request.POST['documento']
                 email_acudiente = request.POST['correo_acudiente']
                 username = f"est_{documento}"
-                password_temp = documento
+                caracteres = string.ascii_letters + string.digits  # A-Z, a-z, 0-9
+                password_temp = get_random_string(8, caracteres)
 
                 # Crear usuario
                 user = CustomUser.objects.create_user(
+                    documento = documento,
                     email=email_acudiente,
                     username=username,
                     password=make_password(password_temp),
@@ -132,7 +139,8 @@ def registrar_docente(request):
                 documento = request.POST['documento']
                 email = request.POST['email']
                 username = f"doc_{documento}"
-                password_temp = documento
+                caracteres = string.ascii_letters + string.digits  # A-Z, a-z, 0-9
+                password_temp = get_random_string(8, caracteres)
 
                 if CustomUser.objects.filter(email=email).exists():
                     raise ValidationError("Este correo ya está registrado")
@@ -141,6 +149,7 @@ def registrar_docente(request):
                     raise ValidationError("Este documento ya está registrado")
 
                 user = CustomUser.objects.create_user(
+                    documento=documento,
                     email=email,
                     username=username,
                     password=make_password(password_temp),
@@ -180,12 +189,14 @@ def registrar_administrador(request):
                 documento = request.POST['documento']
                 email = request.POST['email']
                 username = f"adm_{documento}"
-                password_temp = documento
+                caracteres = string.ascii_letters + string.digits  # A-Z, a-z, 0-9
+                password_temp = get_random_string(8, caracteres)
 
                 if CustomUser.objects.filter(email=email).exists():
                     raise ValidationError("Este correo ya está registrado")
 
                 user = CustomUser.objects.create_user(
+                    documento=documento,
                     email=email,
                     username=username,
                     password=make_password(password_temp),
@@ -468,3 +479,54 @@ def editar_usuario(request, user_id):
         'rol': rol,
         'datos': datos,
     })
+
+
+@csrf_exempt  # Solo para desarrollo, en producción usa CSRF correctamente
+def iniciar_sesion(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            documento = data.get('documento')
+            password = data.get('password')
+            user_type = data.get('userType')
+
+            # Autenticar al usuario
+            user = authenticate(request, username=documento, password=password)
+            
+            if user is not None:
+                # Verificar el rol del usuario
+                role_mapping = {
+                    'administrador': 'ADM',
+                    'profesor': 'DOC',
+                    'estudiante': 'EST'
+                }
+                
+                expected_role = role_mapping.get(user_type)
+                
+                if user.rol == expected_role:
+                    login(request, user)
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Autenticación exitosa'
+                    })
+                else:
+                    return JsonResponse({
+                        'success': False,
+                        'message': 'El rol seleccionado no coincide con el usuario'
+                    }, status=403)
+            else:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Usuario o contraseña incorrectos'
+                }, status=401)
+                
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': str(e)
+            }, status=500)
+    
+    return JsonResponse({
+        'success': False,
+        'message': 'Método no permitido'
+    }, status=405)

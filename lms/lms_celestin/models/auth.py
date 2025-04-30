@@ -7,19 +7,15 @@ class CustomUser(AbstractUser):
         ('DOC', 'Docente'),
         ('ADM', 'Administrador'),
     )
-    
-    # Cambio crucial: Añade unique=True al campo email
+
     email = models.EmailField('correo electrónico', unique=True)
-    
+    documento = models.CharField(max_length=50, unique=True, null=True)  # <- CAMPO CLAVE
     rol = models.CharField(max_length=3, choices=ROLES, default='EST')
     telefono = models.CharField(max_length=15, blank=True, null=True)
-    
-    # Especifica que el email será usado para login
-    USERNAME_FIELD = 'email'
-    
-    # Los campos requeridos al crear un superusuario
-    REQUIRED_FIELDS = ['username']  # username sigue siendo requerido para algunos comandos
-    
+
+    USERNAME_FIELD = 'documento'  # <- AQUÍ
+    REQUIRED_FIELDS = ['email', 'username']
+
     class Meta:
         db_table = 'custom_user'
         verbose_name = 'Usuario'

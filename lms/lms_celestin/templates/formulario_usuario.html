@@ -116,7 +116,30 @@
                 
                         <label>Código Estudiante:</label>
                         <input type="text" name="codigo_estudiante" value="{{ datos.codigo_estudiante|default:'' }}" required>
-                
+                        <hr>
+                        <h4>Datos del Acudiente</h4>
+
+                        <label>Nombres del Acudiente:</label>
+                        <input type="text" name="nombre_acudiente" value="{{ datos.nombres_acudiente|default:'' }}" required>
+
+                        <label>Apellidos del Acudiente:</label>
+                        <input type="text" name="apellido_acudiente" value="{{ datos.apellidos_acudiente|default:'' }}" required>
+
+                        <label>Tipo de Documento:</label>
+                        <select name="tipo_documento_acudiente" required>
+                            <option value="CC" {% if datos.tipo_documento_acudiente == 'CC' %}selected{% endif %}>Cédula de Ciudadanía</option>
+                            <option value="CE" {% if datos.tipo_documento_acudiente == 'CE' %}selected{% endif %}>Cédula de Extranjería</option>
+                        </select>
+
+                        <label>Documento del Acudiente:</label>
+                        <input type="text" name="documento_acudiente" value="{{ datos.documento_acudiente|default:'' }}" required>
+
+                        <label>Dirección:</label>
+                        <textarea name="direccion_acudiente" required>{{ datos.direccion_acudiente|default:'' }}</textarea>
+
+                        <label>Correo Electrónico (opcional):</label>
+                        <input type="email" name="correo_acudiente" value="{{datos.correo_acudiente|default:'' }}" required>
+                        
                         <button type="submit" id="btnGuardar">
                             {% if modo_edicion %}Actualizar{% else %}Registrar{% endif %}
                         </button>
