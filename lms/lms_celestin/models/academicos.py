@@ -1,6 +1,6 @@
 from django.db import models
 from .personas import Docentes
-from .personas import Alumnos
+from .personas import Estudiante
 
 class Asignaturas(models.Model):
     nombre = models.CharField(unique=True, max_length=100)
@@ -44,7 +44,7 @@ class Matriculas(models.Model):
     grado = models.CharField(max_length=20)
     anio_academico = models.IntegerField()
     observaciones = models.TextField(blank=True, null=True)
-    id_alumno = models.ForeignKey(Alumnos, on_delete=models.CASCADE, db_column='id_alumno')
+    id_alumno = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='id_alumno')
 
     class Meta:
         db_table = 'matriculas'

@@ -1,12 +1,12 @@
 
 from django.shortcuts import render, redirect
-from .models import Personas,Docentes,Administradores, Alumnos, Acudientes, AcudientesAlumnos
+from .models import Persona,Docentes,Administradores,Estudiante, Acudiente, AcudientesAlumnos, Aplicante, FichaEstudiante
 from django.contrib import messages
 from django.contrib.auth.models import User  # Importar el modelo User de Django
 from django.contrib.auth.hashers import make_password  # Para encriptar contraseñas
 from django.core.mail import send_mail  # Para enviar credenciales por email
 from django.conf import settings
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from .models .auth import CustomUser
@@ -17,7 +17,6 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import string
 from django.utils.crypto import get_random_string
-
 
 User = get_user_model()
 # Create your views here.
@@ -57,24 +56,27 @@ def himno(request):
 def historia(request):
     return render(request, 'Historia.html')
 
-
-
-
-
-
 def registrar_estudiante(request):
     if request.method == 'POST':
         try:
             with transaction.atomic():
                 documento = request.POST['documento']
                 email_acudiente = request.POST['correo_acudiente']
+
+                # Validar duplicados
+                if CustomUser.objects.filter(documento=documento).exists():
+                    raise ValidationError("Este documento ya está registrado.")
+                if Persona.objects.filter(documento=documento).exists():
+                    raise ValidationError("Este documento ya está registrado.")
+                if CustomUser.objects.filter(email=email_acudiente).exists():
+                    raise ValidationError("Este correo ya está registrado.")
+
                 username = f"est_{documento}"
-                caracteres = string.ascii_letters + string.digits  # A-Z, a-z, 0-9
-                password_temp = get_random_string(8, caracteres)
+                password_temp = get_random_string(8, string.ascii_letters + string.digits)
 
                 # Crear usuario
                 user = CustomUser.objects.create_user(
-                    documento = documento,
+                    documento=documento,
                     email=email_acudiente,
                     username=username,
                     password=make_password(password_temp),
@@ -83,7 +85,7 @@ def registrar_estudiante(request):
                 )
 
                 # Persona estudiante
-                estudiante_persona = Personas.objects.create(
+                estudiante_persona = Persona.objects.create(
                     tipo_documento=request.POST['tipo_documento'],
                     documento=documento,
                     nombres=request.POST['nombres'],
@@ -94,14 +96,14 @@ def registrar_estudiante(request):
                 )
 
                 # Alumno
-                alumno = Alumnos.objects.create(
+                alumno = Estudiante.objects.create(
                     codigo_estudiante=request.POST['codigo_estudiante'],
                     id_persona=estudiante_persona,
                     usuario=user
                 )
 
                 # Persona acudiente
-                acudiente_persona = Personas.objects.create(
+                acudiente_persona = Persona.objects.create(
                     tipo_documento=request.POST['tipo_documento_acudiente'],
                     documento=request.POST['documento_acudiente'],
                     nombres=request.POST['nombre_acudiente'],
@@ -111,7 +113,7 @@ def registrar_estudiante(request):
                 )
 
                 # Acudiente
-                acudiente = Acudientes.objects.create(
+                acudiente = Acudiente.objects.create(
                     correo=email_acudiente,
                     id_persona=acudiente_persona
                 )
@@ -125,6 +127,8 @@ def registrar_estudiante(request):
                 messages.success(request, "✅ Estudiante registrado correctamente.")
                 return redirect('formulario')
 
+        except ValidationError as e:
+            messages.error(request, f"❌ Error de validación: {str(e)}")
         except Exception as e:
             messages.error(request, f"❌ Error al registrar: {str(e)}")
 
@@ -145,7 +149,7 @@ def registrar_docente(request):
                 if CustomUser.objects.filter(email=email).exists():
                     raise ValidationError("Este correo ya está registrado")
 
-                if Personas.objects.filter(documento=documento).exists():
+                if Persona.objects.filter(documento=documento).exists():
                     raise ValidationError("Este documento ya está registrado")
 
                 user = CustomUser.objects.create_user(
@@ -157,7 +161,7 @@ def registrar_docente(request):
                     is_active=True
                 )
 
-                persona = Personas.objects.create(
+                persona = Persona.objects.create(
                     tipo_documento=request.POST['tipo_documento'],
                     documento=documento,
                     nombres=request.POST['nombres'],
@@ -205,7 +209,7 @@ def registrar_administrador(request):
                     is_active=True
                 )
 
-                persona = Personas.objects.create(
+                persona = Persona.objects.create(
                     tipo_documento=request.POST['tipo_documento'],
                     documento=documento,
                     nombres=request.POST['nombres'],
@@ -229,7 +233,7 @@ def registrar_administrador(request):
 
 def administradores(request):
     usuarios = CustomUser.objects.select_related(
-        'alumno', 'docente', 'administrador'
+        'estudiante', 'docente', 'administrador'
     ).all().order_by('-date_joined')
 
     usuarios_data = []
@@ -242,7 +246,7 @@ def administradores(request):
             'estado': 'Activo' if usuario.is_active else 'Inactivo'
         }
 
-        if usuario.rol == 'EST' and hasattr(usuario, 'alumno'):
+        if usuario.rol == 'EST' and hasattr(usuario, 'estudiante'):
             persona = usuario.alumno.id_persona
             data.update({
                 'nombre': f"{persona.nombres} {persona.apellidos}",
@@ -481,7 +485,7 @@ def editar_usuario(request, user_id):
     })
 
 
-@csrf_exempt  # Solo para desarrollo, en producción usa CSRF correctamente
+@csrf_exempt
 def iniciar_sesion(request):
     if request.method == 'POST':
         try:
@@ -490,43 +494,273 @@ def iniciar_sesion(request):
             password = data.get('password')
             user_type = data.get('userType')
 
+            if not documento or not password or not user_type:
+                return JsonResponse({
+                    'success': False,'message': 'Documento, contraseña y tipo de usuario son requeridos.'}, status=400)
+
             # Autenticar al usuario
             user = authenticate(request, username=documento, password=password)
             
-            if user is not None:
-                # Verificar el rol del usuario
-                role_mapping = {
-                    'administrador': 'ADM',
-                    'profesor': 'DOC',
-                    'estudiante': 'EST'
-                }
-                
-                expected_role = role_mapping.get(user_type)
-                
-                if user.rol == expected_role:
-                    login(request, user)
-                    return JsonResponse({
-                        'success': True,
-                        'message': 'Autenticación exitosa'
-                    })
-                else:
-                    return JsonResponse({
-                        'success': False,
-                        'message': 'El rol seleccionado no coincide con el usuario'
-                    }, status=403)
-            else:
+            if user is None:
                 return JsonResponse({
-                    'success': False,
-                    'message': 'Usuario o contraseña incorrectos'
-                }, status=401)
-                
+                    'success': False,'message': 'Usuario o contraseña incorrectos.'}, status=401)
+
+            # Verificar el rol del usuario
+            role_mapping = {
+                'administrador': 'ADM',
+                'profesor': 'DOC',
+                'estudiante': 'EST'
+            }
+            
+            expected_role = role_mapping.get(user_type)
+            
+            if user.rol != expected_role:
+                return JsonResponse({
+                    'success': False,'message': 'El rol seleccionado no coincide con el usuario.'}, status=403)
+
+            login(request, user)
+            return JsonResponse({
+                'success': True,'message': 'Autenticación exitosa.'
+            })
+
         except Exception as e:
             return JsonResponse({
-                'success': False,
-                'message': str(e)
-            }, status=500)
+                'success': False,'message': f'Error en el servidor: {str(e)}'}, status=500)
     
     return JsonResponse({
-        'success': False,
-        'message': 'Método no permitido'
-    }, status=405)
+        'success': False,'message': 'Método no permitido.'}, status=405)
+
+@csrf_exempt
+def prematricula_estudiante(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Validar campos requeridos
+            campos_requeridos = [
+                'primer_nombre', 'primer_apellido', 'tipo_documento', 
+                'identificacion', 'fecha_nacimiento', 'sexo', 'direccion',
+                'municipio', 'telefono', 'grado_solicitado', 'estado',
+                'nombre_acudiente', 'telefono_acudiente', 'contacto_emergencia',
+                'telefono_emergencia'
+            ]
+            
+            for campo in campos_requeridos:
+                if campo not in data or not data[campo]:
+                    return JsonResponse({
+                        'success': False,'message': f'El campo {campo} es requerido'}, status=400)
+            
+            # Validar duplicados
+            if Aplicante.objects.filter(documento=data['identificacion']).exists():
+                return JsonResponse({
+                    'success': False,'message': 'Ya existe un aplicante con este número de documento'}, status=400)
+            
+            # Convertir valores de radio buttons a booleanos
+            data['familias_accion'] = data.get('familias_accion', 'NO') == 'SI'
+            data['discapacidad'] = data.get('discapacidad', 'NO') == 'SI'
+            
+            # Crear el aplicante
+            aplicante = Aplicante.objects.create(
+                primer_nombre=data['primer_nombre'],
+                segundo_nombre=data.get('segundo_nombre', ''),
+                primer_apellido=data['primer_apellido'],
+                segundo_apellido=data.get('segundo_apellido', ''),
+                tipo_documento=data['tipo_documento'],
+                documento=data['identificacion'],
+                fecha_nacimiento=data['fecha_nacimiento'],
+                sexo=data['sexo'],
+                direccion=data['direccion'],
+                municipio=data['municipio'],
+                barrio=data['barrio'],
+                telefono=data['telefono'],
+                grado_solicitado=data['grado_solicitado'],
+                estado=data['estado'],
+                nombre_acudiente=data['nombre_acudiente'],
+                telefono_acudiente=data['telefono_acudiente'],
+                contacto_emergencia=data['contacto_emergencia'],
+                telefono_emergencia=data['telefono_emergencia'],
+                familias_accion=data['familias_accion'],
+                discapacidad=data['discapacidad'],
+                tipo_discapacidad=data.get('tipo_discapacidad', '')
+            )
+            
+            return JsonResponse({
+                'success': True,'message': 'Prematrícula registrada. En espera de aprobación.','aplicante_id': aplicante.id
+            })
+            
+        except IntegrityError:
+            return JsonResponse({
+                'success': False,'message': 'Ya existe un aplicante con este número de documento'}, status=400)
+        except Exception as e:
+            return JsonResponse({
+                'success': False,'message': f'Error al procesar la solicitud: {str(e)}'}, status=400)
+    
+    return JsonResponse({
+        'success': False,'message': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def aceptar_aplicante(request, aplicante_id):
+    try:
+        aplicante = Aplicante.objects.get(id=aplicante_id)
+
+        # Validar si el aplicante ya ha sido aceptado
+        if Estudiante.objects.filter(id_persona__documento=aplicante.documento).exists():
+            return JsonResponse({
+                'success': False,'message': 'Este aplicante ya ha sido aceptado.'}, status=400)
+
+        # Crear persona del estudiante
+        persona_est = Persona.objects.create(
+            nombres=f"{aplicante.primer_nombre} {aplicante.segundo_nombre}",
+            apellidos=f"{aplicante.primer_apellido} {aplicante.segundo_apellido}",
+            tipo_documento=aplicante.tipo_documento,
+            documento=aplicante.documento,
+            fecha_nacimiento=aplicante.fecha_nacimiento,
+            sexo=aplicante.sexo,
+            direccion=aplicante.direccion
+        )
+
+        # Crear alumno
+        alumno = Estudiante.objects.create(
+            codigo_estudiante=aplicante.codigo_estudiante,
+            id_persona=persona_est
+        )
+
+        # Crear ficha estudiante
+        FichaEstudiante.objects.create(
+            alumno=alumno,
+            estado="ACTIVO"
+        )
+
+        # Crear acudiente principal
+        acudiente_persona = Persona.objects.create(
+            nombres=aplicante.nombre_acudiente,
+            apellidos="",
+            tipo_documento="CC",
+            documento=f"ACUD_{aplicante.documento}",
+            direccion=aplicante.direccion
+        )
+
+        acudiente = Acudiente.objects.create(
+            correo=aplicante.correo_acudiente,
+            telefono=aplicante.telefono_acudiente,
+            parentesco="TUTOR",
+            id_persona=acudiente_persona
+        )
+
+        AcudientesAlumnos.objects.create(
+            alumno=alumno,
+            acudiente=acudiente
+        )
+
+        # Crear usuario para el estudiante
+        username = f"est_{aplicante.documento}"
+        password_temp = get_random_string(8)
+
+        user = CustomUser.objects.create_user(
+            documento=aplicante.documento,
+            email=aplicante.correo_acudiente,
+            username=username,
+            password=make_password(password_temp),
+            rol='EST',
+            is_active=True
+        )
+
+        alumno.usuario = user
+        alumno.save()
+
+        # Eliminar aplicante
+        aplicante.delete()
+
+        return JsonResponse({
+            'success': True,
+            'message': 'Aplicante aceptado correctamente.',
+            'password': password_temp
+        })
+
+    except Aplicante.DoesNotExist:
+        return JsonResponse({
+            'success': False,'message': 'Aplicante no encontrado.'}, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,'message': f'Error al aceptar aplicante: {str(e)}'}, status=400)
+
+@csrf_exempt
+def rechazar_aplicante(request, aplicante_id):
+    try:
+        aplicante = Aplicante.objects.get(id=aplicante_id)
+        aplicante.delete()
+        return JsonResponse({'success': True, 'message': 'Aplicante eliminado correctamente'})
+    except Aplicante.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Aplicante no encontrado'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=400)
+
+
+
+@csrf_exempt
+def get_aplicante(request, aplicante_id):
+    try:
+        aplicante = Aplicante.objects.get(id=aplicante_id)
+        data = {
+            'id': aplicante.id,
+            'nombre_completo': f"{aplicante.nombres} {aplicante.apellidos}",
+            'documento': aplicante.documento,
+            'fecha_nacimiento': aplicante.fecha_nacimiento.strftime('%Y-%m-%d') if aplicante.fecha_nacimiento else None,
+            'sexo': aplicante.sexo,
+            'direccion': aplicante.direccion,
+            'codigo_estudiante': aplicante.codigo_estudiante,
+            'acudientes': [
+                {
+                    'parentesco': 'PADRE',
+                    'nombre': aplicante.nombre_padre,
+                    'telefono': aplicante.telefono_padre,
+                    'correo': ''
+                },
+                {
+                    'parentesco': 'MADRE',
+                    'nombre': aplicante.nombre_madre,
+                    'telefono': aplicante.telefono_madre,
+                    'correo': ''
+                },
+                {
+                    'parentesco': 'TUTOR',
+                    'nombre': aplicante.nombre_acudiente,
+                    'telefono': aplicante.telefono_acudiente,
+                    'correo': aplicante.correo_acudiente
+                }
+            ]
+        }
+
+        return JsonResponse({'success': True, 'aplicante': data})
+
+    except Aplicante.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Aplicante no encontrado'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=400)
+
+@csrf_exempt
+def listar_postulados(request):
+    try:
+        aplicantes = Aplicante.objects.all().order_by('-id')
+        data = []
+
+        for aplicante in aplicantes:
+            data.append({
+                'id': aplicante.id,
+                'nombre_completo': f"{aplicante.primer_nombre} {aplicante.segundo_nombre} {aplicante.primer_apellido} {aplicante.segundo_apellido}",
+                'documento': aplicante.documento,
+                'fecha_nacimiento': aplicante.fecha_nacimiento.strftime('%Y-%m-%d') if aplicante.fecha_nacimiento else '',
+                'sexo': aplicante.sexo,
+                'direccion': aplicante.direccion,
+                'telefono': aplicante.telefono,
+                'grado_ingresa': aplicante.grado_ingresa,
+                'estatus': aplicante.estatus,
+            })
+
+        return JsonResponse({
+            'success': True,'postulados': data
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            'success': False,'message': f'Error al listar postulados: {str(e)}'}, status=400)

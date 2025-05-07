@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
+    <link rel="icon" href="img/logoactualizado.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/estilo_administrador.css' %}">
 </head>
 <body>
@@ -20,552 +22,673 @@
     <div class="container">
         <!-- Menú lateral -->
         <nav class="sidebar">
+            <h2>Administración</h2>
             <ul><br><br>
                 <li><a href="#novedades">Novedades</a></li>
                 <li><a href="#usuarios">Usuarios</a></li>
-                <li><a href="#estado">Estado</a></li>
-                <li><a href="#circulares">Aplicantes</a></li>
+                <li><a href="#configuracion">Configuración del sitio web</a></li>
+                <li><a href="#estudiantes">estudiantes</a></li>
+                <li><a href="#profesores">profesores</a></li>
+                <li><a href="#asignaturas">asignaturas</a></li>
+                <li><a href="#circulares">Postulados</a></li>
                 <li><a href="#galeria">Cursos</a></li>
                 <div class="logo">
-                    <img src="{% static 'images/logoactualizado.png' %}" alt="Logo" />
+                    <img src="{% static  'images/logoactualizado.png' %}" alt="Logo" />
                 </div>
             </ul>
         </nav>
-        <main class="content">
-        <!-- Contenido principal -->
-            <section id="novedades" class="active">
-                <h2>Gestión de Novedades</h2>
-                
-                <!-- Formulario para agregar novedades -->
-                <div class="form-novedad">
-                    <h3>Agregar Nueva Novedad</h3>
-                    <form id="formAgregarNovedad">
-                        <div class="form-group">
-                            <label for="tituloNovedad">Título:</label>
-                            <input type="text" id="tituloNovedad" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="descripcionNovedad">Descripción:</label>
-                            <textarea id="descripcionNovedad" rows="4" required></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="imagenNovedad">Imagen:</label>
-                            <input type="file" id="imagenNovedad" accept="image/jpeg, image/png, image/gif, image/webp">
-                            <div id="previewImagen" class="preview-container"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="fechaNovedad">Fecha:</label>
-                            <input type="date" id="fechaNovedad" required>
-                        </div>
-                        
-                        <button type="button" class="btn-subir" onclick="subirNovedad()">Subir Novedad</button>
-                    </form>
-                </div>
-                
-                <!-- Listado de novedades existentes -->
-                <div class="lista-novedades">
-                    <h3>Novedades Publicadas</h3>
-                    <table class="tabla-novedades">
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Fecha</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lista-novedades">
-                            <!-- Se llenará dinámicamente -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
 
-            <section id="usuarios">
-                <!-- Debug: Ver datos recibidos -->
-                <div style="display: none;">
-                    <h3>Datos recibidos (debug):</h3>
-                    <pre>{{ debug_data }}</pre>
-                    <p>Total usuarios: {{ usuarios|length }}</p>
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Sección de Novedades -->
+            <section id="novedades" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-newspaper"></i> Gestión de Novedades</h2>
                 </div>
-                <h2>Listado de Usuarios</h2>
-                <div class="filtros-usuarios">
-                    <!-- Barra de búsqueda -->
-                    <div class="search-box">
-                        <input type="text" id="buscarUsuario" placeholder="Buscar por nombre, email, documento..." onkeyup="filtrarUsuarios()">
-                        <span>🔍</span>
-                        <button id="btnLimpiarBusqueda" class="btn-limpiar" onclick="limpiarBusqueda()">×</button>
+                    <div class="form-novedad">
+                        <h3>Agregar Nueva Novedad</h3>
+                        <form id="formAgregarNovedad">
+                            <div class="form-group">
+                                <label for="tituloNovedad">Título:</label>
+                                <input type="text" id="tituloNovedad" required>
+                            </div>
+                            
+                            
+                            <div class="form-group">
+                                <label for="descripcionNovedad">Descripción:</label>
+                                <textarea id="descripcionNovedad" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="imagenNovedad">Imagen:</label>
+                                <input type="file" id="imagenNovedad" accept="image/jpeg, image/png, image/gif, image/webp">
+                                <div id="previewImagen" class="preview-container"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fechaNovedad">Fecha:</label>
+                                <input type="date" id="fechaNovedad" required>
+                            </div>
+                            
+                            <button type="button" class="btn-subir" onclick="subirNovedad()">Subir Novedad</button>
+                        </form>
                     </div>
                     
-                    <!-- Filtros combinados -->
-                    <div class="filtros-combinados">
-                        <div class="filtro-rol">
-                            <label>Rol:</label>
-                            <select id="filtroRol" onchange="filtrarUsuarios()">
-                                <option value="">Todos los roles</option>
-                                <option value="Estudiante">Estudiantes</option>
-                                <option value="Profesor">Docentes</option>
-                                <option value="Administrador">Administradores</option>
-                            </select>
-                        </div>
-                        
-                        <div class="filtro-estado">
-                            <label>Estado:</label>
-                            <select id="filtroEstado" onchange="filtrarUsuarios()">
-                                <option value="">Todos los estados</option>
-                                <option value="Activo">Activos</option>
-                                <option value="Inactivo">Inactivos</option>
-                            </select>
-                        </div>
-                        
-                        <div class="filtro-orden">
-                            <label>Ordenar por:</label>
-                            <select id="filtroOrden" onchange="ordenarUsuarios()">
-                                <option value="nombre-asc">Nombre (A-Z)</option>
-                                <option value="nombre-desc">Nombre (Z-A)</option>
-                                <option value="fecha-asc">Fecha registro (antiguos)</option>
-                                <option value="fecha-desc">Fecha registro (recientes)</option>
-                            </select>
-                        </div>
-                        
-                        <button class="btn-limpiar-filtros" onclick="limpiarFiltros()">
-                            Limpiar todos los filtros
+                    <!-- Listado de novedades existentes -->
+                    <div class="lista-novedades">
+                        <h3>Novedades Publicadas</h3>
+                        <table class="tabla-novedades">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-novedades">
+                                <!-- Se llenará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+            </section>
+
+            <!-- Sección de Usuarios -->
+            <section id="usuarios" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users-cog"></i> Gestión de Usuarios</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" onclick="agregarUsuario()">
+                            <i class="fas fa-plus"></i> Nuevo Usuario
                         </button>
                     </div>
-                    
-                    <!-- Indicador de filtros activos -->
-                    <div id="filtros-activos" class="filtros-activos"></div>
-                    
-                    <!-- Contador de resultados -->
-                    <div id="contador-resultados" class="contador-resultados">
-                        Mostrando <span id="num-resultados">0</span> de <span id="num-total">0</span> usuarios
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaUsuarios">
+                                <!-- Se llenará dinámicamente -->
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="form-nuevo-usuario">
-                    <button class="btn-agregar-usuario" onclick="agregarUsuario()">
-                        <span class="icono">➕</span> Agregar Usuario
-                    </button>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Num</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Rol</th>
-                                <th>Acciones</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaUsuarios">
-                            {% for usuario in usuarios %}
-                            <tr data-user-id="{{ usuario.id }}">
-                                <td style="display: none;">ID: {{ usuario.id }}</td>
-                                <td>{{ usuario.numero }}</td>
-                                <td>{{ usuario.nombre }}</td>
-                                <td>{{ usuario.email }}</td>
-                                <td>{{ usuario.rol }}</td>
-                                <td>
-                                    <button onclick="editarUsuario({{ usuario.id }})">✏️ Modificar</button>
-                                    <button onclick="verUsuario({{ usuario.id }})">👁️ Ver</button>
-                                    <button class="eliminar" onclick="confirmarEliminacion({{ usuario.id }})">❌ Eliminar</button>
-                                </td>
-                                <td>
-                                    {% if usuario.estado == 'Activo' %}
-                                        <button class="inhabilitar" onclick="cambiarEstado({{ usuario.id }}, false)">🔴 Inhabilitar</button>
-                                    {% else %}
-                                        <button class="habilitar" onclick="cambiarEstado({{ usuario.id }}, true)">🟢 Habilitar</button>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            
-                        {% endfor %}
-                        </tbody>
-                        {% for usuario in usuarios %}
-                        <script id="usuario_data_{{ usuario.id }}" type="application/json">
-                            {
-                                "id": {{ usuario.id|safe }},
-                                "numero": {{ usuario.numero|safe }},
-                                "nombre": "{{ usuario.nombre|escapejs }}",
-                                "email": "{{ usuario.email|escapejs }}",
-                                "rol": "{{ usuario.rol|escapejs }}",
-                                "estado": "{{ usuario.estado|escapejs }}",
-                                "documento": "{{ usuario.documento|default:''|escapejs }}",
-                                "tipo_documento": "{{ usuario.tipo_documento|default:''|escapejs }}",
-                                "sexo": "{{ usuario.sexo|default:''|escapejs }}",
-                                "direccion": "{{ usuario.direccion|default:''|escapejs }}",
-                                "fecha_nacimiento": "{{ usuario.fecha_nacimiento|default:''|escapejs }}",
-                                "codigo_estudiante": "{{ usuario.codigo|default:''|escapejs }}",
-                                "especialidad": "{{ usuario.especialidad|default:''|escapejs }}",
-                                "titulos": "{{ usuario.titulos|default:''|escapejs }}"
-                            }
-                        </script>
-                    {% endfor %}
-
-                    </table>
                 </div>
             </section>
 
-                <section id="estado">
-                    <h2>Estado de Usuarios</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Num</th>
-                                <th>Nombre</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Juan Pérez</td>
-                                <td>Habilitado</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
+            <!-- Sección de Configuración -->
+            <section id="configuracion" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cog"></i> Configuración del Sistema</h2>
+                </div>
+                
+                <div class="card">
+                    <div class="configuracion-item">
+                        <h3><i class="fas fa-user-graduate"></i> Control de Pre-Matrículas</h3>
+                        <div class="config-descripcion">
+                            <p>Activa o desactiva la visibilidad del enlace de pre-matrículas en el sitio público.</p>
+                        </div>
+                        <div class="toggle-container">
+                            <label class="switch">
+                                <input type="checkbox" id="togglePrematriculas" onchange="togglePrematriculas()" checked>
+                                <span class="slider round"></span>
+                            </label>
+                            <span id="estadoPrematriculas" class="estado-texto">Habilitado</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                <section id="circulares">
-                    <h2>Aplicantes</h2>
+            <!-- Sección de Estudiantes -->
+            <section id="estudiantes" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-graduate"></i> Gestión de Estudiantes</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="btnNuevoEstudiante">
+                            <i class="fas fa-plus"></i> Nuevo Estudiante
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="buscarEstudiante" placeholder="Buscar estudiante...">
+                        </div>
+                        <div class="table-filters">
+                            <select id="filtroGrado">
+                                <option value="">Todos los grados</option>
+                                <option value="1">Primero</option>
+                                <option value="2">Segundo</option>
+                                <option value="3">Tercero</option>
+                                <option value="4">Cuarto</option>
+                                <option value="5">Quinto</option>
+                            </select>
+                            <select id="filtroEstado">
+                                <option value="">Todos los estados</option>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
                     
-                    <!-- Tabla de aplicantes -->
-                    <div class="tabla-aplicantes-container">
-                        <table class="tabla-aplicantes">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Grado</th>
+                                    <th>Edad</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaEstudiantes">
+                                <tr>
+                                    <td>EST-001</td>
+                                    <td>Juan Pérez González</td>
+                                    <td>3° Primaria</td>
+                                    <td>8 años</td>
+                                    <td><span class="badge badge-success">Activo</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-icon" title="Ver"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>EST-002</td>
+                                    <td>María Rodríguez López</td>
+                                    <td>2° Primaria</td>
+                                    <td>7 años</td>
+                                    <td><span class="badge badge-success">Activo</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-icon" title="Ver"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            Mostrando 1-2 de 2 estudiantes
+                        </div>
+                        <div class="pagination">
+                            <button class="btn btn-sm" disabled><i class="fas fa-chevron-left"></i></button>
+                            <button class="btn btn-sm active">1</button>
+                            <button class="btn btn-sm"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Profesores -->
+            <section id="profesores" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chalkboard-teacher"></i> Gestión de Profesores</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="btnNuevoProfesor">
+                            <i class="fas fa-plus"></i> Nuevo Profesor
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="buscarProfesor" placeholder="Buscar profesor...">
+                        </div>
+                        <div class="table-filters">
+                            <select id="filtroEspecialidad">
+                                <option value="">Todas las especialidades</option>
+                                <option value="matematicas">Matemáticas</option>
+                                <option value="ciencias">Ciencias</option>
+                                <option value="lenguaje">Lenguaje</option>
+                                <option value="sociales">Sociales</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Especialidad</th>
+                                    <th>Asignaturas</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaProfesores">
+                                <tr>
+                                    <td>PRO-001</td>
+                                    <td>Carlos Andrés Gómez</td>
+                                    <td>Matemáticas</td>
+                                    <td>3</td>
+                                    <td><span class="badge badge-success">Activo</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-icon" title="Ver"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>PRO-002</td>
+                                    <td>Ana María Rodríguez</td>
+                                    <td>Ciencias Naturales</td>
+                                    <td>2</td>
+                                    <td><span class="badge badge-success">Activo</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-icon" title="Ver"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            Mostrando 1-2 de 2 profesores
+                        </div>
+                        <div class="pagination">
+                            <button class="btn btn-sm" disabled><i class="fas fa-chevron-left"></i></button>
+                            <button class="btn btn-sm active">1</button>
+                            <button class="btn btn-sm"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Asignaturas -->
+            <section id="asignaturas" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Gestión de Asignaturas</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="btnNuevaAsignatura">
+                            <i class="fas fa-plus"></i> Nueva Asignatura
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Grados</th>
+                                    <th>Docente</th>
+                                    <th>Horas</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-cursos">
+                                <tr>
+                                    <td>ASG-001</td>
+                                    <td>Matemáticas Básicas</td>
+                                    <td>1°-3°</td>
+                                    <td>Carlos Gómez</td>
+                                    <td>5</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Asignar docente" onclick="mostrarModalAsignarDocente('ASG-001', 'Matemáticas Básicas')">
+                                            <i class="fas fa-user-plus"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ASG-002</td>
+                                    <td>Ciencias Naturales</td>
+                                    <td>2°-5°</td>
+                                    <td>Ana Rodríguez</td>
+                                    <td>4</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Asignar docente" onclick="mostrarModalAsignarDocente('ASG-002', 'Ciencias Naturales')">
+                                            <i class="fas fa-user-plus"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Modal para asignar docente -->
+                <div id="modal-docente" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-chalkboard-teacher"></i> Asignar Docente</h3>
+                            <span class="close-modal" onclick="cerrarModalDocente()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <p>Asignando docente para: <strong id="nombre-asignatura-modal"></strong></p>
+                            
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="buscar-docente" placeholder="Buscar docente...">
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Seleccionar</th>
+                                            <th>Nombre</th>
+                                            <th>Especialidad</th>
+                                            <th>Asignaturas Actuales</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="lista-docentes">
+                                        <tr>
+                                            <td><input type="radio" name="docente" value="PRO-001"></td>
+                                            <td>Carlos Andrés Gómez</td>
+                                            <td>Matemáticas</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="radio" name="docente" value="PRO-002"></td>
+                                            <td>Ana María Rodríguez</td>
+                                            <td>Ciencias Naturales</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="cerrarModalDocente()">Cancelar</button>
+                            <button class="btn btn-primary" id="confirmar-docente">Confirmar Asignación</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Postulados -->
+            <section id="circulares" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-graduate"></i> Gestión de Postulados</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary" onclick="cargarAplicantes()">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="buscar-aplicante" placeholder="Buscar postulado..." onkeyup="filtrarAplicantes()">
+                        </div>
+                        <div class="table-filters">
+                            <select id="filtro-grado" onchange="filtrarAplicantes()">
+                                <option value="">Todos los grados</option>
+                                <option value="1">Primero</option>
+                                <option value="2">Segundo</option>
+                                <option value="3">Tercero</option>
+                                <option value="4">Cuarto</option>
+                                <option value="5">Quinto</option>
+                            </select>
+                            <select id="filtro-estado" onchange="filtrarAplicantes()">
+                                <option value="">Todos los estados</option>
+                                <option value="PENDIENTE">Pendientes</option>
+                                <option value="ACEPTADO">Aceptados</option>
+                                <option value="RECHAZADO">Rechazados</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Nombre Completo</th>
                                     <th>Documento</th>
+                                    <th>Grado</th>
+                                    <th>Fecha Postulación</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
-                                </tr><br><br>
+                                </tr>
                             </thead>
                             <tbody id="lista-aplicantes">
-                                <!-- Ejemplo de fila (se llenará dinámicamente) -->
+                                <!-- Los datos se cargarán dinámicamente via JavaScript -->
                                 <tr>
-                                    <td>1</td>
-                                    <td>María González</td>
-                                    <td>1023456789</td>
-                                    <td>
-                                        <button class="btn-ver" onclick="mostrarDetallesAplicante(1)">👁️ Ver</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Carlos Rodríguez</td>
-                                    <td>987654321</td>
-                                    <td>
-                                        <button class="btn-ver" onclick="mostrarDetallesAplicante(2)">👁️ Ver</button>
+                                    <td colspan="7" class="text-center">
+                                        <div class="loading-spinner">
+                                            <i class="fas fa-spinner fa-spin"></i> Cargando postulados...
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                
-                    <!-- Modal para detalles del aplicante -->
-                    <div id="modal-aplicante" class="modal" style="display: none;">
-                        <div class="modal-contenido">
-                            <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
-                            <h3>Información Completa del Aplicante</h3>
-                            
-                            <div id="detalles-aplicante" class="detalles-container">
-                                <!-- Aquí se mostrarán los detalles dinámicamente -->
-                                <div class="detalle-item">
-                                    <strong>Nombre Completo:</strong> <span id="detalle-nombre">María González</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Documento:</strong> <span id="detalle-documento">1023456789</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Fecha de Nacimiento:</strong> <span id="detalle-fecha-nac">15/03/2010</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Grado al que aplica:</strong> <span id="detalle-grado">3° Primaria</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Nombre del Acudiente:</strong> <span id="detalle-acudiente">Laura González</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Teléfono:</strong> <span id="detalle-telefono">3001234567</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Correo Electrónico:</strong> <span id="detalle-email">acudiente@example.com</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Dirección:</strong> <span id="detalle-direccion">Calle 123 #45-67</span>
-                                </div>
-                                <div class="detalle-item">
-                                    <strong>Fecha de Aplicación:</strong> <span id="detalle-fecha-apl">20/05/2023</span>
-                                </div>
-                            </div>
-                            
-                            <div class="acciones-modal">
-                                <button class="btn-rechazar" onclick="rechazarAplicante()">Rechazar</button>
-                                <button class="btn-aceptar" onclick="confirmarAceptacion()">Aceptar</button>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <!-- Modal de confirmación -->
-                    <div id="modal-confirmacion" class="modal" style="display: none;">
-                        <div class="modal-contenido modal-pequeno">
-                            <p id="mensaje-confirmacion">¿Está seguro que desea aceptar este aplicante?</p>
-                            <div class="botones-confirmacion">
-                                <button class="btn-cancelar" onclick="cerrarConfirmacion()">Cancelar</button>
-                                <button class="btn-confirmar" onclick="aceptarAplicante()">Confirmar</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-                    <!-- Reemplaza la sección galeria por esta nueva sección cursos -->
-                <section id="galeria" class="section-cursos">
-                    <h2>Gestión de Cursos</h2>
-                    
-                    <!-- Tabla de cursos -->
-                    <div class="cursos-container">
-                        <table class="tabla-cursos">
+                    <div class="table-footer">
+                        <div class="table-info" id="info-aplicantes">
+                            Mostrando 0 de 0 postulados
+                        </div>
+                        <div class="pagination">
+                            <button class="btn btn-sm" id="btn-prev" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span id="pagina-actual">1</span>
+                            <button class="btn btn-sm" id="btn-next" disabled>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para detalles del aplicante -->
+                <div id="modal-aplicante" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-user-graduate"></i> Detalles del Postulado</h3>
+                            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div id="detalles-aplicante" class="detalles-container">
+                                <!-- Contenido generado dinámicamente -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" onclick="rechazarAplicante()">
+                                <i class="fas fa-times"></i> Rechazar
+                            </button>
+                            <button class="btn btn-success" onclick="confirmarAceptacion()">
+                                <i class="fas fa-check"></i> Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de confirmación -->
+                <div id="modal-confirmacion" class="modal">
+                    <div class="modal-content small">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-question-circle"></i> Confirmación</h3>
+                            <span class="close-modal" onclick="cerrarConfirmacion()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <p id="mensaje-confirmacion"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="cerrarConfirmacion()">Cancelar</button>
+                            <button class="btn btn-primary" onclick="aceptarAplicante()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+
+            <!-- Sección de Cursos -->
+            <section id="galeria" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-layer-group"></i> Gestión de Cursos</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="btnNuevoCurso">
+                            <i class="fas fa-plus"></i> Nuevo Curso
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nombre del Curso</th>
-                                    <th>Docente Asignado</th>
+                                    <th>Grado</th>
+                                    <th>Director</th>
+                                    <th>N° Estudiantes</th>
+                                    <th>Horario</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="lista-cursos">
-                                <!-- Se llenará dinámicamente -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Contenedor para estudiantes del curso seleccionado -->
-                    <div id="estudiantes-curso" class="estudiantes-container" style="display: none;">
-                        <h3>Estudiantes del Curso: <span id="nombre-curso-seleccionado"></span></h3>
-                        <table class="tabla-estudiantes">
-                            <thead>
+                            <tbody id="tablaCursos">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Documento</th>
+                                    <td>1° Primaria</td>
+                                    <td>Carlos Gómez</td>
+                                    <td>25</td>
+                                    <td>7:00 AM - 12:00 PM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Ver estudiantes" onclick="mostrarEstudiantesCurso(1)">
+                                            <i class="fas fa-users"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon" title="Asignar director" onclick="mostrarModalDirectorCurso(1, '1° Primaria')">
+                                            <i class="fas fa-user-tie"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody id="lista-estudiantes">
-                                <!-- Se llenará dinámicamente -->
+                                <tr>
+                                    <td>2° Primaria</td>
+                                    <td>Ana Rodríguez</td>
+                                    <td>28</td>
+                                    <td>7:00 AM - 12:00 PM</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon" title="Ver estudiantes" onclick="mostrarEstudiantesCurso(2)">
+                                            <i class="fas fa-users"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon" title="Asignar director" onclick="mostrarModalDirectorCurso(2, '2° Primaria')">
+                                            <i class="fas fa-user-tie"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-                        <button id="asignar-docente-btn" class="btn-asignar">Asignar Docente</button>
                     </div>
-
-                    <!-- Modal para asignar docente -->
-                    <div id="modal-docente" class="modal" style="display: none;">
-                        <div class="modal-contenido">
-                            <span class="cerrar-modal">&times;</span>
-                            <h3>Asignar Docente al Curso: <span id="nombre-curso-modal"></span></h3>
-                            <div class="busqueda-docente">
-                                <input type="text" id="buscar-docente" placeholder="Buscar docente...">
+                </div>
+                
+                <!-- Modal para ver estudiantes del curso -->
+                <div id="modal-estudiantes-curso" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-users"></i> Estudiantes del Curso: <span id="nombre-curso-modal"></span></h3>
+                            <span class="close-modal" onclick="cerrarModalEstudiantesCurso()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre Completo</th>
+                                            <th>Documento</th>
+                                            <th>Edad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="lista-estudiantes-curso">
+                                        <!-- Se llenará dinámicamente -->
+                                    </tbody>
+                                </table>
                             </div>
-                            <table class="tabla-docentes">
-                                <thead>
-                                    <tr>
-                                        <th>Seleccionar</th>
-                                        <th>Nombre</th>
-                                        <th>Especialidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="lista-docentes">
-                                    <!-- Se llenará dinámicamente -->
-                                </tbody>
-                            </table>
-                            <button id="confirmar-docente" class="btn-confirmar">Confirmar Asignación</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="cerrarModalEstudiantesCurso()">Cerrar</button>
                         </div>
                     </div>
-                </section>
+                </div>
+                
+                <!-- Modal para asignar director de curso -->
+                <div id="modal-director-curso" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-user-tie"></i> Asignar Director de Curso</h3>
+                            <span class="close-modal" onclick="cerrarModalDirectorCurso()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <p>Asignando director para: <strong id="nombre-curso-director-modal"></strong></p>
+                            
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="buscar-director" placeholder="Buscar profesor...">
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Seleccionar</th>
+                                            <th>Nombre</th>
+                                            <th>Especialidad</th>
+                                            <th>Cursos Actuales</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="lista-directores">
+                                        <!-- Se llenará dinámicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="cerrarModalDirectorCurso()">Cancelar</button>
+                            <button class="btn btn-primary" id="confirmar-director">Confirmar Asignación</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
+
+    <!-- Notificaciones flotantes -->
+    <div id="notificacion" class="notificacion"></div>
 
     <script src="{% static 'js/administrador.js' %}"></script>
     <script src="{% static 'js/novedades.js' %}"></script>
     <script src="{% static 'js/adm_usuarios.js' %}"></script>
     <script src="{% static 'js/aplicante.js' %}"></script>
-
-    <style>
-        /* Estilos para la sección de aplicantes */
-.tabla-aplicantes-container {
-    margin: 20px 0;
-    overflow-x: auto;
-}
-
-.tabla-aplicantes {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.tabla-aplicantes th, .tabla-aplicantes td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.tabla-aplicantes th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.tabla-aplicantes tr:hover {
-    background-color: #f5f5f5;
-}
-
-.btn-ver {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* Estilos para el modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-}
-
-.modal-contenido {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 700px;
-    border-radius: 8px;
-    position: relative;
-}
-
-.modal-pequeno {
-    max-width: 500px;
-}
-
-.cerrar-modal {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.cerrar-modal:hover {
-    color: black;
-}
-
-/* Estilos para los detalles */
-.detalles-container {
-    margin: 20px 0;
-}
-
-.detalle-item {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-left: 4px solid #4CAF50;
-}
-
-/* Botones de acción */
-.acciones-modal {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.btn-aceptar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-rechazar {
-    background-color: #f44336;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-confirmar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-cancelar {
-    background-color: #f44336;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.botones-confirmacion {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-    </style>
-    <!-- Contenedor de notificaciones -->
-<div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
-
-    <script>
-    function mostrarToast(mensaje, tipo = 'success') {
-        const toastContainer = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-
-        toast.textContent = mensaje;
-        toast.style.backgroundColor = tipo === 'success' ? '#4CAF50' : '#f44336';
-        toast.style.color = '#fff';
-        toast.style.padding = '12px 20px';
-        toast.style.marginTop = '10px';
-        toast.style.borderRadius = '5px';
-        toast.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
-        toast.style.transition = 'opacity 0.5s ease';
-        toast.style.opacity = '1';
-
-        toastContainer.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 500);
-        }, 3000);
-    }
-    </script>
-    <!-- Modal de vista -->
-    <div id="modalVerUsuarioDetalles" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0006; z-index:9999;">
-        <div style="background:#fff; padding:20px; width:400px; max-width:90%; margin:10% auto; border-radius:10px; position:relative;">
-            <span style="position:absolute; top:10px; right:10px; cursor:pointer; font-size:20px;" onclick="cerrarModalUsuario()">&times;</span>
-            <h3>👁️ Detalles del Usuario</h3>
-            <div id="detalleUsuario"></div>
-            <button style="margin-top:15px; padding:8px 15px;" onclick="cerrarModalUsuario()">Cerrar</button>
-        </div>
-    </div>
-
+    <script src="{% static 'js/cursos.js' %}"></script>
+    <script src="{% static 'js/asignaturas.js' %}"></script>
+    <script src="{% static 'js/estudiantes.js' %}"></script>
+    <script src="{% static 'js/profesores.js' %}"></script>
 </body>
 </html>

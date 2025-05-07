@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body>
-
     <header class="navbar">
         <div class="logo">
             <img src="{% static 'images/logo_colegio_cf.png' %}" alt="Logo" />
@@ -21,7 +20,6 @@
         <div class="menu-container">
             <ul class="main-menu">
                 <li><a href="{% url 'home' %}">Inicio</a></li>
-                
                 <li class="has-submenu">
                     <a href="#" onclick="toggleMenu(event)">Conócenos <span class="arrow">▼</span></a>
                     <ul class="submenu">
@@ -30,17 +28,17 @@
                         <li><a href="{% url 'himno' %}">Himno</a></li>
                     </ul>
                 </li>
-                
                 <li><a href="{% url 'actividades' %}">Actividades</a></li>
                 <li><a href="{% url 'prematricula' %}">Pre-Matricula</a></li>
                 <li><a href="{% url 'contactenos' %}">Contactenos</a></li><br>
             </ul>
-                    <!-- Botón de inicio de sesión alineado a la derecha -->
-        <a href="{% url 'inicio_sesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
+            <a href="{% url 'inicio_sesion' %}" class="btn-iniciar-sesion">Iniciar Sesión</a>
         </div>
     </header>
 
     <form id="formulario-matricula">
+        {% csrf_token %}
+        
         <!-- Información del estudiante -->
         <div class="seccion">
             <div class="seccion-titulo">INFORMACIÓN DEL ESTUDIANTE</div>
@@ -48,29 +46,29 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="primer_apellido">PRIMER APELLIDO *</label>
-                    <input type="text" id="primer_apellido" class="form-control" required>
+                    <input type="text" id="primer_apellido" name="primer_apellido" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="primer_nombre">PRIMER NOMBRE *</label>
-                    <input type="text" id="primer_nombre" class="form-control" required>
+                    <input type="text" id="primer_nombre" name="primer_nombre" class="form-control" required>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="segundo_apellido">SEGUNDO APELLIDO</label>
-                    <input type="text" id="segundo_apellido" class="form-control">
+                    <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="segundo_nombre">SEGUNDO NOMBRE</label>
-                    <input type="text" id="segundo_nombre" class="form-control">
+                    <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control">
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="tipo_documento">TIPO DE DOCUMENTO *</label>
-                    <select id="tipo_documento" class="form-control" required>
+                    <select id="tipo_documento" name="tipo_documento" class="form-control" required>
                         <option value="">Seleccione...</option>
                         <option value="RC">Registro Civil</option>
                         <option value="TI">Tarjeta de Identidad</option>
@@ -79,25 +77,41 @@
                 </div>
                 <div class="form-group">
                     <label for="identificacion">IDENTIFICACIÓN *</label>
-                    <input type="text" id="identificacion" class="form-control" required>
+                    <input type="text" id="identificacion" name="identificacion" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fecha_nacimiento">FECHA DE NACIMIENTO *</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="sexo">SEXO *</label>
+                    <select id="sexo" name="sexo" class="form-control" required>
+                        <option value="">Seleccione...</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                        <option value="O">Otro</option>
+                    </select>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="municipio_expedicion">MUNICIPIO EXPEDICIÓN</label>
-                    <input type="text" id="municipio_expedicion" class="form-control">
+                    <input type="text" id="municipio_expedicion" name="municipio_expedicion" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="departamento_expedicion">DEPARTAMENTO EXPEDICIÓN</label>
-                    <input type="text" id="departamento_expedicion" class="form-control">
+                    <input type="text" id="departamento_expedicion" name="departamento_expedicion" class="form-control">
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="grado_ingresa">GRADO AL QUE INGRESA *</label>
-                    <select id="grado_ingresa" class="form-control" required>
+                    <select id="grado_solicitado" name="grado_solicitado" class="form-control" required>
                         <option value="">Seleccione...</option>
                         <option value="00">Transición</option>
                         <option value="01">Primero</option>
@@ -110,8 +124,8 @@
                 <div class="form-group">
                     <label>ESTATUS *</label>
                     <div class="radio-group">
-                        <label><input type="radio" name="estatus" value="REPITENTE" required> Repitente</label>
-                        <label><input type="radio" name="estatus" value="NUEVO"> Nuevo</label>
+                        <label><input type="radio" name="estado" value="REPITENTE" required> Repitente</label>
+                        <label><input type="radio" name="estado" value="NUEVO"> Nuevo</label>
                     </div>
                 </div>
             </div>
@@ -119,22 +133,22 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="direccion">DIRECCIÓN *</label>
-                    <input type="text" id="direccion" class="form-control" required>
+                    <input type="text" id="direccion" name="direccion" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="municipio_residencia">MUNICIPIO *</label>
-                    <input type="text" id="municipio_residencia" class="form-control" required>
+                    <input type="text" id="municipio" name="municipio" class="form-control" required>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="barrio">BARRIO</label>
-                    <input type="text" id="barrio" class="form-control">
+                    <input type="text" id="barrio" name="barrio" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="telefono">TELÉFONO *</label>
-                    <input type="tel" id="telefono" class="form-control" required>
+                    <input type="tel" id="telefono" name="telefono" class="form-control" required>
                 </div>
             </div>
         </div>
@@ -146,11 +160,11 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="eps">EPS</label>
-                    <input type="text" id="eps" class="form-control">
+                    <input type="text" id="eps" name="eps" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="ips">IPS</label>
-                    <input type="text" id="ips" class="form-control">
+                    <input type="text" id="ips" name="ips" class="form-control">
                 </div>
             </div>
         </div>
@@ -186,7 +200,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="tipo_discapacidad">EN CASO DE POSER DISCAPACIDAD, INDICAR CUÁL</label>
-                    <input type="text" id="tipo_discapacidad" class="form-control">
+                    <input type="text" id="tipo_discapacidad" name="tipo_discapacidad" class="form-control">
                 </div>
             </div>
         </div>
@@ -198,51 +212,51 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="nombre_padre">PADRE (NOMBRE Y APELLIDO)</label>
-                    <input type="text" id="nombre_padre" class="form-control">
+                    <input type="text" id="nombre_padre" name="nombre_padre" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="telefono_padre">TELÉFONO</label>
-                    <input type="tel" id="telefono_padre" class="form-control">
+                    <input type="tel" id="telefono_padre" name="telefono_padre" class="form-control">
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="nombre_madre">MADRE (NOMBRE Y APELLIDO)</label>
-                    <input type="text" id="nombre_madre" class="form-control">
+                    <input type="text" id="nombre_madre" name="nombre_madre" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="telefono_madre">TELÉFONO</label>
-                    <input type="tel" id="telefono_madre" class="form-control">
+                    <input type="tel" id="telefono_madre" name="telefono_madre" class="form-control">
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="nombre_acudiente">ACUDIENTE (NOMBRE Y APELLIDO) *</label>
-                    <input type="text" id="nombre_acudiente" class="form-control" required>
+                    <input type="text" id="nombre_acudiente" name="nombre_acudiente" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="telefono_acudiente">TELÉFONO ACUDIENTE *</label>
-                    <input type="tel" id="telefono_acudiente" class="form-control" required>
+                    <input type="tel" id="telefono_acudiente" name="telefono_acudiente" class="form-control" required>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="contacto_emergencia">EN CASO DE EMERGENCIA LLAMAR A *</label>
-                    <input type="text" id="contacto_emergencia" class="form-control" required>
+                    <input type="text" id="contacto_emergencia" name="contacto_emergencia" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="telefono_emergencia">TELÉFONO EMERGENCIA *</label>
-                    <input type="tel" id="telefono_emergencia" class="form-control" required>
+                    <input type="tel" id="telefono_emergencia" name="telefono_emergencia" class="form-control" required>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="email_acudiente">E-MAIL ACUDIENTE</label>
-                    <input type="email" id="email_acudiente" class="form-control">
+                    <input type="email" id="email_acudiente" name="email_acudiente" class="form-control">
                 </div>
             </div>
         </div>
@@ -254,11 +268,11 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="firma_alumno">FIRMA ALUMNO</label>
-                    <input type="text" id="firma_alumno" class="form-control">
+                    <input type="text" id="firma_alumno" name="firma_alumno" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="firma_acudiente">FIRMA ACUDIENTE *</label>
-                    <input type="text" id="firma_acudiente" class="form-control" required>
+                    <input type="text" id="firma_acudiente" name="firma_acudiente" class="form-control" required>
                 </div>
             </div>
         </div>
@@ -266,16 +280,16 @@
         <button type="submit" class="btn-enviar">ENVIAR MATRÍCULA</button>
     </form>
 
+    <!-- Contenedor para mensajes toast -->
+    <div id="toast-container"></div>
 
-        <!-- pie de pagina-->
-<div>
+    <!-- pie de pagina-->
     <footer>
         <div class="footer-container">
             <div class="footer-logo">
                 <img src="{% static 'images/logoactualizado.png' %}" alt="Logo del Colegio">
             </div>
 
-            
             <div class="footer-columnas">
                 <h3>Enlaces de interés</h3>
                 <ul>
@@ -296,7 +310,6 @@
                         </a>
                     </li>
                     <li>
-                        <!-- Botón de WhatsApp flotante -->
                         <a href="https://chat.whatsapp.com/Ipv3sq6KCZkDF5ymdWSDEo" target="_blank" class="whatsapp-btn">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                         </a>
@@ -309,24 +322,22 @@
                 </ul>
             </div>
 
-
             <div class="footer-columnas">
                 <h3>Contactanos</h3><br>
                 <p>celestinfreinet_2010@hotmail.com</p>
-                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8"target="_blank" id = "hola">Calle 22 a #12 a 32<br> Sogamoso, Boyacá</a>
+                <a href="https://maps.app.goo.gl/7LtrhBvfcwVcMeai8" target="_blank" id="hola">Calle 22 a #12 a 32<br> Sogamoso, Boyacá</a>
             </div>
         </div>
     </footer>
         
-            <footer id="footer-texto">
-                <div>
-                    <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
-                </div>
-            </footer>
-        
+    <footer id="footer-texto">
+        <div>
+            <p>&copy; 2024 Colegio Celestin Freinet / Todos los derechos reservados pertenecen a PSGCT</p>
+        </div>
+    </footer>
+
     <script src="{% static 'js/PreMatricula.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/sienna.js' %}"></script>
-
 </body>
 </html>

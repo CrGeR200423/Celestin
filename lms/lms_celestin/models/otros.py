@@ -1,10 +1,10 @@
 from django.db import models
-from .personas import Alumnos
+from .personas import Estudiante
 
 class BancoLogros(models.Model):
     fecha = models.DateField()
     analisis = models.CharField(max_length=255)
-    id_alumno = models.ForeignKey(Alumnos, on_delete=models.CASCADE, db_column='id_alumno')
+    id_alumno = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='id_alumno')
 
     class Meta:
         db_table = 'banco_logros'
@@ -18,7 +18,7 @@ class Calificaciones(models.Model):
     fecha_calificacion_primer_parcial = models.DateField(blank=True, null=True)
     fecha_calificacion_segundo_parcial = models.DateField(blank=True, null=True)
     fecha_calificacion_tercer_parcial = models.DateField(blank=True, null=True)
-    id_alumno = models.ForeignKey(Alumnos, on_delete=models.CASCADE, db_column='id_alumno')
+    id_alumno = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='id_alumno')
 
     class Meta:
         db_table = 'calificaciones'
@@ -27,7 +27,7 @@ class Calificaciones(models.Model):
 class Observadores(models.Model):
     fecha = models.DateField()
     anotacion = models.CharField(max_length=255)
-    id_alumno = models.ForeignKey(Alumnos, on_delete=models.CASCADE, db_column='id_alumno')
+    id_alumno = models.ForeignKey(Estudiante, on_delete=models.CASCADE, db_column='id_alumno')
 
     class Meta:
         db_table = 'observadores'
