@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/prematricula/', views.prematricula_estudiante, name='prematricula_estudiante'),
 
     # API para gestión de aplicantes (GET/POST)
-    path('api/aplicantes/', views.listar_postulados, name='listar_postulados'),
+    path('listar_postulados/', views.listar_postulados, name='listar_postulados'),
     path('api/aplicantes/<int:aplicante_id>/', views.get_aplicante, name='get_aplicante'),
     path('api/aplicantes/<int:aplicante_id>/aceptar/', views.aceptar_aplicante, name='aceptar_aplicante'),
     path('api/aplicantes/<int:aplicante_id>/rechazar/', views.rechazar_aplicante, name='rechazar_aplicante'),

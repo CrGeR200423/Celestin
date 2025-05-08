@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from .models import Persona,Docentes,Administradores,Estudiante, Acudiente, AcudientesAlumnos, Aplicante, FichaEstudiante
+from .models import Persona,Docentes,Administradores,Estudiante, Acudiente, AcudientesAlumnos, Aplicante, FichaEstudiante, DatosExtraAplicante
 from django.contrib import messages
 from django.contrib.auth.models import User  # Importar el modelo User de Django
 from django.contrib.auth.hashers import make_password  # Para encriptar contraseñas
@@ -39,7 +39,7 @@ def inicio_sesion(request):
     return render(request, 'inicio_sesion.html')
 
 def administrador(request):
-    return render(request, 'administradores')
+    return render(request, 'administrador.html')
 
 def formulario(request):
     return render(request, 'formulario_usuario.html')
@@ -577,6 +577,11 @@ def prematricula_estudiante(request):
                 estado=data['estado'],
                 nombre_acudiente=data['nombre_acudiente'],
                 telefono_acudiente=data['telefono_acudiente'],
+            )
+            
+            # Crear DatosExtraAplicante y asociarlo con el aplicante
+            datosextra = DatosExtraAplicante.objects.create(
+                aplicante=aplicante,  # Asociar con el aplicante
                 contacto_emergencia=data['contacto_emergencia'],
                 telefono_emergencia=data['telefono_emergencia'],
                 familias_accion=data['familias_accion'],
@@ -602,6 +607,12 @@ def prematricula_estudiante(request):
 def aceptar_aplicante(request, aplicante_id):
     try:
         aplicante = Aplicante.objects.get(id=aplicante_id)
+        
+        # Obtener los datos extra del aplicante
+        try:
+            datos_extra = DatosExtraAplicante.objects.get(aplicante=aplicante)
+        except DatosExtraAplicante.DoesNotExist:
+            datos_extra = None
 
         # Validar si el aplicante ya ha sido aceptado
         if Estudiante.objects.filter(id_persona__documento=aplicante.documento).exists():
@@ -625,11 +636,20 @@ def aceptar_aplicante(request, aplicante_id):
             id_persona=persona_est
         )
 
-        # Crear ficha estudiante
-        FichaEstudiante.objects.create(
+        # Crear ficha estudiante con datos extra si existen
+        ficha_estudiante = FichaEstudiante.objects.create(
             alumno=alumno,
             estado="ACTIVO"
         )
+        
+        # Si hay datos extra, agregarlos a la ficha del estudiante
+        if datos_extra:
+            ficha_estudiante.contacto_emergencia = datos_extra.contacto_emergencia
+            ficha_estudiante.telefono_emergencia = datos_extra.telefono_emergencia
+            ficha_estudiante.familias_accion = datos_extra.familias_accion
+            ficha_estudiante.discapacidad = datos_extra.discapacidad
+            ficha_estudiante.tipo_discapacidad = datos_extra.tipo_discapacidad
+            ficha_estudiante.save()
 
         # Crear acudiente principal
         acudiente_persona = Persona.objects.create(
@@ -668,7 +688,9 @@ def aceptar_aplicante(request, aplicante_id):
         alumno.usuario = user
         alumno.save()
 
-        # Eliminar aplicante
+        # Eliminar datos extra del aplicante y luego el aplicante
+        if datos_extra:
+            datos_extra.delete()
         aplicante.delete()
 
         return JsonResponse({
@@ -701,32 +723,51 @@ def rechazar_aplicante(request, aplicante_id):
 def get_aplicante(request, aplicante_id):
     try:
         aplicante = Aplicante.objects.get(id=aplicante_id)
+        
+        # Obtener los datos extra del aplicante
+        try:
+            datos_extra = DatosExtraAplicante.objects.get(aplicante=aplicante)
+            datos_extra_dict = {
+                'contacto_emergencia': datos_extra.contacto_emergencia,
+                'telefono_emergencia': datos_extra.telefono_emergencia,
+                'familias_accion': 'SI' if datos_extra.familias_accion else 'NO',
+                'discapacidad': 'SI' if datos_extra.discapacidad else 'NO',
+                'tipo_discapacidad': datos_extra.tipo_discapacidad
+            }
+        except DatosExtraAplicante.DoesNotExist:
+            datos_extra_dict = {
+                'contacto_emergencia': '',
+                'telefono_emergencia': '',
+                'familias_accion': 'NO',
+                'discapacidad': 'NO',
+                'tipo_discapacidad': ''
+            }
+        
         data = {
             'id': aplicante.id,
-            'nombre_completo': f"{aplicante.nombres} {aplicante.apellidos}",
+            'nombre_completo': f"{aplicante.primer_nombre} {aplicante.segundo_nombre} {aplicante.primer_apellido} {aplicante.segundo_apellido}",
+            'primer_nombre': aplicante.primer_nombre,
+            'segundo_nombre': aplicante.segundo_nombre or '',
+            'primer_apellido': aplicante.primer_apellido,
+            'segundo_apellido': aplicante.segundo_apellido or '',
+            'tipo_documento': aplicante.tipo_documento,
             'documento': aplicante.documento,
             'fecha_nacimiento': aplicante.fecha_nacimiento.strftime('%Y-%m-%d') if aplicante.fecha_nacimiento else None,
             'sexo': aplicante.sexo,
             'direccion': aplicante.direccion,
-            'codigo_estudiante': aplicante.codigo_estudiante,
+            'municipio': aplicante.municipio,
+            'barrio': aplicante.barrio,
+            'telefono': aplicante.telefono,
+            'grado_solicitado': aplicante.grado_solicitado,
+            'estado': aplicante.estado,
+            'codigo_estudiante': getattr(aplicante, 'codigo_estudiante', ''),
+            'datos_extra': datos_extra_dict,
             'acudientes': [
-                {
-                    'parentesco': 'PADRE',
-                    'nombre': aplicante.nombre_padre,
-                    'telefono': aplicante.telefono_padre,
-                    'correo': ''
-                },
-                {
-                    'parentesco': 'MADRE',
-                    'nombre': aplicante.nombre_madre,
-                    'telefono': aplicante.telefono_madre,
-                    'correo': ''
-                },
                 {
                     'parentesco': 'TUTOR',
                     'nombre': aplicante.nombre_acudiente,
                     'telefono': aplicante.telefono_acudiente,
-                    'correo': aplicante.correo_acudiente
+                    'correo': getattr(aplicante, 'correo_acudiente', '')
                 }
             ]
         }
@@ -741,26 +782,38 @@ def get_aplicante(request, aplicante_id):
 @csrf_exempt
 def listar_postulados(request):
     try:
-        aplicantes = Aplicante.objects.all().order_by('-id')
+        aplicantes = Aplicante.objects.filter(estado='pendiente').order_by('-id')
         data = []
 
         for aplicante in aplicantes:
+            try:
+                datos_extra = DatosExtraAplicante.objects.get(aplicante=aplicante)
+                tiene_emergencia = bool(datos_extra.contacto_emergencia)
+                tiene_discapacidad = datos_extra.discapacidad
+                familias_accion = datos_extra.familias_accion
+            except DatosExtraAplicante.DoesNotExist:
+                tiene_emergencia = False
+                tiene_discapacidad = False
+                familias_accion = False
+            
+            nombre_completo = f"{aplicante.primer_nombre} {aplicante.segundo_nombre or ''} {aplicante.primer_apellido} {aplicante.segundo_apellido or ''}".replace('  ', ' ')
+            
             data.append({
                 'id': aplicante.id,
-                'nombre_completo': f"{aplicante.primer_nombre} {aplicante.segundo_nombre} {aplicante.primer_apellido} {aplicante.segundo_apellido}",
+                'nombre_completo': nombre_completo,
                 'documento': aplicante.documento,
                 'fecha_nacimiento': aplicante.fecha_nacimiento.strftime('%Y-%m-%d') if aplicante.fecha_nacimiento else '',
                 'sexo': aplicante.sexo,
                 'direccion': aplicante.direccion,
                 'telefono': aplicante.telefono,
-                'grado_ingresa': aplicante.grado_ingresa,
-                'estatus': aplicante.estatus,
+                'grado_solicitado': aplicante.grado_solicitado,
+                'estado': aplicante.estado,
+                'tiene_contacto_emergencia': tiene_emergencia,
+                'tiene_discapacidad': tiene_discapacidad,
+                'familias_accion': familias_accion
             })
 
-        return JsonResponse({
-            'success': True,'postulados': data
-        })
+        return JsonResponse({'success': True, 'postulados': data})
 
     except Exception as e:
-        return JsonResponse({
-            'success': False,'message': f'Error al listar postulados: {str(e)}'}, status=400)
+        return JsonResponse({'success': False, 'message': f'Error al listar postulados: {str(e)}'}, status=400)
