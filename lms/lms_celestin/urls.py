@@ -10,14 +10,14 @@ urlpatterns = [
     path('contactenos/', views.contactenos, name='contactenos'),
     path('inicio_sesion/', views.inicio_sesion, name='inicio_sesion'),
     path('administrador/', views.administrador, name='administrador'),
-    path('formulario/', views.formulario, name='formulario'),
     path('observador/', views.observador, name='observador'),
     path('estudiante/', views.estudiante, name='estudiante'),
     path('himno/', views.himno, name='himno'),
     path('historia/', views.historia, name='historia'),
 
     # Gestión de usuarios
-    path('registrar/estudiante/', views.registrar_estudiante, name='registrar_estudiante'),
+    path('obtener_estudiantes/', views.obtener_estudiantes, name='obtener_estudiantes'),
+    path('registrar_estudiante/', views.registrar_estudiante, name='registrar_estudiante'),
     path('registrar/docente/', views.registrar_docente, name='registrar_docente'),
     path('registrar/administrador/', views.registrar_administrador, name='registrar_administrador'),
     path('usuarios/cambiar-estado/<int:user_id>/', views.cambiar_estado_usuario, name='cambiar_estado_usuario'),

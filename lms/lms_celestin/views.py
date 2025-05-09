@@ -1,4 +1,5 @@
 
+from datetime import datetime
 from django.shortcuts import render, redirect
 from .models import Persona,Docentes,Administradores,Estudiante, Acudiente, AcudientesAlumnos, Aplicante, FichaEstudiante, DatosExtraAplicante
 from django.contrib import messages
@@ -41,9 +42,6 @@ def inicio_sesion(request):
 def administrador(request):
     return render(request, 'administrador.html')
 
-def formulario(request):
-    return render(request, 'formulario_usuario.html')
-
 def estudiante(request):
     return render(request,'inicio_estudiante.html')
 
@@ -56,85 +54,210 @@ def himno(request):
 def historia(request):
     return render(request, 'Historia.html')
 
+
+
+@transaction.atomic
 def registrar_estudiante(request):
     if request.method == 'POST':
         try:
-            with transaction.atomic():
-                documento = request.POST['documento']
-                email_acudiente = request.POST['correo_acudiente']
+            data = json.loads(request.body)
+            
+            # Datos del estudiante
+            tipo_documento = data.get('tipo_documento')
+            documento = data.get('identificacion')
+            primer_nombre = data.get('primer_nombre')
+            segundo_nombre = data.get('segundo_nombre', '')
+            primer_apellido = data.get('primer_apellido')
+            segundo_apellido = data.get('segundo_apellido', '')
+            fecha_nacimiento_str = data.get('fecha_nacimiento')
+            sexo = data.get('sexo')
+            direccion = data.get('direccion')
+            municipio = data.get('municipio_residencia')
+            barrio = data.get('barrio', '')
+            telefono = data.get('telefono')
+            grado = data.get('grado_solicitado')
+            
+            # Convertir fecha de nacimiento
+            try:
+                fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, '%Y-%m-%d').date()
+            except (ValueError, TypeError):
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Formato de fecha inválido. Use YYYY-MM-DD'
+                }, status=400)
 
-                # Validar duplicados
-                if CustomUser.objects.filter(documento=documento).exists():
-                    raise ValidationError("Este documento ya está registrado.")
-                if Persona.objects.filter(documento=documento).exists():
-                    raise ValidationError("Este documento ya está registrado.")
-                if CustomUser.objects.filter(email=email_acudiente).exists():
-                    raise ValidationError("Este correo ya está registrado.")
+            # Validar campos obligatorios
+            campos_obligatorios = {
+                'tipo_documento': tipo_documento,
+                'documento': documento,
+                'primer_nombre': primer_nombre,
+                'primer_apellido': primer_apellido,
+                'fecha_nacimiento': fecha_nacimiento_str,
+                'sexo': sexo,
+                'direccion': direccion,
+                'telefono': telefono,
+                'grado': grado
+            }
+            
+            for campo, valor in campos_obligatorios.items():
+                if not valor:
+                    return JsonResponse({
+                        'success': False,
+                        'message': f'El campo {campo} es obligatorio'
+                    }, status=400)
 
-                username = f"est_{documento}"
-                password_temp = get_random_string(8, string.ascii_letters + string.digits)
+            # Validar duplicados
+            if CustomUser.objects.filter(documento=documento).exists():
+                raise ValidationError("Este documento ya está registrado.")
+            if Persona.objects.filter(documento=documento).exists():
+                raise ValidationError("Este documento ya está registrado.")
+            
+            email_acudiente = data.get('email_acudiente', '')
+            if email_acudiente and CustomUser.objects.filter(email=email_acudiente).exists():
+                raise ValidationError("Este correo ya está registrado.")
 
-                # Crear usuario
-                user = CustomUser.objects.create_user(
-                    documento=documento,
-                    email=email_acudiente,
-                    username=username,
-                    password=make_password(password_temp),
-                    rol='EST',
-                    is_active=True
-                )
+            # Crear usuario para el estudiante
+            username = f"est_{documento}"
+            password_temp = get_random_string(8, string.ascii_letters + string.digits)
 
-                # Persona estudiante
-                estudiante_persona = Persona.objects.create(
-                    tipo_documento=request.POST['tipo_documento'],
-                    documento=documento,
-                    nombres=request.POST['nombres'],
-                    apellidos=request.POST['apellidos'],
-                    fecha_nacimiento=request.POST['fecha_nacimiento'],
-                    sexo=request.POST['sexo'],
-                    direccion=request.POST['direccion']
-                )
+            user = CustomUser.objects.create_user(
+                documento=documento,
+                email=email_acudiente,
+                username=username,
+                password=make_password(password_temp),
+                rol='EST',
+                is_active=True,
+                first_name=primer_nombre,
+                last_name=primer_apellido
+            )
 
-                # Alumno
-                alumno = Estudiante.objects.create(
-                    codigo_estudiante=request.POST['codigo_estudiante'],
-                    id_persona=estudiante_persona,
-                    usuario=user
-                )
+            # Crear Persona (estudiante)
+            estudiante_persona = Persona.objects.create(
+                tipo_documento=tipo_documento,
+                documento=documento,
+                primer_nombre=primer_nombre,
+                segundo_nombre=segundo_nombre,
+                primer_apellido=primer_apellido,
+                segundo_apellido=segundo_apellido,
+                fecha_nacimiento=fecha_nacimiento,
+                sexo=sexo,
+                direccion=direccion,
+                municipio=municipio,
+                barrio=barrio,
+                telefono=telefono,
+                email=email_acudiente
+            )
 
-                # Persona acudiente
+            # Crear Estudiante
+            codigo_estudiante = f"EST-{documento}"
+            alumno = Estudiante.objects.create(
+                codigo_estudiante=codigo_estudiante,
+                persona=estudiante_persona,
+                usuario=user,
+                grado=grado,
+                estado='ACTIVO'
+            )
+
+            # Crear FichaEstudiante
+            FichaEstudiante.objects.create(
+                estudiante=alumno,
+                eps=data.get('eps', ''),
+                ips=data.get('ips', ''),
+                sisben=data.get('sisben', 'NO') == 'SI',
+                familias_accion=data.get('familias_accion', 'NO') == 'SI',
+                discapacidad=data.get('discapacidad', 'NO') == 'SI',
+                tipo_discapacidad=data.get('tipo_discapacidad', ''),
+                nombre_padre=data.get('nombre_padre', ''),
+                telefono_padre=data.get('telefono_padre', ''),
+                nombre_madre=data.get('nombre_madre', ''),
+                telefono_madre=data.get('telefono_madre', ''),
+                contacto_emergencia=data.get('contacto_emergencia'),
+                telefono_emergencia=data.get('telefono_emergencia')
+            )
+
+            # Crear Acudiente
+            nombre_acudiente = data.get('nombre_acudiente')
+            telefono_acudiente = data.get('telefono_acudiente')
+            
+            if nombre_acudiente and telefono_acudiente:
                 acudiente_persona = Persona.objects.create(
-                    tipo_documento=request.POST['tipo_documento_acudiente'],
-                    documento=request.POST['documento_acudiente'],
-                    nombres=request.POST['nombre_acudiente'],
-                    apellidos='',
-                    sexo='',
-                    direccion=request.POST['direccion_acudiente']
+                    tipo_documento='CC',
+                    documento=f"ACU-{documento}",
+                    primer_nombre=' '.join(nombre_acudiente.split()[:-1]),
+                    primer_apellido=nombre_acudiente.split()[-1] if nombre_acudiente else '',
+                    telefono=telefono_acudiente,
+                    email=email_acudiente
                 )
 
-                # Acudiente
-                acudiente = Acudiente.objects.create(
-                    correo=email_acudiente,
-                    id_persona=acudiente_persona
+                Acudiente.objects.create(
+                    persona=acudiente_persona,
+                    estudiante=alumno,
+                    parentesco='OTRO',
+                    es_principal=True,
+                    es_contacto_emergencia=True
                 )
 
-                # Relación
-                AcudientesAlumnos.objects.create(
-                    acudiente=acudiente,
-                    alumno=alumno
-                )
-
-                messages.success(request, "✅ Estudiante registrado correctamente.")
-                return redirect('formulario')
+            # Preparar respuesta
+            edad = calcular_edad(fecha_nacimiento)
+            nombre_completo = f"{primer_nombre} {segundo_nombre or ''} {primer_apellido} {segundo_apellido or ''}".strip()
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Estudiante registrado correctamente',
+                'estudiante': {
+                    'id': alumno.id,
+                    'codigo': codigo_estudiante,
+                    'nombre_completo': nombre_completo,
+                    'grado': alumno.get_grado_display(),
+                    'edad': edad,
+                    'estado': 'Activo',
+                    'documento': documento
+                }
+            })
 
         except ValidationError as e:
-            messages.error(request, f"❌ Error de validación: {str(e)}")
+            return JsonResponse({
+                'success': False,
+                'message': str(e)
+            }, status=400)
+            
         except Exception as e:
-            messages.error(request, f"❌ Error al registrar: {str(e)}")
+            return JsonResponse({
+                'success': False,
+                'message': f'Error al registrar estudiante: {str(e)}'
+            }, status=500)
 
-    return render(request, 'formulario_usuario.html')
+    return JsonResponse({
+        'success': False,
+        'message': 'Método no permitido'
+    }, status=405)
 
 
+@csrf_exempt
+def obtener_estudiantes(request):
+    estudiantes = Estudiante.objects.select_related('persona').all()
+    estudiantes_data = []
+    
+    for est in estudiantes:
+        estudiantes_data.append({
+            'id': est.id,
+            'codigo': est.codigo_estudiante,
+            'nombre_completo': f"{est.persona.primer_nombre} {est.persona.segundo_nombre or ''} {est.persona.primer_apellido} {est.persona.segundo_apellido or ''}".strip(),
+            'grado': est.get_grado_display(),
+            'edad': calcular_edad(est.persona.fecha_nacimiento),
+            'estado': 'Activo' if est.estado == 'ACTIVO' else 'Inactivo',
+            'documento': est.persona.documento
+        })
+    
+    return JsonResponse({
+        'success': True,
+        'estudiantes': estudiantes_data
+    })
+
+def calcular_edad(fecha_nacimiento):
+    from datetime import date
+    today = date.today()
+    return today.year - fecha_nacimiento.year - ((today.month, today.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
 
 def registrar_docente(request):
     if request.method == 'POST':

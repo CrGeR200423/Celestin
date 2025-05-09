@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
-    <link rel="icon" href="img/logoactualizado.png" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/logoactualizado.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/estilo_administrador.css' %}">
 </head>
@@ -196,34 +196,247 @@
                                 </tr>
                             </thead>
                             <tbody id="tablaEstudiantes">
-                                <tr>
-                                    <td>EST-001</td>
-                                    <td>Juan Pérez González</td>
-                                    <td>3° Primaria</td>
-                                    <td>8 años</td>
-                                    <td><span class="badge badge-success">Activo</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-sm btn-icon" title="Ver"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>EST-002</td>
-                                    <td>María Rodríguez López</td>
-                                    <td>2° Primaria</td>
-                                    <td>7 años</td>
-                                    <td><span class="badge badge-success">Activo</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-sm btn-icon" title="Ver"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-icon btn-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
-                    
+                    <div id="modal-nuevo-estudiante" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3><i class="fas fa-user-graduate"></i> Nuevo Estudiante</h3>
+                                <span class="close-modal" onclick="cerrarModalEstudiante()">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formulario-matricula">
+                                    {% csrf_token %}
+                                    <!-- Información del estudiante -->
+                                    <div class="seccion">
+                                        <div class="seccion-titulo">INFORMACIÓN DEL ESTUDIANTE</div><br>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="primer_apellido">PRIMER APELLIDO *</label>
+                                                <input type="text" id="primer_apellido" name="primer_apellido" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="primer_nombre">PRIMER NOMBRE *</label>
+                                                <input type="text" id="primer_nombre" name="primer_nombre" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="segundo_apellido">SEGUNDO APELLIDO</label>
+                                                <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="segundo_nombre">SEGUNDO NOMBRE</label>
+                                                <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="tipo_documento">TIPO DE DOCUMENTO *</label>
+                                                <select id="tipo_documento" name="tipo_documento" class="form-control" required>
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="RC">Registro Civil</option>
+                                                    <option value="TI">Tarjeta de Identidad</option>
+                                                    <option value="CC">Cédula de Ciudadanía</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="identificacion">IDENTIFICACIÓN *</label>
+                                                <input type="text" id="identificacion" name="identificacion" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="fecha_nacimiento">FECHA DE NACIMIENTO *</label>
+                                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="sexo">SEXO *</label>
+                                                <select id="sexo" name="sexo" class="form-control" required>
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="M">Masculino</option>
+                                                    <option value="F">Femenino</option>
+                                                    <option value="O">Otro</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="municipio_expedicion">MUNICIPIO EXPEDICIÓN</label>
+                                                <input type="text" id="municipio_expedicion" name="municipio_expedicion" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="departamento_expedicion">DEPARTAMENTO EXPEDICIÓN</label>
+                                                <input type="text" id="departamento_expedicion" name="departamento_expedicion" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="grado_solicitado">GRADO AL QUE INGRESA *</label>
+                                                <select id="grado_solicitado" name="grado_solicitado" class="form-control" required>
+                                                    <option value="">Seleccione...</option>
+                                                    <option value="00">Transición</option>
+                                                    <option value="01">Primero</option>
+                                                    <option value="02">Segundo</option>
+                                                    <option value="03">Tercero</option>
+                                                    <option value="04">Cuarto</option>
+                                                    <option value="05">Quinto</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>ESTATUS *</label>
+                                                <div class="radio-group">
+                                                    <label><input type="radio" name="estado" value="REPITENTE" required> Repitente</label>
+                                                    <label><input type="radio" name="estado" value="NUEVO"> Nuevo</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="direccion">DIRECCIÓN *</label>
+                                                <input type="text" id="direccion" name="direccion" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="municipio">MUNICIPIO *</label>
+                                                <input type="text" id="municipio" name="municipio" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="barrio">BARRIO</label>
+                                                <input type="text" id="barrio" name="barrio" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono">TELÉFONO *</label>
+                                                <input type="tel" id="telefono" name="telefono" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Afiliación al sistema de salud -->
+                                    <div class="seccion">
+                                        <div class="seccion-titulo">AFILIACIÓN AL SISTEMA DE SALUD</div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="eps">EPS</label>
+                                                <input type="text" id="eps" name="eps" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ips">IPS</label>
+                                                <input type="text" id="ips" name="ips" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Situación socioeconómica -->
+                                    <div class="seccion">
+                                        <div class="seccion-titulo">SITUACIÓN SOCIOECONÓMICA</div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>SISBEN</label>
+                                                <div class="radio-group">
+                                                    <label><input type="radio" name="sisben" value="SI"> Sí</label>
+                                                    <label><input type="radio" name="sisben" value="NO"> No</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>FAMILIAS EN ACCIÓN</label>
+                                                <div class="radio-group">
+                                                    <label><input type="radio" name="familias_accion" value="SI"> Sí</label>
+                                                    <label><input type="radio" name="familias_accion" value="NO"> No</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>DISCAPACIDAD</label>
+                                                <div class="radio-group">
+                                                    <label><input type="radio" name="discapacidad" value="SI"> Sí</label>
+                                                    <label><input type="radio" name="discapacidad" value="NO"> No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="tipo_discapacidad">EN CASO DE POSER DISCAPACIDAD, INDICAR CUÁL</label>
+                                                <input type="text" id="tipo_discapacidad" name="tipo_discapacidad" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Datos familiares -->
+                                    <div class="seccion">
+                                        <div class="seccion-titulo">DATOS FAMILIARES</div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="nombre_padre">PADRE (NOMBRE Y APELLIDO)</label>
+                                                <input type="text" id="nombre_padre" name="nombre_padre" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono_padre">TELÉFONO</label>
+                                                <input type="tel" id="telefono_padre" name="telefono_padre" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="nombre_madre">MADRE (NOMBRE Y APELLIDO)</label>
+                                                <input type="text" id="nombre_madre" name="nombre_madre" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono_madre">TELÉFONO</label>
+                                                <input type="tel" id="telefono_madre" name="telefono_madre" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="nombre_acudiente">ACUDIENTE (NOMBRE Y APELLIDO) *</label>
+                                                <input type="text" id="nombre_acudiente" name="nombre_acudiente" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono_acudiente">TELÉFONO ACUDIENTE *</label>
+                                                <input type="tel" id="telefono_acudiente" name="telefono_acudiente" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="contacto_emergencia">EN CASO DE EMERGENCIA LLAMAR A *</label>
+                                                <input type="text" id="contacto_emergencia" name="contacto_emergencia" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono_emergencia">TELÉFONO EMERGENCIA *</label>
+                                                <input type="tel" id="telefono_emergencia" name="telefono_emergencia" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="email_acudiente">E-MAIL ACUDIENTE</label>
+                                                <input type="email" id="email_acudiente" name="email_acudiente" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" onclick="cerrarModalEstudiante()">Cancelar</button>
+                                <button type="button" onclick="guardarEstudiante()">Guardar Estudiante</button>
+
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-footer">
                         <div class="table-info">
                             Mostrando 1-2 de 2 estudiantes
@@ -684,7 +897,6 @@
 
     <script src="{% static 'js/administrador.js' %}"></script>
     <script src="{% static 'js/novedades.js' %}"></script>
-    <script src="{% static 'js/adm_usuarios.js' %}"></script>
     <script src="{% static 'js/aplicante.js' %}"></script>
     <script src="{% static 'js/cursos.js' %}"></script>
     <script src="{% static 'js/asignaturas.js' %}"></script>

@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
             sidebar.classList.toggle('active');
         });
     }
-
     // Navegación entre secciones
     document.querySelectorAll(".sidebar a").forEach(link => {
         link.addEventListener("click", function(e) {
@@ -32,6 +31,41 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Mostrar la primera sección por defecto
     document.querySelector("section").classList.add("active");
+
+    // Inicializar eventos para estudiantes
+    document.getElementById('btnNuevoEstudiante')?.addEventListener('click', function() {
+        document.getElementById('modal-nuevo-estudiante').style.display = 'block';
+    });
+
+    // Inicializar eventos para profesores
+    document.getElementById('btnNuevoProfesor')?.addEventListener('click', function() {
+        document.getElementById('modal-nuevo-profesor').style.display = 'block';
+    });
+
+    // Eventos para búsqueda y filtros de estudiantes
+    document.getElementById('buscarEstudiante')?.addEventListener('input', function() {
+        filtrarEstudiantes();
+    });
+
+    document.getElementById('filtroGrado')?.addEventListener('change', function() {
+        filtrarEstudiantes();
+    });
+
+    document.getElementById('filtroEstado')?.addEventListener('change', function() {
+        filtrarEstudiantes();
+    });
+
+    // Eventos para búsqueda y filtros de profesores
+    document.getElementById('buscarProfesor')?.addEventListener('input', function() {
+        filtrarProfesores();
+    });
+
+    document.getElementById('filtroEspecialidad')?.addEventListener('change', function() {
+        filtrarProfesores();
+    });
+
+    // Inicializar gestión de curs
+    cargarEstudiantesIniciales();
 });
 
 // Función mejorada para cerrar sesión
@@ -39,181 +73,86 @@ function cerrarSesion() {
     const confirmar = confirm("¿Estás seguro de que quieres cerrar sesión?");
     
     if (confirmar) {
-        // Redirige directamente a la URL de home
-        window.location.href = "/";  // Esto debería redirigir a la vista home
+        // Aquí podrías añadir lógica para limpiar la sesión
+        console.log("Cerrando sesión...");
+        window.location.href = "home.html";
+    } else {
+        console.log("Cierre de sesión cancelado");
     }
-    return false; // Previene el comportamiento por defecto si se llama desde un evento
+    
+    return confirmar;
 }
+
+// --------------------------------------------------
+// Gestión de Estudiantes
 // --------------------------------------------------
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Datos de ejemplo (en un caso real, estos vendrían de una API)
-    const cursos = [
-        { id: 1, nombre: "Matemáticas Básicas", docente: "Juan Pérez", estudiantes: [101, 102, 103] },
-        { id: 2, nombre: "Ciencias Naturales", docente: "María Gómez", estudiantes: [101, 104] },
-        { id: 3, nombre: "Literatura", docente: "No asignado", estudiantes: [102, 103, 105] }
-    ];
+    // Actualizar contador
 
-    const estudiantes = [
-        { id: 101, nombre: "Carlos Sánchez", documento: "1001234567" },
-        { id: 102, nombre: "Ana Rodríguez", documento: "1002345678" },
-        { id: 103, nombre: "Luis Martínez", documento: "1003456789" },
-        { id: 104, nombre: "Sofía García", documento: "1004567890" },
-        { id: 105, nombre: "Pedro López", documento: "1005678901" }
-    ];
+// --------------------------------------------------
+// Gestión de Profesores
+// --------------------------------------------------
 
-    const docentes = [
-        { id: 201, nombre: "Juan Pérez", especialidad: "Matemáticas" },
-        { id: 202, nombre: "María Gómez", especialidad: "Ciencias" },
-        { id: 203, nombre: "Carlos Ruiz", especialidad: "Literatura" },
-        { id: 204, nombre: "Laura Díaz", especialidad: "Matemáticas" }
-    ];
 
-    // Variables para seguimiento
-    let cursoSeleccionado = null;
-    let docenteSeleccionado = null;
 
-    // Elementos del DOM
-    const listaCursos = document.getElementById('lista-cursos');
-    const estudiantesCursoDiv = document.getElementById('estudiantes-curso');
-    const nombreCursoSeleccionado = document.getElementById('nombre-curso-seleccionado');
-    const listaEstudiantes = document.getElementById('lista-estudiantes');
-    const asignarDocenteBtn = document.getElementById('asignar-docente-btn');
-    const modalDocente = document.getElementById('modal-docente');
-    const nombreCursoModal = document.getElementById('nombre-curso-modal');
-    const listaDocentes = document.getElementById('lista-docentes');
-    const confirmarDocenteBtn = document.getElementById('confirmar-docente');
-    const buscarDocenteInput = document.getElementById('buscar-docente');
-    const cerrarModal = document.querySelector('.cerrar-modal');
+// --------------------------------------------------
+// Gestión de Cursos (existente)
+// --------------------------------------------------
 
-    // Cargar lista de cursos
-    function cargarCursos() {
-        listaCursos.innerHTML = '';
-        cursos.forEach(curso => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${curso.id}</td>
-                <td>${curso.nombre}</td>
-                <td>${curso.docente}</td>
-                <td><button class="btn-ver-estudiantes" data-id="${curso.id}">Ver Estudiantes</button></td>
-            `;
-            listaCursos.appendChild(fila);
-        });
 
-        // Agregar event listeners a los botones
-        document.querySelectorAll('.btn-ver-estudiantes').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const cursoId = parseInt(this.getAttribute('data-id'));
-                mostrarEstudiantes(cursoId);
-            });
-        });
-    }
 
-    // Mostrar estudiantes de un curso
-    function mostrarEstudiantes(cursoId) {
-        cursoSeleccionado = cursos.find(c => c.id === cursoId);
-        if (!cursoSeleccionado) return;
+// --------------------------------------------------
+// Función para cambiar el estado de prematrículas
+// --------------------------------------------------
 
-        nombreCursoSeleccionado.textContent = cursoSeleccionado.nombre;
-        listaEstudiantes.innerHTML = '';
-
-        cursoSeleccionado.estudiantes.forEach(estId => {
-            const estudiante = estudiantes.find(e => e.id === estId);
-            if (estudiante) {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
-                    <td>${estudiante.id}</td>
-                    <td>${estudiante.nombre}</td>
-                    <td>${estudiante.documento}</td>
-                `;
-                listaEstudiantes.appendChild(fila);
-            }
-        });
-
-        estudiantesCursoDiv.style.display = 'block';
-    }
-
-    // Mostrar modal para asignar docente
-    asignarDocenteBtn.addEventListener('click', function() {
-        if (!cursoSeleccionado) return;
-        
-        nombreCursoModal.textContent = cursoSeleccionado.nombre;
-        cargarDocentes();
-        modalDocente.style.display = 'block';
+function togglePrematriculas() {
+    const habilitado = document.getElementById('togglePrematriculas').checked;
+    localStorage.setItem('prematriculasHabilitadas', habilitado);
+    actualizarTextoEstado(habilitado);
+    
+    // Enviar al servidor (ejemplo con fetch)
+    fetch('/api/toggle-prematriculas', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ habilitado })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Estado actualizado:', data);
+        // Disparar evento para actualizar otras pestañas
+        const event = new Event('prematriculaChanged');
+        window.dispatchEvent(event);
+        // Actualizar en esta pestaña
+        actualizarMenuPrematriculas();
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
+}
 
-    // Cargar lista de docentes en el modal
-    function cargarDocentes(busqueda = '') {
-        listaDocentes.innerHTML = '';
-        const busquedaLower = busqueda.toLowerCase();
-        
-        docentes.filter(docente => 
-            docente.nombre.toLowerCase().includes(busquedaLower) || 
-            docente.especialidad.toLowerCase().includes(busquedaLower)
-        ).forEach(docente => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td><input type="radio" name="docente" value="${docente.id}" ${docenteSeleccionado?.id === docente.id ? 'checked' : ''}></td>
-                <td>${docente.nombre}</td>
-                <td>${docente.especialidad}</td>
-            `;
-            listaDocentes.appendChild(fila);
-        });
+function actualizarTextoEstado(habilitado) {
+    document.getElementById('estadoPrematriculas').textContent = 
+        habilitado ? 'Habilitado' : 'Deshabilitado';
+}
 
-        // Agregar event listeners a los radios
-        document.querySelectorAll('input[name="docente"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.checked) {
-                    const docenteId = parseInt(this.value);
-                    docenteSeleccionado = docentes.find(d => d.id === docenteId);
-                }
-            });
-        });
-    }
+function actualizarMenuPrematriculas() {
+    // Lógica para actualizar el menú según el estado
+    console.log('Menú de prematrículas actualizado');
+}
 
-    // Buscar docentes
-    buscarDocenteInput.addEventListener('input', function() {
-        cargarDocentes(this.value);
-    });
+// --------------------------------------------------
+// Función para mostrar notificaciones
+// --------------------------------------------------
 
-    // Confirmar asignación de docente
-    confirmarDocenteBtn.addEventListener('click', function() {
-        if (!cursoSeleccionado || !docenteSeleccionado) {
-            alert('Por favor seleccione un docente');
-            return;
-        }
-
-        // Actualizar el curso con el nuevo docente
-        const cursoIndex = cursos.findIndex(c => c.id === cursoSeleccionado.id);
-        if (cursoIndex !== -1) {
-            cursos[cursoIndex].docente = docenteSeleccionado.nombre;
-            cargarCursos();
-            
-            // Actualizar la visualización actual si es el curso seleccionado
-            if (cursoSeleccionado) {
-                mostrarEstudiantes(cursoSeleccionado.id);
-            }
-        }
-
-        modalDocente.style.display = 'none';
-        docenteSeleccionado = null;
-    });
-
-    // Cerrar modal
-    cerrarModal.addEventListener('click', function() {
-        modalDocente.style.display = 'none';
-    });
-
-    // Cerrar modal al hacer clic fuera
-    window.addEventListener('click', function(event) {
-        if (event.target === modalDocente) {
-            modalDocente.style.display = 'none';
-        }
-    });
-
-    // Inicializar
-    cargarCursos();
-});
-
-// ------------------------------------------------
-
+function mostrarNotificacion(mensaje, tipo = 'success') {
+    const notificacion = document.getElementById('notificacion');
+    notificacion.textContent = mensaje;
+    notificacion.className = 'notificacion ' + tipo;
+    notificacion.style.display = 'block';
+    
+    setTimeout(() => {
+        notificacion.style.display = 'none';
+    }, 3000);
+}
